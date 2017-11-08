@@ -1,0 +1,19 @@
+<div class="container">
+    <mat-card>
+        <div *ngIf="!authService.isLoggedIn">
+                <mat-form-field>
+                    <input 
+                        matInput placeholder="Enter your password" 
+                        type="password"
+                        [(ngModel)]="password" >
+                    <mat-icon matSuffix></mat-icon>
+                </mat-form-field>
+            
+                <button mat-raised-button color="primary" (click)="login()">Unlock</button>
+            </div>
+                
+            <div *ngIf="authService.isLoggedIn">
+                <button mat-raised-button color="primary" (click)="logout()">Lock</button>
+            </div>
+    </mat-card>
+</div>

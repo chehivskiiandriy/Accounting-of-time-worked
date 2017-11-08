@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Edit employee</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-select [(value)]="selectedSubdivision">
+      <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision.id">
+        {{ subdivision.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="modal-form">
+    <input class="modal-input" matInput placeholder="Surname" [(ngModel)]="employee.surname">
+  </mat-form-field>
+  <mat-form-field class="modal-form">
+    <input class="modal-input" matInput placeholder="Name" [(ngModel)]="employee.name">
+  </mat-form-field>
+  <mat-form-field class="modal-form">
+    <input class="modal-input" matInput placeholder="Patronymic" [(ngModel)]="employee.patronymic">
+  </mat-form-field>
+  <mat-form-field class="modal-form">
+    <input class="modal-input" matInput type="number" placeholder="Age" [(ngModel)]="employee.age">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="editEmployee()">Edit</button>    
+  <button mat-button [mat-dialog-close]="true">Close</button>
+</mat-dialog-actions>

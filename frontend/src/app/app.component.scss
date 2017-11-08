@@ -1,0 +1,17 @@
+mat-toolbar {
+    display: flex;
+    justify-content: space-around;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 0 10px;
+    border: 2px solid transparent;
+    transition: 0.3s;
+
+    &.active {
+        border: 2px solid #fff;
+    }
+}
