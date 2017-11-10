@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-// import { Discipline } from './../_models/discipline';
-// import { Discip } from './../_models/discip';
-
 import {Observable} from "rxjs/Observable"
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -67,10 +64,10 @@ export class EmployeesService {
             console.log(data);
             data.success = JSON.parse(data.success);
             if(data.success) { 
-                // this.dataStore.employees.forEach((t, i) => {
-                //     if (t.id === updateemployee.id) { this.dataStore.employees[i] = updateemployee; }
-                // });
-                // this._employees.next(Object.assign({}, this.dataStore).employees);
+                this.dataStore.employees.forEach((t, i) => {
+                    if (t.id === updateemployee.id) { this.dataStore.employees[i] = updateemployee; }
+                });
+                this._employees.next(Object.assign({}, this.dataStore).employees);
             }
         });
     }

@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-// import { Discipline } from './../_models/discipline';
-// import { Discip } from './../_models/discip';
-
 import {Observable} from "rxjs/Observable"
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';

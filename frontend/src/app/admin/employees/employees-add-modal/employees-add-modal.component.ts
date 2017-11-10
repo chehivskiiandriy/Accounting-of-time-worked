@@ -34,10 +34,15 @@ export class EmployeesAddModalComponent implements OnInit {
     this.employee.subdivisionID = this.selectedSubdivision.id;  
     console.log(this.selectedSubdivision.id);
     console.log(this.selectedSubdivision.name);  
-    if(this.employee.name != "") {
+    if(this.selectedSubdivision.name != "" && this.employee.name != "" && this.employee.surname != "" && this.employee.patronymic != "" && this.employee.age > 0) {
       this.employeesService.create(this.employee, this.selectedSubdivision.name);
+
+      this.employee.name = "";
+      this.employee.surname = "";
+      this.employee.patronymic = "";
+      this.employee.age = null;
+      this.selectedSubdivision = {};
     }
-    this.employee.name = "";
   }
 
 }

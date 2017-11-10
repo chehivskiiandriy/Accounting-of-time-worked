@@ -26,7 +26,14 @@ export class EmployeesEditModalComponent implements OnInit {
   
   ngOnInit() {
     console.log(this.data);
-    this.employee = this.data.employee;
+    
+    this.employee.name = this.data.employee.name;
+    this.employee.surname = this.data.employee.surname;
+    this.employee.patronymic = this.data.employee.patronymic;
+    this.employee.age = this.data.employee.age;
+    this.employee.id = this.data.employee.id;
+    this.employee.subdivision = this.data.employee.subdivision;
+    this.employee.subdivisionID = this.data.employee.subdivisionID;
 
     this.selectedSubdivision = this.data.employee.subdivisionID;
     console.log(this.selectedSubdivision);
@@ -41,7 +48,7 @@ export class EmployeesEditModalComponent implements OnInit {
     console.log(this.employee);
     this.name = this.subdivisionService.getSub(this.selectedSubdivision);
     console.log(this.name);
-    if(this.employee.name != "") {
+    if(this.name != "" && this.employee.name != "" && this.employee.surname != "" && this.employee.patronymic != "" && this.employee.age > 0 ) {
       this.employeesService.update(this.employee, this.name);
       this.dialogRef.close();
     }
