@@ -5,7 +5,7 @@ import { AdminComponent } from "./admin.component";
 
 import { SubdivisionComponent } from './subdivision/subdivision.component';
 import { EmployeesComponent } from './employees/employees.component';
-
+import { SickLeaveComponent } from './sick-leave/sick-leave.component';
 import { AuthGuard } from "../shared/auth-guard.service";
 
 @NgModule({
@@ -21,7 +21,7 @@ import { AuthGuard } from "../shared/auth-guard.service";
                         children: [
                             { path: "employees", component: EmployeesComponent },
                             { path: "subdivision", component: SubdivisionComponent },
-                            // { path: "sick-leave", component: SickLeaveComponent },
+                            { path: "sick-leave", component: SickLeaveComponent },
                             // { path: "holidays", component: HolidaysComponent },
                             // { path: "business-trip", component: BusinessTripComponent },
                             // { path: "hooky", component: HookyComponent },

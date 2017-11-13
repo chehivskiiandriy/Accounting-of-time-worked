@@ -1,0 +1,97 @@
+import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import {Observable} from "rxjs/Observable"
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+
+@Injectable()
+export class SickLeaveService {
+
+    sickLeaves: Observable<any[]>
+    private _sickLeaves: BehaviorSubject<any[]>;
+    private dataStore: {
+        sickLeaves: any[]
+    };
+
+    constructor(private http: Http) {
+        this.dataStore = { sickLeaves: [] };
+        this._sickLeaves = <BehaviorSubject<any[]>>new BehaviorSubject([]);
+        this.sickLeaves = this._sickLeaves.asObservable();
+    }
+
+    headers = new Headers({"Content-Type": "application/json"});
+    options = new RequestOptions({ headers: this.headers });
+
+    url = 'http://localhost:8080/';
+    
+    getAll() {
+        this.http.get(this.url +'get_sickLeaves').map((response: Response) => response.json()).subscribe(data => {
+            this.dataStore.sickLeaves = data;
+            this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
+          }, error => console.log('Could not load disciplines.'));
+    }
+
+    // create(sickLeave, subdivisionName) {
+    //     let surname = sickLeave.surname;
+    //     let name = sickLeave.name;
+    //     let patronymic = sickLeave.patronymic;
+    //     let age = sickLeave.age;
+    //     let subdivisionID = sickLeave.subdivisionID;
+    //     this.http.post(this.url + 'create_employees', JSON.stringify(sickLeave), this.options)
+    //     .map((response: Response) => response.json())
+    //     .catch(this.handleError)
+    //     .subscribe(data => {
+    //         console.log(data);
+    //         data.success = JSON.parse(data.success);
+    //         if(data.success) { 
+    //             this.dataStore.sickLeaves.push({id: data.id, surname: surname, name: name, patronymic: patronymic, age: age, subdivisionID: subdivisionID, subdivision: subdivisionName});
+    //             console.log(this.dataStore.sickLeaves);
+    //             this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
+    //         }
+    //       });
+    // }
+
+    // update(sickLeave, subdivisionName) {
+    //     let updateemployee = sickLeave;
+    //     updateemployee.subdivision = subdivisionName;
+    //     console.log(updateemployee);
+    //     this.http.put(this.url + 'edit_employees', JSON.stringify(sickLeave), this.options)
+    //     .map(response => response.json())
+    //     .catch(this.handleError)
+    //     .subscribe(data => {
+    //         console.log(data);
+    //         data.success = JSON.parse(data.success);
+    //         if(data.success) { 
+    //             this.dataStore.sickLeaves.forEach((t, i) => {
+    //                 if (t.id === updateemployee.id) { this.dataStore.sickLeaves[i] = updateemployee; }
+    //             });
+    //             this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
+    //         }
+    //     });
+    // }
+
+    // delete(sickLeave) {
+    //     this.http.delete(this.url + 'delete_employees', new RequestOptions({
+    //         headers: this.headers,
+    //         body: JSON.stringify(sickLeave)
+    //      }))
+    //      .map((response: Response) => response.json())
+    //      .catch(this.handleError)
+    //      .subscribe(
+    //         data => {
+    //             console.log(data);
+    //             data.success = JSON.parse(data.success);
+    //             if(data.success) { 
+    //                 this.dataStore.sickLeaves = this.dataStore.sickLeaves.filter(sickLeaves => sickLeaves !== sickLeave);
+    //                 this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
+    //             } 
+    //         });
+    // }
+
+    private handleError(error: any) {
+        console.error('Error', error);
+        return Observable.throw(error.message || error);
+    }
+}   

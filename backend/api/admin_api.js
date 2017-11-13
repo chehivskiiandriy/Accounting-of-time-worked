@@ -108,4 +108,15 @@ app.put('/edit_employees', (req, res) => {
     });
 });
 
+app.get('/get_sickLeaves', async(req, res) => {
+    let sickLeaves = await user.getSickLeaves();
+    sickLeaves = sickLeaves.map(e => {
+        e.startDisease = e.startDisease.toISOString().split('T')[0];
+        e.finishDisease = e.finishDisease.toISOString().split('T')[0];
+        return e;
+    });
+    console.log(sickLeaves);
+    res.json(sickLeaves);
+});
+
 module.exports = app;

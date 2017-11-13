@@ -8,6 +8,7 @@ import { AdminComponent } from "./admin.component";
 
 import { SubdivisionModule } from './subdivision/subdivision.module';
 import { EmployeesModule } from './employees/employees.module';
+import { SickLeaveModule } from './sick-leave/sick-leave.module';
 
 @NgModule({
     imports: [
@@ -15,10 +16,11 @@ import { EmployeesModule } from './employees/employees.module';
         AdminRoutingModule,
         SharedModule,
         SubdivisionModule,
-        EmployeesModule
+        EmployeesModule,
+        SickLeaveModule        
     ],
     declarations: [
-        AdminComponent,
+        AdminComponent
     ]
 })
 export class AdminModule { }
