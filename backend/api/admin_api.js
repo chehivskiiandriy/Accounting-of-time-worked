@@ -133,6 +133,50 @@ app.post('/create_sickLeaves', (req, res) => {
      });
 });
 
+/* 
+    
+get all services 
+
+*/
+
+app.get('/get_holidays', async(req, res) => {
+    let holidays = await user.getHolidays();
+    holidays = holidays.map(e => {
+        e.startHoliday = e.startHoliday.getFullYear() + "-" + pad(e.startHoliday.getMonth() + 1) + "-" + pad(e.startHoliday.getDate());
+        e.finishHoliday = e.finishHoliday.getFullYear() + "-" + pad(e.finishHoliday.getMonth() + 1) + "-" + pad(e.finishHoliday.getDate());
+        return e;
+    });
+    console.log(holidays);
+    res.json(holidays);
+});
+
+app.get('/get_businessTrips', async(req, res) => {
+    let businessTrips = await user.getBusinessTrips();
+    businessTrips = businessTrips.map(e => {
+        e.startBusinessTrip = e.startBusinessTrip.getFullYear() + "-" + pad(e.startBusinessTrip.getMonth() + 1) + "-" + pad(e.startBusinessTrip.getDate());
+        e.finishBusinessTrip = e.finishBusinessTrip.getFullYear() + "-" + pad(e.finishBusinessTrip.getMonth() + 1) + "-" + pad(e.finishBusinessTrip.getDate());
+        return e;
+    });
+    console.log(businessTrips);
+    res.json(businessTrips);
+});
+
+app.get('/get_hooky', async(req, res) => {
+    let hooky = await user.getHooky();
+    hooky = hooky.map(e => {
+        e.dayHooky = e.dayHooky.getFullYear() + "-" + pad(e.dayHooky.getMonth() + 1) + "-" + pad(e.dayHooky.getDate());
+        return e;
+    });
+    console.log(hooky);
+    res.json(hooky);
+});
+
+app.get('/get_workingDays', async(req, res) => {
+    let workingDays = await user.getWorkingDays();
+    console.log(workingDays);
+    res.json(workingDays);
+});
+
 function pad(number) {
     if (number < 10) {
       return '0' + number;

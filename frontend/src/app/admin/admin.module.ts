@@ -9,6 +9,10 @@ import { AdminComponent } from "./admin.component";
 import { SubdivisionModule } from './subdivision/subdivision.module';
 import { EmployeesModule } from './employees/employees.module';
 import { SickLeaveModule } from './sick-leave/sick-leave.module';
+import { HolidaysModule } from './holidays/holidays.module';
+import { BusinessTripModule } from './business-trip/business-trip.module';
+import { HookyModule } from './hooky/hooky.module';
+import { WorkingDaysModule } from './working-days/working-days.module';
 
 @NgModule({
     imports: [
@@ -17,7 +21,11 @@ import { SickLeaveModule } from './sick-leave/sick-leave.module';
         SharedModule,
         SubdivisionModule,
         EmployeesModule,
-        SickLeaveModule        
+        SickLeaveModule,
+        HolidaysModule,
+        BusinessTripModule,
+        HookyModule,
+        WorkingDaysModule       
     ],
     declarations: [
         AdminComponent

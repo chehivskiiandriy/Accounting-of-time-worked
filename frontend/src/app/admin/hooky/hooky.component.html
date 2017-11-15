@@ -1,6 +1,6 @@
 <br>
 <div class="button-row">
-        <button mat-raised-button color="primary" (click)="openDialog()" >Додати підрозділ</button>
+        <button mat-raised-button color="primary" (click)="openDialog()" >Додати прогул</button>
 </div>
 <br>
 
@@ -14,12 +14,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let subdivision of subdivisions | async; let i = index">
+                    <tr *ngFor="let hooky of hookies| async; let i = index">
                         <td>{{i+1}}</td>
-                        <td>{{subdivision.name}}</td>
+                        <td>{{hooky.fullName}}</td>
+                        <td>{{hooky.employeeID}}</td>                        
+                        <td>{{hooky.subdivision}}</td>
+                        <td>{{hooky.dayHooky.split('-').reverse().join('.')}}</td>
                         <td class="">
-                            <button mat-raised-button color="primary" (click)="editSubdivision(subdivision)">Edit</button>
-                            <button mat-raised-button color="warn" (click)="deleteSubdivision(subdivision)">Delete</button>
+                            <button mat-raised-button color="primary" (click)="editHooky(hooky)">Edit</button>
+                            <button mat-raised-button color="warn" (click)="deleteHooky(hooky)">Delete</button>
                         </td>
                     </tr>
                 </tbody>

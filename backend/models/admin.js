@@ -86,6 +86,69 @@ module.exports.addSickLeave = function(data, callback) {
     connection.query("INSERT INTO SickLeave SET ?", data, callback);
 }
 
+module.exports.getHolidays = () => {
+    let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, Holiday.*
+                    from ((Employee 
+                        join Holiday on Holiday.employeeID = Employee.id) 
+                        join Subdivision on Subdivision.id = Employee.subdivisionID) 
+                    order by Holiday.startHoliday asc;`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+module.exports.getBusinessTrips = () => {
+    let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, BusinessTrip.*
+                    from ((Employee 
+                        join BusinessTrip on BusinessTrip.employeeID = Employee.id) 
+                        join Subdivision on Subdivision.id = Employee.subdivisionID) 
+                    order by BusinessTrip.startBusinessTrip asc;`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+module.exports.getHooky = () => {
+    let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, Hooky.*
+                    from ((Employee 
+                        join Hooky on Hooky.employeeID = Employee.id) 
+                        join Subdivision on Subdivision.id = Employee.subdivisionID) 
+                    order by Hooky.dayHooky asc;`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+module.exports.getWorkingDays = () => {
+    let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, WorkDays.*
+                    from ((Employee 
+                        join WorkDays on WorkDays.employeeID = Employee.id) 
+                        join Subdivision on Subdivision.id = Employee.subdivisionID) 
+                    order by WorkDays.year, WorkDays.month asc;`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
 module.exports.sendResponse = function(success, res) {
     if (success) {
         res.send({ 'success': 'true' });

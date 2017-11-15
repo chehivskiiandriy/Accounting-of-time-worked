@@ -10,10 +10,11 @@ export class AdminComponent implements OnInit {
   navLinks = [
     { path: "employees", label: "Працівники"},
     { path: "subdivision", label: "Підрозділи"},
-    { path: "sick-leave", label: "Лікарняні"}
-    // { path: "holidays", label: "Відпускні"},
-    // { path: "business-trip", label: "Відрядження"},
-    // { path: "hooky", label: "Прогули"}
+    { path: "sick-leave", label: "Лікарняні"},
+    { path: "holidays", label: "Відпускні"},
+    { path: "business-trip", label: "Відрядження"},
+    { path: "hooky", label: "Прогули"},
+    { path: "working-days", label: "Робочі дні"}
   ]
 
   constructor() { }

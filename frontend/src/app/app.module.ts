@@ -15,6 +15,10 @@ import { LoginRoutingModule } from "./login/login-routing.module";
 import { SickLeaveService } from './_services/sick-leave.service';
 import { SubdivisionService } from './_services/subdivision.service';
 import { EmployeesService } from './_services/employees.service';
+import { HolidaysService } from './_services/holidays.service';
+import { BusinessTripService } from './_services/business-trip.service';
+import { HookyService } from './_services/hooky.service';
+import { WorkingDaysService } from './_services/working-days.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,10 @@ import { EmployeesService } from './_services/employees.service';
     SickLeaveService,
     SubdivisionService,
     EmployeesService,
+    HolidaysService,
+    BusinessTripService,
+    HookyService,
+    WorkingDaysService,
     {provide: MAT_DATE_LOCALE, useValue: 'ua-UA'}    
   ],
   bootstrap: [AppComponent]
