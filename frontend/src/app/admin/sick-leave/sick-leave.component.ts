@@ -14,14 +14,13 @@ import { SickLeaveEditModalComponent } from './sick-leave-edit-modal/sick-leave-
 })
 export class SickLeaveComponent implements OnInit {
 
-  displayedColumns = ['№', 'fullname', 'age', 'employeeID', 'subdivision', 'startDisease', 'finishDisease', 'disease', 'actions'];
+  displayedColumns = ['№', 'fullname', 'employeeID', 'subdivision', 'startDisease', 'finishDisease', 'disease', 'actions'];
   sickLeaves: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private sickLeaveService: SickLeaveService) {}
 
   ngOnInit() {
     this.sickLeaves = this.sickLeaveService.sickLeaves;
-    this.sickLeaveService.getAll();
     console.log(this.sickLeaves);
   }
 

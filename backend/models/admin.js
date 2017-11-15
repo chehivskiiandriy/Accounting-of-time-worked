@@ -3,8 +3,8 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '12345',
-    database: 'AccountingOfTimeWorked',
-    timezone: 'utc'
+    database: 'AccountingOfTimeWorked'
+    // timezone: 'utc'
 });
 
 connection.connect(function() {
@@ -63,11 +63,11 @@ module.exports.deleteEmployee = function(idEmplo, callback) {
 }
 
 module.exports.editEmployee = function(data, callback) {
-    connection.query(`UPDATE Employee SET surname = '${data.surname}', name = '${data.name}', patronymic = '${data.patronymic}', age = '${data.age}', subdivisionID = '${data.subdivisionID}'  WHERE id = ${data.id}`, callback);
+    connection.query(`UPDATE Employee SET surname = '${data.surname}', name = '${data.name}', patronymic = '${data.patronymic}', birthday = '${data.birthday}', subdivisionID = '${data.subdivisionID}'  WHERE id = ${data.id}`, callback);
 }
 
 module.exports.getSickLeaves = () => {
-    let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, Employee.age, SickLeave.*
+    let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, SickLeave.*
                     from ((Employee 
                         join SickLeave on SickLeave.employeeID = Employee.id) 
                         join Subdivision on Subdivision.id = Employee.subdivisionID) 
@@ -80,6 +80,10 @@ module.exports.getSickLeaves = () => {
             resolve(rows);
         });
     });
+}
+
+module.exports.addSickLeave = function(data, callback) {
+    connection.query("INSERT INTO SickLeave SET ?", data, callback);
 }
 
 module.exports.sendResponse = function(success, res) {

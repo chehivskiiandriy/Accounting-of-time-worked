@@ -19,7 +19,7 @@
                         <td>{{employee.surname}}</td>
                         <td>{{employee.name}}</td>
                         <td>{{employee.patronymic}}</td>
-                        <td>{{employee.age}}</td>
+                        <td>{{employee.birthday.split('-').reverse().join('.')}}</td>
                         <td>{{employee.subdivision}}</td>
                         <td class="">
                             <button mat-raised-button color="primary" (click)="editEmployees(employee)">Edit</button>

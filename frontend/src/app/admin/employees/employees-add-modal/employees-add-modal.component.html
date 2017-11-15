@@ -16,8 +16,10 @@
   <mat-form-field class="modal-form">
     <input class="modal-input" matInput placeholder="Patronymic" [(ngModel)]="employee.patronymic">
   </mat-form-field>
-  <mat-form-field class="modal-form">
-    <input class="modal-input" matInput type="number" placeholder="Age" [(ngModel)]="employee.age">
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Choose a birthday" [(ngModel)]="employee.birthday">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>

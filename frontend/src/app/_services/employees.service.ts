@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class EmployeesService {
 
-    employees: Observable<any[]>
+    employees: Observable<any[]>;
     private _employees: BehaviorSubject<any[]>;
     private dataStore: {
         employees: any[]
@@ -33,12 +33,26 @@ export class EmployeesService {
           }, error => console.log('Could not load disciplines.'));
     }
 
+    getAllWithoutObservable() {
+        return this.dataStore.employees;
+    }
+    
+    getFiltered(id) {
+        let filter = [];
+        console.log(this.dataStore.employees)
+        console.log('asd');
+        filter = this.dataStore.employees.filter((t) => t.subdivisionID === id); 
+        console.log(filter);
+        return filter;
+    }
+    
     create(employee, subdivisionName) {
         let surname = employee.surname;
         let name = employee.name;
         let patronymic = employee.patronymic;
-        let age = employee.age;
+        let birthday = employee.birthday;
         let subdivisionID = employee.subdivisionID;
+        
         this.http.post(this.url + 'create_employees', JSON.stringify(employee), this.options)
         .map((response: Response) => response.json())
         .catch(this.handleError)
@@ -46,7 +60,7 @@ export class EmployeesService {
             console.log(data);
             data.success = JSON.parse(data.success);
             if(data.success) { 
-                this.dataStore.employees.push({id: data.id, surname: surname, name: name, patronymic: patronymic, age: age, subdivisionID: subdivisionID, subdivision: subdivisionName});
+                this.dataStore.employees.push({id: data.id, surname: surname, name: name, patronymic: patronymic, birthday: birthday, subdivisionID: subdivisionID, subdivision: subdivisionName});
                 console.log(this.dataStore.employees);
                 this._employees.next(Object.assign({}, this.dataStore).employees);
             }

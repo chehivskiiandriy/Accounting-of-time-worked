@@ -25,22 +25,30 @@ export class EmployeesAddModalComponent implements OnInit {
 
   ngOnInit() {
     this.subdivisions = this.subdivisionService.subdivisions;
-    this.subdivisionService.getAll();
+    // this.subdivisionService.getAll();
     console.log(this.subdivisions);
-    this.employee.name = "";
   }
-
+  
   createEmployee() {
     this.employee.subdivisionID = this.selectedSubdivision.id;  
-    console.log(this.selectedSubdivision.id);
-    console.log(this.selectedSubdivision.name);  
-    if(this.selectedSubdivision.name != "" && this.employee.name != "" && this.employee.surname != "" && this.employee.patronymic != "" && this.employee.age > 0) {
+
+    function pad(number) {
+      if (number < 10) {
+        return '0' + number;
+      }
+      return number;
+    }
+    
+    this.employee.birthday = this.employee.birthday.getFullYear() + "-" + pad(this.employee.birthday.getMonth() + 1) + "-" + pad(this.employee.birthday.getDate());
+    console.log(this.employee.birthday);
+
+    if(this.selectedSubdivision.name != "" && this.employee.name != "" && this.employee.surname != "" && this.employee.patronymic != "" && this.employee.birthday != "") {
       this.employeesService.create(this.employee, this.selectedSubdivision.name);
 
       this.employee.name = "";
       this.employee.surname = "";
       this.employee.patronymic = "";
-      this.employee.age = null;
+      this.employee.birthday = "";
       this.selectedSubdivision = {};
     }
   }

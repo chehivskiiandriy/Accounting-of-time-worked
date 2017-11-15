@@ -20,7 +20,7 @@ export class SubdivisionComponent implements OnInit {
 
   ngOnInit() {
     this.subdivisions = this.subdivisionService.subdivisions;
-    this.subdivisionService.getAll();
+    // this.subdivisionService.getAll();
     console.log(this.subdivisions);
     console.log("dasfasf");
   }

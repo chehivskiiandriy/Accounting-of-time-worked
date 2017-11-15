@@ -17,7 +17,6 @@
                     <tr *ngFor="let sickLeave of sickLeaves| async; let i = index">
                         <td>{{i+1}}</td>
                         <td>{{sickLeave.fullName}}</td>
-                        <td>{{sickLeave.age}}</td>
                         <td>{{sickLeave.employeeID}}</td>                        
                         <td>{{sickLeave.subdivision}}</td>
                         <td>{{sickLeave.startDisease.split('-').reverse().join('.')}}</td>

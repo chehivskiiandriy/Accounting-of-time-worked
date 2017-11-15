@@ -14,7 +14,7 @@ export class SubdivisionService {
     private dataStore: {
         subdivisions: any[]
     };
-
+    
     constructor(private http: Http) {
         this.dataStore = { subdivisions: [] };
         this._subdivisions = <BehaviorSubject<any[]>>new BehaviorSubject([]);
@@ -27,12 +27,19 @@ export class SubdivisionService {
     url = 'http://localhost:8080/';
     
     getAll() {
-        this.http.get(this.url +'get_subdiv').map((response: Response) => response.json()).subscribe(data => {
+        this.http.get(this.url +'get_subdiv')
+        .map((response: Response) => response.json())
+        .catch(this.handleError)
+        .subscribe(data => {
             this.dataStore.subdivisions = data;
             this._subdivisions.next(Object.assign({}, this.dataStore).subdivisions);
-          }, error => console.log('Could not load disciplines.'));
+          });
     }
 
+    getAllWithoutObservable() {
+        return this.dataStore.subdivisions;
+    }
+    
     getSub(id) {
         console.log(id);
         let name;

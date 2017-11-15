@@ -33,25 +33,25 @@ export class SickLeaveService {
           }, error => console.log('Could not load disciplines.'));
     }
 
-    // create(sickLeave, subdivisionName) {
-    //     let surname = sickLeave.surname;
-    //     let name = sickLeave.name;
-    //     let patronymic = sickLeave.patronymic;
-    //     let age = sickLeave.age;
-    //     let subdivisionID = sickLeave.subdivisionID;
-    //     this.http.post(this.url + 'create_employees', JSON.stringify(sickLeave), this.options)
-    //     .map((response: Response) => response.json())
-    //     .catch(this.handleError)
-    //     .subscribe(data => {
-    //         console.log(data);
-    //         data.success = JSON.parse(data.success);
-    //         if(data.success) { 
-    //             this.dataStore.sickLeaves.push({id: data.id, surname: surname, name: name, patronymic: patronymic, age: age, subdivisionID: subdivisionID, subdivision: subdivisionName});
-    //             console.log(this.dataStore.sickLeaves);
-    //             this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
-    //         }
-    //       });
-    // }
+    create(sickLeave, fullName, subdivision) {
+        let employeeID = sickLeave.employeeID;
+        let startDisease = sickLeave.startDisease;
+        let finishDisease = sickLeave.finishDisease;
+        let disease = sickLeave.disease;
+
+        this.http.post(this.url + 'create_sickLeaves', JSON.stringify(sickLeave), this.options)
+        .map((response: Response) => response.json())
+        .catch(this.handleError)
+        .subscribe(data => {
+            console.log(data);
+            data.success = JSON.parse(data.success);
+            if(data.success) { 
+                this.dataStore.sickLeaves.push({id: data.id, employeeID: employeeID, startDisease: startDisease, finishDisease: finishDisease, disease: disease, fullName: fullName, subdivision: subdivision});
+                console.log(this.dataStore.sickLeaves);
+                this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
+            }
+          });
+    }
 
     // update(sickLeave, subdivisionName) {
     //     let updateemployee = sickLeave;

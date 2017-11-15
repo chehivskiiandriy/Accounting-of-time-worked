@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms'
 
 import { SharedModule } from './../../shared/shared.module';
 
-import { SickLeaveService } from './../../_services/sick-leave.service';
-
 import { SickLeaveComponent } from './sick-leave.component';
 import { SickLeaveAddModalComponent } from './sick-leave-add-modal/sick-leave-add-modal.component';
 import { SickLeaveEditModalComponent } from './sick-leave-edit-modal/sick-leave-edit-modal.component';
@@ -26,7 +24,6 @@ import { SickLeaveEditModalComponent } from './sick-leave-edit-modal/sick-leave-
         SickLeaveEditModalComponent
       ],
     providers: [
-        SickLeaveService
     ]
 })
 export class SickLeaveModule { }

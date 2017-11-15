@@ -13,11 +13,14 @@ import { SickLeaveService } from './../../../_services/sick-leave.service';
 })
 export class SickLeaveAddModalComponent implements OnInit {
   
-  subdivisions: Observable<any[]>;  
-  employees: Observable<any[]>;
+  subdivisions: any;  
+  employees: any;
   selectedSubdivision: any = {};
-  selectedEmployeeID: any;
+  selectedEmployee: any = {};
   sickLeave: any = {};
+
+  fullName: string;
+  subdivision: string;
 
   constructor(
     public dialogRef: MatDialogRef<SickLeaveAddModalComponent>,
@@ -28,31 +31,51 @@ export class SickLeaveAddModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.subdivisions = this.subdivisionService.subdivisions;
-    this.subdivisionService.getAll();
+    this.subdivisions = this.subdivisionService.getAllWithoutObservable();
     console.log(this.subdivisions);
 
-    this.employees = this.employeesService.employees;
-    this.employeesService.getAll();
+    this.employees = this.employeesService.getAllWithoutObservable();
     console.log(this.employees);
+  }
 
+  onSelect(selected) {
+    console.log(selected.id);
+    this.employees = this.employeesService.getFiltered(selected.id);
   }
 
 
-
   createSickLeave() {
-    // this.employee.subdivisionID = this.selectedSubdivision.id;  
-    // console.log(this.selectedSubdivision.id);
-    // console.log(this.selectedSubdivision.name);  
-    // if(this.selectedSubdivision.name != "" && this.employee.name != "" && this.employee.surname != "" && this.employee.patronymic != "" && this.employee.age > 0) {
-    //   this.employeesService.create(this.employee, this.selectedSubdivision.name);
+    this.sickLeave.employeeID = this.selectedEmployee.id;
 
-    //   this.employee.name = "";
-    //   this.employee.surname = "";
-    //   this.employee.patronymic = "";
-    //   this.employee.age = null;
-    //   this.selectedSubdivision = {};
-    // }
+    function pad(number) {
+      if (number < 10) {
+        return '0' + number;
+      }
+      return number;
+    }
+    
+    this.sickLeave.startDisease = this.sickLeave.startDisease.getFullYear() + "-" + pad(this.sickLeave.startDisease.getMonth() + 1) + "-" + pad(this.sickLeave.startDisease.getDate());
+    this.sickLeave.finishDisease = this.sickLeave.finishDisease.getFullYear() + "-" + pad(this.sickLeave.finishDisease.getMonth() + 1) + "-" + pad(this.sickLeave.finishDisease.getDate());
+    
+    this.fullName = this.selectedEmployee.surname + ' ' + this.selectedEmployee.name + ' ' + this.selectedEmployee.patronymic;
+    this.subdivision = this.selectedEmployee.subdivision;
+
+    console.log(this.sickLeave);
+    console.log(this.selectedEmployee);
+    console.log(this.selectedSubdivision);
+    console.log(this.fullName);
+    console.log(this.subdivision);
+    
+    if(this.sickLeave.employeeID != "" && this.sickLeave.disease != "" && this.sickLeave.startDisease != "" && this.sickLeave.finishDisease != "") {
+      this.sickLeaveService.create(this.sickLeave, this.fullName, this.subdivision);
+
+      this.sickLeave.employeeID = "";
+      this.sickLeave.startDisease = "";
+      this.sickLeave.finishDisease = "";
+      this.sickLeave.disease = "";
+      this.selectedSubdivision = {};
+      this.selectedEmployee = {};
+    }
   }
 
 }

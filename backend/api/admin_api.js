@@ -65,9 +65,12 @@ app.put('/edit_subdiv', (req, res) => {
     });
 });
 
-
 app.get('/get_employees', async(req, res) => {
     let employees = await user.getEmployees();
+    employees = employees.map(e => {
+        e.birthday = e.birthday.getFullYear() + "-" + pad(e.birthday.getMonth() + 1) + "-" + pad(e.birthday.getDate());
+        return e;
+    });
     console.log(employees);
     res.json(employees);
 });
@@ -111,12 +114,30 @@ app.put('/edit_employees', (req, res) => {
 app.get('/get_sickLeaves', async(req, res) => {
     let sickLeaves = await user.getSickLeaves();
     sickLeaves = sickLeaves.map(e => {
-        e.startDisease = e.startDisease.toISOString().split('T')[0];
-        e.finishDisease = e.finishDisease.toISOString().split('T')[0];
+        e.startDisease = e.startDisease.getFullYear() + "-" + pad(e.startDisease.getMonth() + 1) + "-" + pad(e.startDisease.getDate());
+        e.finishDisease = e.finishDisease.getFullYear() + "-" + pad(e.finishDisease.getMonth() + 1) + "-" + pad(e.finishDisease.getDate());
         return e;
     });
     console.log(sickLeaves);
     res.json(sickLeaves);
 });
+
+app.post('/create_sickLeaves', (req, res) => {
+    var data = req.body;
+    console.log(data);
+
+    user.addSickLeave(data, function(err, info) {
+        if (err) throw err;
+        console.log(info);
+        res.json({id: info.insertId, 'success': 'true' });
+     });
+});
+
+function pad(number) {
+    if (number < 10) {
+      return '0' + number;
+    }
+    return number;
+}
 
 module.exports = app;

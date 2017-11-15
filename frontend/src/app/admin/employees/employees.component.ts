@@ -14,14 +14,14 @@ import { EmployeesEditModalComponent } from './employees-edit-modal/employees-ed
 })
 export class EmployeesComponent implements OnInit {
 
-  displayedColumns = ['№', 'surname', 'name', 'patronymic', 'age', 'subdivision', 'actions'];
+  displayedColumns = ['№', 'surname', 'name', 'patronymic', 'birthday', 'subdivision', 'actions'];
   employees: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private employeesService: EmployeesService) {}
 
   ngOnInit() {
     this.employees = this.employeesService.employees;
-    this.employeesService.getAll();
+    // this.employeesService.getAll();
     console.log(this.employees);
   }
 
