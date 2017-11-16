@@ -71,7 +71,7 @@ module.exports.getSickLeaves = () => {
                     from ((Employee 
                         join SickLeave on SickLeave.employeeID = Employee.id) 
                         join Subdivision on Subdivision.id = Employee.subdivisionID) 
-                    order by SickLeave.startDisease asc;`;
+                    order by SickLeave.finishDisease desc;`;
     return new Promise((resolve, reject) => {
         connection.query(query, (err, rows, fields) => {
             if (err) {
@@ -86,12 +86,16 @@ module.exports.addSickLeave = function(data, callback) {
     connection.query("INSERT INTO SickLeave SET ?", data, callback);
 }
 
+module.exports.deleteSickLeave = function(idSickLeave, callback) {
+    connection.query(`DELETE FROM SickLeave WHERE id = ${idSickLeave}`, callback);
+}
+
 module.exports.getHolidays = () => {
     let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, Holiday.*
                     from ((Employee 
                         join Holiday on Holiday.employeeID = Employee.id) 
                         join Subdivision on Subdivision.id = Employee.subdivisionID) 
-                    order by Holiday.startHoliday asc;`;
+                    order by Holiday.finishHoliday desc;`;
     return new Promise((resolve, reject) => {
         connection.query(query, (err, rows, fields) => {
             if (err) {
@@ -107,7 +111,7 @@ module.exports.getBusinessTrips = () => {
                     from ((Employee 
                         join BusinessTrip on BusinessTrip.employeeID = Employee.id) 
                         join Subdivision on Subdivision.id = Employee.subdivisionID) 
-                    order by BusinessTrip.startBusinessTrip asc;`;
+                    order by BusinessTrip.finishBusinessTrip desc;`;
     return new Promise((resolve, reject) => {
         connection.query(query, (err, rows, fields) => {
             if (err) {
@@ -123,7 +127,7 @@ module.exports.getHooky = () => {
                     from ((Employee 
                         join Hooky on Hooky.employeeID = Employee.id) 
                         join Subdivision on Subdivision.id = Employee.subdivisionID) 
-                    order by Hooky.dayHooky asc;`;
+                    order by Hooky.dayHooky desc;`;
     return new Promise((resolve, reject) => {
         connection.query(query, (err, rows, fields) => {
             if (err) {
@@ -139,7 +143,7 @@ module.exports.getWorkingDays = () => {
                     from ((Employee 
                         join WorkDays on WorkDays.employeeID = Employee.id) 
                         join Subdivision on Subdivision.id = Employee.subdivisionID) 
-                    order by WorkDays.year, WorkDays.month asc;`;
+                    order by WorkDays.year, WorkDays.month desc;`;
     return new Promise((resolve, reject) => {
         connection.query(query, (err, rows, fields) => {
             if (err) {

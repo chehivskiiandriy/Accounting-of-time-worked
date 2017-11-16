@@ -32,6 +32,12 @@ export class SickLeaveService {
             this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
           }, error => console.log('Could not load disciplines.'));
     }
+    
+    getFilteredbyEmployee(id) {
+        let filter = [];
+        filter = this.dataStore.sickLeaves.filter((e) => e.employeeID === id); 
+        return filter;
+    }
 
     create(sickLeave, fullName, subdivision) {
         let employeeID = sickLeave.employeeID;
@@ -46,7 +52,7 @@ export class SickLeaveService {
             console.log(data);
             data.success = JSON.parse(data.success);
             if(data.success) { 
-                this.dataStore.sickLeaves.push({id: data.id, employeeID: employeeID, startDisease: startDisease, finishDisease: finishDisease, disease: disease, fullName: fullName, subdivision: subdivision});
+                this.dataStore.sickLeaves.unshift({id: data.id, employeeID: employeeID, startDisease: startDisease, finishDisease: finishDisease, disease: disease, fullName: fullName, subdivision: subdivision});
                 console.log(this.dataStore.sickLeaves);
                 this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
             }
@@ -72,23 +78,23 @@ export class SickLeaveService {
     //     });
     // }
 
-    // delete(sickLeave) {
-    //     this.http.delete(this.url + 'delete_employees', new RequestOptions({
-    //         headers: this.headers,
-    //         body: JSON.stringify(sickLeave)
-    //      }))
-    //      .map((response: Response) => response.json())
-    //      .catch(this.handleError)
-    //      .subscribe(
-    //         data => {
-    //             console.log(data);
-    //             data.success = JSON.parse(data.success);
-    //             if(data.success) { 
-    //                 this.dataStore.sickLeaves = this.dataStore.sickLeaves.filter(sickLeaves => sickLeaves !== sickLeave);
-    //                 this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
-    //             } 
-    //         });
-    // }
+    delete(sickLeave) {
+        this.http.delete(this.url + 'delete_sickLeaves', new RequestOptions({
+            headers: this.headers,
+            body: JSON.stringify(sickLeave)
+         }))
+         .map((response: Response) => response.json())
+         .catch(this.handleError)
+         .subscribe(
+            data => {
+                console.log(data);
+                data.success = JSON.parse(data.success);
+                if(data.success) { 
+                    this.dataStore.sickLeaves = this.dataStore.sickLeaves.filter(sickLeaves => sickLeaves !== sickLeave);
+                    this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
+                } 
+            });
+    }
 
     private handleError(error: any) {
         console.error('Error', error);

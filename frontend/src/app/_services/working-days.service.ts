@@ -36,6 +36,22 @@ export class WorkingDaysService {
           });
     }
 
+    getFilteredbyEmployeeStartAndFinishDate(id, startYear, startMonth, finishYear, finishMonth) {
+        let filter = [];
+        filter = this.dataStore.workingDays.filter((e) => {
+            return e.employeeID == id && 
+            (
+                (e.year == startYear && e.year == finishYear && e.month >= startMonth && e.month <= finishMonth) ||
+                (startYear != finishYear && ((e.year == startYear && e.month >= startMonth) || (e.year == finishYear && e.month <= finishMonth) )) || 
+                (e.year > startYear && e.year < finishYear)
+            )
+        }); 
+        console.log(filter);
+        filter.reverse();
+        console.log(filter);
+        return filter;
+    }
+
     private handleError(error: any) {
         console.error('Error', error);
         return Observable.throw(error.message || error);

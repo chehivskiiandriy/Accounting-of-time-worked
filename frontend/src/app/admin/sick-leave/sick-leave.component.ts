@@ -30,4 +30,8 @@ export class SickLeaveComponent implements OnInit {
       width: '400px',
     });
   }
+
+  deleteSickLeave(sickLeave){
+    this.sickLeaveService.delete(sickLeave);
+  }
 }

@@ -39,10 +39,7 @@ export class EmployeesService {
     
     getFiltered(id) {
         let filter = [];
-        console.log(this.dataStore.employees)
-        console.log('asd');
         filter = this.dataStore.employees.filter((t) => t.subdivisionID === id); 
-        console.log(filter);
         return filter;
     }
     

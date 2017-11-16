@@ -36,6 +36,12 @@ export class HolidaysService {
           });
     }
 
+    getFilteredbyEmployee(id) {
+        let filter = [];
+        filter = this.dataStore.holidays.filter((e) => e.employeeID === id); 
+        return filter;
+    }
+
     private handleError(error: any) {
         console.error('Error', error);
         return Observable.throw(error.message || error);

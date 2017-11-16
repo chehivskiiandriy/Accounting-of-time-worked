@@ -36,6 +36,12 @@ export class HookyService {
           });
     }
 
+    getFilteredbyEmployee(id) {
+        let filter = [];
+        filter = this.dataStore.hookies.filter((e) => e.employeeID === id); 
+        return filter;
+    }
+
     private handleError(error: any) {
         console.error('Error', error);
         return Observable.throw(error.message || error);

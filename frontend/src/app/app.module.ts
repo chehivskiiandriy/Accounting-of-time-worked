@@ -19,6 +19,7 @@ import { HolidaysService } from './_services/holidays.service';
 import { BusinessTripService } from './_services/business-trip.service';
 import { HookyService } from './_services/hooky.service';
 import { WorkingDaysService } from './_services/working-days.service';
+import { CheckDataService } from './_services/check-data.service';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { WorkingDaysService } from './_services/working-days.service';
     BusinessTripService,
     HookyService,
     WorkingDaysService,
+    CheckDataService,
     {provide: MAT_DATE_LOCALE, useValue: 'ua-UA'}    
   ],
   bootstrap: [AppComponent]

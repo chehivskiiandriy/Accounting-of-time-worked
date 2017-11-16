@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { SubdivisionService } from './../../../_services/subdivision.service';
 import { EmployeesService } from './../../../_services/employees.service';
 import { SickLeaveService } from './../../../_services/sick-leave.service';
+import { CheckDataService } from './../../../_services/check-data.service';
 
 @Component({
   selector: 'app-sick-leave-add-modal',
@@ -27,7 +28,8 @@ export class SickLeaveAddModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private subdivisionService: SubdivisionService,
     private employeesService: EmployeesService,
-    private sickLeaveService: SickLeaveService
+    private sickLeaveService: SickLeaveService,
+    private checkDataService: CheckDataService
   ) { }
 
   ngOnInit() {
@@ -47,26 +49,20 @@ export class SickLeaveAddModalComponent implements OnInit {
   createSickLeave() {
     this.sickLeave.employeeID = this.selectedEmployee.id;
 
-    function pad(number) {
-      if (number < 10) {
-        return '0' + number;
-      }
-      return number;
-    }
-    
-    this.sickLeave.startDisease = this.sickLeave.startDisease.getFullYear() + "-" + pad(this.sickLeave.startDisease.getMonth() + 1) + "-" + pad(this.sickLeave.startDisease.getDate());
-    this.sickLeave.finishDisease = this.sickLeave.finishDisease.getFullYear() + "-" + pad(this.sickLeave.finishDisease.getMonth() + 1) + "-" + pad(this.sickLeave.finishDisease.getDate());
-    
     this.fullName = this.selectedEmployee.surname + ' ' + this.selectedEmployee.name + ' ' + this.selectedEmployee.patronymic;
     this.subdivision = this.selectedEmployee.subdivision;
 
     console.log(this.sickLeave);
     console.log(this.selectedEmployee);
-    console.log(this.selectedSubdivision);
-    console.log(this.fullName);
-    console.log(this.subdivision);
-    
-    if(this.sickLeave.employeeID != "" && this.sickLeave.disease != "" && this.sickLeave.startDisease != "" && this.sickLeave.finishDisease != "") {
+
+    let check = false;
+    check = this.checkDataService.check(this.sickLeave.employeeID, this.sickLeave.startDisease, this.sickLeave.finishDisease);
+    console.log(check);
+
+    if(check == true && this.sickLeave.employeeID != "" && this.sickLeave.disease != "" && this.sickLeave.startDisease != "" && this.sickLeave.finishDisease != "") {
+      this.sickLeave.startDisease = this.checkDataService.startDate;
+      this.sickLeave.finishDisease = this.checkDataService.finishDate;
+
       this.sickLeaveService.create(this.sickLeave, this.fullName, this.subdivision);
 
       this.sickLeave.employeeID = "";

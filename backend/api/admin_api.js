@@ -133,6 +133,19 @@ app.post('/create_sickLeaves', (req, res) => {
      });
 });
 
+app.delete('/delete_sickLeaves', (req, res, next) => {
+    var data = req.body;
+    console.log(data);
+    user.deleteSickLeave(data.id, function(err, info) {
+        if (err) {
+            console.log(err);
+            next(err);
+            return res.send({ 'success': 'false' });
+        }
+        console.log(info);
+        user.sendResponse(true, res);
+    });
+});
 /* 
     
 get all services 
