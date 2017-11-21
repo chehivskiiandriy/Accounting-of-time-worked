@@ -13,7 +13,7 @@ import { CheckDataService } from './../../../_services/check-data.service';
   styleUrls: ['./sick-leave-add-modal.component.scss']
 })
 export class SickLeaveAddModalComponent implements OnInit {
-  
+    
   subdivisions: any;  
   employees: any;
   selectedSubdivision: any = {};
@@ -33,6 +33,8 @@ export class SickLeaveAddModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.sickLeave.disease = '';
+    
     this.subdivisions = this.subdivisionService.getAllWithoutObservable();
     console.log(this.subdivisions);
 
@@ -55,11 +57,13 @@ export class SickLeaveAddModalComponent implements OnInit {
     console.log(this.sickLeave);
     console.log(this.selectedEmployee);
 
+    console.log(typeof this.sickLeave.startDisease);
+    
     let check = false;
     check = this.checkDataService.check(this.sickLeave.employeeID, this.sickLeave.startDisease, this.sickLeave.finishDisease);
     console.log(check);
 
-    if(check == true && this.sickLeave.employeeID != "" && this.sickLeave.disease != "" && this.sickLeave.startDisease != "" && this.sickLeave.finishDisease != "") {
+    if(check) {
       this.sickLeave.startDisease = this.checkDataService.startDate;
       this.sickLeave.finishDisease = this.checkDataService.finishDate;
 

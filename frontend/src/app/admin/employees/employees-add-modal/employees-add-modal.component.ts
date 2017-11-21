@@ -24,8 +24,11 @@ export class EmployeesAddModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.employee.name = ""; 
+    this.employee.surname = "";
+    this.employee.patronymic = "";
+
     this.subdivisions = this.subdivisionService.subdivisions;
-    // this.subdivisionService.getAll();
     console.log(this.subdivisions);
   }
   
@@ -38,11 +41,13 @@ export class EmployeesAddModalComponent implements OnInit {
       }
       return number;
     }
-    
-    this.employee.birthday = this.employee.birthday.getFullYear() + "-" + pad(this.employee.birthday.getMonth() + 1) + "-" + pad(this.employee.birthday.getDate());
-    console.log(this.employee.birthday);
 
-    if(this.selectedSubdivision.name != "" && this.employee.name != "" && this.employee.surname != "" && this.employee.patronymic != "" && this.employee.birthday != "") {
+    if((this.employee.birthday.getFullYear()+"").length == 4) {
+      
+      console.log(this.employee.birthday);      
+      this.employee.birthday = this.employee.birthday.getFullYear() + "-" + pad(this.employee.birthday.getMonth() + 1) + "-" + pad(this.employee.birthday.getDate());
+      console.log(this.employee.birthday);
+
       this.employeesService.create(this.employee, this.selectedSubdivision.name);
 
       this.employee.name = "";

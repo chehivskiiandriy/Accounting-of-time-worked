@@ -39,8 +39,6 @@ export class EmployeesEditModalComponent implements OnInit {
     console.log(this.selectedSubdivision);
 
     this.subdivisions = this.subdivisionService.subdivisions;
-    // this.subdivisionService.getAll();    
-    
   }
 
   editEmployee() {
@@ -55,14 +53,20 @@ export class EmployeesEditModalComponent implements OnInit {
       return number;
     }
 
-    this.employee.birthday = this.employee.birthday.getFullYear() + "-" + pad(this.employee.birthday.getMonth() + 1) + "-" + pad(this.employee.birthday.getDate());
+    let year= "";
+
+    if(this.employee.birthday.length != 10) {
+      year = this.employee.birthday.getFullYear() + "";
+      console.log(year);
+      if(year.length == 4) this.employee.birthday = year + "-" + pad(this.employee.birthday.getMonth() + 1) + "-" + pad(this.employee.birthday.getDate());
+    }
     console.log(this.employee.birthday);
 
-    console.log(this.name);
-    if(this.name != "" && this.employee.name != "" && this.employee.surname != "" && this.employee.patronymic != "" && this.employee.birthday != "" ) {
+    if(year.length == 4 || year.length == 0) {
       this.employeesService.update(this.employee, this.name);
       this.dialogRef.close();
     }
+      
   }
 
 }

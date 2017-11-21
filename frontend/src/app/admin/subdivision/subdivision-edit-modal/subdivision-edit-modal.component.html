@@ -1,10 +1,12 @@
-<h2 mat-dialog-title>Edit subdivision</h2>
-<mat-dialog-content>
-  <mat-form-field class="modal-form">
-      <input class="modal-input" matInput placeholder="Subdivision name" [(ngModel)]="subdivision.name">
-    </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="editSubdivision()">Edit</button>    
-  <button mat-button [mat-dialog-close]="true">Close</button>
-</mat-dialog-actions>
+<div class="container">
+  <h2 mat-dialog-title>Edit subdivision</h2>
+  <mat-dialog-content>
+    <mat-form-field class="modal-form">
+        <input class="modal-input" matInput placeholder="Subdivision name" [(ngModel)]="subdivision.name">
+      </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="editSubdivision()">Edit</button>    
+    <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+  </mat-dialog-actions>
+</div>

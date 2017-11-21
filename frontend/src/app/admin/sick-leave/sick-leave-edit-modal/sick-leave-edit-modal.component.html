@@ -1,3 +1,31 @@
-<p>
-  sick-leave-edit-modal works!
-</p>
+<div class="container">
+  <h2 mat-dialog-title>Edit sick-leave</h2>
+  <mat-dialog-content>
+  
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker1" placeholder="Choose a date" [(ngModel)]="sickLeave.startDisease">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>    
+      <mat-datepicker #picker1 [touchUi]="false" [disabled]="false"></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker2" placeholder="Choose a date" [(ngModel)]="sickLeave.finishDisease">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  
+    <mat-form-field class="modal-form">
+      <input class="modal-input" matInput type="text" placeholder="Disease" [(ngModel)]="sickLeave.disease">
+    </mat-form-field>
+  
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="editSickLeave()" [disabled]="sickLeave.disease.length < 3 || 
+                                                            sickLeave.disease.length > 40 || 
+                                                            sickLeave.startDisease == undefined || 
+                                                            sickLeave.finishDisease == undefined || 
+                                                            sickLeave.startDisease > sickLeave.finishDisease">
+                                                            Edit</button>    
+    <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+  </mat-dialog-actions>
+</div>

@@ -31,6 +31,16 @@ export class SickLeaveComponent implements OnInit {
     });
   }
 
+  editSickLeave(sickLeave) {
+    const dialogRefEdit = this.dialog.open(SickLeaveEditModalComponent, {
+      height: '550px',
+      width: '500px',
+      data: {
+        sickLeave: sickLeave
+      }
+    })
+  }
+
   deleteSickLeave(sickLeave){
     this.sickLeaveService.delete(sickLeave);
   }

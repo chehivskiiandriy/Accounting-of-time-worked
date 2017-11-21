@@ -1,34 +1,31 @@
-<br>
-<div class="button-row">
-        <button mat-raised-button color="primary" (click)="openDialog()" >Додати лікарняний</button>
-</div>
-<br>
+<div class="container">
+    <div class="button-add">
+        <button mat-raised-button color="primary" (click)="openDialog()">Add sick leave</button>
+    </div>
 
-<div class="card">
-    <div class="card-content">
-        <div class="material-datatables table-responsive">
-            <table id="datatables" class="table table-hover" cellspacing="0" width="100%" style="width:100%; background-color: #fff; text-align:center">
-                <thead style="background-color: #ccc;">
-                    <tr>
-                        <th *ngFor="let row of displayedColumns">{{ row }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let sickLeave of sickLeaves| async; let i = index">
-                        <td>{{i+1}}</td>
-                        <td>{{sickLeave.fullName}}</td>
-                        <td>{{sickLeave.employeeID}}</td>                        
-                        <td>{{sickLeave.subdivision}}</td>
-                        <td>{{sickLeave.startDisease.split('-').reverse().join('.')}}</td>
-                        <td>{{sickLeave.finishDisease.split('-').reverse().join('.')}}</td>
-                        <td>{{sickLeave.disease}}</td>                        
-                        <td class="">
-                            <button mat-raised-button color="primary" (click)="editSickLeave(sickLeave)">Edit</button>
-                            <button mat-raised-button color="warn" (click)="deleteSickLeave(sickLeave)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>  
+    <div class="material-datatables table-responsive">
+        <table id="datatables" class="table" >
+            <thead>
+                <tr>
+                    <th *ngFor="let row of displayedColumns">{{ row }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sickLeave of sickLeaves| async; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{sickLeave.fullName}}</td>
+                    <td>{{sickLeave.employeeID}}</td>                        
+                    <td>{{sickLeave.subdivision}}</td>
+                    <td>{{sickLeave.startDisease.split('-').reverse().join('.')}}</td>
+                    <td>{{sickLeave.finishDisease.split('-').reverse().join('.')}}</td>
+                    <td>{{sickLeave.disease}}</td>                        
+                    <td>
+                        <button mat-raised-button color="accent" (click)="editSickLeave(sickLeave)" class="action edit"><mat-icon>edit</mat-icon></button>
+                        <button mat-raised-button color="warn" (click)="deleteSickLeave(sickLeave)" class="action delete"><mat-icon>clear</mat-icon></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+

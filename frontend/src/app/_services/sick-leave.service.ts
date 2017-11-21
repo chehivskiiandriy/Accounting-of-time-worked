@@ -59,24 +59,23 @@ export class SickLeaveService {
           });
     }
 
-    // update(sickLeave, subdivisionName) {
-    //     let updateemployee = sickLeave;
-    //     updateemployee.subdivision = subdivisionName;
-    //     console.log(updateemployee);
-    //     this.http.put(this.url + 'edit_employees', JSON.stringify(sickLeave), this.options)
-    //     .map(response => response.json())
-    //     .catch(this.handleError)
-    //     .subscribe(data => {
-    //         console.log(data);
-    //         data.success = JSON.parse(data.success);
-    //         if(data.success) { 
-    //             this.dataStore.sickLeaves.forEach((t, i) => {
-    //                 if (t.id === updateemployee.id) { this.dataStore.sickLeaves[i] = updateemployee; }
-    //             });
-    //             this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
-    //         }
-    //     });
-    // }
+    update(sickLeave) {
+        let updateSickLeave = sickLeave;
+        console.log(updateSickLeave);
+        this.http.put(this.url + 'edit_sickLeave', JSON.stringify(sickLeave), this.options)
+        .map(response => response.json())
+        .catch(this.handleError)
+        .subscribe(data => {
+            console.log(data);
+            data.success = JSON.parse(data.success);
+            if(data.success) { 
+                this.dataStore.sickLeaves.forEach((t, i) => {
+                    if (t.id === updateSickLeave.id) { this.dataStore.sickLeaves[i] = updateSickLeave; }
+                });
+                this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
+            }
+        });
+    }
 
     delete(sickLeave) {
         this.http.delete(this.url + 'delete_sickLeaves', new RequestOptions({

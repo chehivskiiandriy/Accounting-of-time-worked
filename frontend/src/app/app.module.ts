@@ -20,6 +20,7 @@ import { BusinessTripService } from './_services/business-trip.service';
 import { HookyService } from './_services/hooky.service';
 import { WorkingDaysService } from './_services/working-days.service';
 import { CheckDataService } from './_services/check-data.service';
+import { EditCheckDataService } from './_services/edit-check-data.service';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { CheckDataService } from './_services/check-data.service';
     HookyService,
     WorkingDaysService,
     CheckDataService,
+    EditCheckDataService,
     {provide: MAT_DATE_LOCALE, useValue: 'ua-UA'}    
   ],
   bootstrap: [AppComponent]

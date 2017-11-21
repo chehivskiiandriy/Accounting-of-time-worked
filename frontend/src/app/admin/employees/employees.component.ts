@@ -14,7 +14,7 @@ import { EmployeesEditModalComponent } from './employees-edit-modal/employees-ed
 })
 export class EmployeesComponent implements OnInit {
 
-  displayedColumns = ['№', 'surname', 'name', 'patronymic', 'birthday', 'subdivision', 'actions'];
+  displayedColumns = ['#', 'Surname', 'Name', 'Patronymic', 'Birthday', 'Subdivision', 'Actions'];
   employees: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private employeesService: EmployeesService) {}
@@ -28,7 +28,7 @@ export class EmployeesComponent implements OnInit {
   editEmployees(employee) {
     const dialogRefEdit = this.dialog.open(EmployeesEditModalComponent, {
       height: '550px',
-      width: '400px',
+      width: '500px',
       data: {
         employee: employee
       }
@@ -42,7 +42,7 @@ export class EmployeesComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(EmployeesAddModalComponent, {
       height: '550px',
-      width: '400px',
+      width: '500px',
     });
   }
 

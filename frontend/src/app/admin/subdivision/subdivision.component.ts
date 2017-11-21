@@ -13,7 +13,7 @@ import { SubdivisionService } from './../../_services/subdivision.service';
 })
 export class SubdivisionComponent implements OnInit {
 
-  displayedColumns = ['id', 'name', 'actions'];
+  displayedColumns = ['#', 'Name', 'Actions'];
   subdivisions: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private subdivisionService: SubdivisionService) {}
@@ -28,7 +28,7 @@ export class SubdivisionComponent implements OnInit {
   editSubdivision(subdivision) {
     const dialogRefEdit = this.dialog.open(SubdivisionEditModalComponent, {
       height: '350px',
-      width: '400px',
+      width: '500px',
       data: {
         subdivision: subdivision
       }
@@ -42,7 +42,7 @@ export class SubdivisionComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(SubdivisionAddModalComponent, {
       height: '350px',
-      width: '400px',
+      width: '500px',
     });
   }
 

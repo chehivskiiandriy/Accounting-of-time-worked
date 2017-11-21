@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // margin: 0 30px;
+
+    .button-add {
+        margin: 20px 0;
+    }
+
+    .table {
+        border: 2px solid #009688;
+        border-spacing: 0;
+        text-align: left; 
+        margin-bottom: 50px;       
+    }
+
+    .table thead {
+        background-color: #009688;
+        color: #fff;
+    }
+
+    .table thead tr th {
+        padding: 12px 8px;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #e0f2f1;
+    }
+
+    .table tbody tr:hover {
+        // background-color: #b2dfdb;
+    }
+
+    .table tbody tr td {
+        padding: 8px;
+        border-bottom: 1px solid #009688;                
+    }
+
+    .action {
+        min-width: 0;
+        line-height: 30px;
+        padding: 0 4px;
+        color: #fff; 
+        
+        mat-icon {
+            font-size: 18px;
+            height: auto;
+        }
+    }
+}

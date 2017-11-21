@@ -146,6 +146,16 @@ app.delete('/delete_sickLeaves', (req, res, next) => {
         user.sendResponse(true, res);
     });
 });
+
+app.put('/edit_sickLeave', (req, res) => {
+    var data = req.body;
+    console.log(data);
+    user.editSickLeave(data, function(err, info) {
+        if (err) throw err;
+        console.log(info);
+        user.sendResponse(true, res);
+    });
+});
 /* 
     
 get all services 

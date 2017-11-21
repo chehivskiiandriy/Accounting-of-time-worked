@@ -90,6 +90,10 @@ module.exports.deleteSickLeave = function(idSickLeave, callback) {
     connection.query(`DELETE FROM SickLeave WHERE id = ${idSickLeave}`, callback);
 }
 
+module.exports.editSickLeave = function(data, callback) {
+    connection.query(`UPDATE SickLeave SET startDisease = '${data.startDisease}', finishDisease = '${data.finishDisease}', disease = '${data.disease}' WHERE id = ${data.id}`, callback);
+}
+
 module.exports.getHolidays = () => {
     let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, Holiday.*
                     from ((Employee 
