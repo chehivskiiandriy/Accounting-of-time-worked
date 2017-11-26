@@ -28,7 +28,7 @@ export class SubdivisionComponent implements OnInit {
   editSubdivision(subdivision) {
     const dialogRefEdit = this.dialog.open(SubdivisionEditModalComponent, {
       height: '350px',
-      width: '500px',
+      width: '400px',
       data: {
         subdivision: subdivision
       }
@@ -42,7 +42,7 @@ export class SubdivisionComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(SubdivisionAddModalComponent, {
       height: '350px',
-      width: '500px',
+      width: '400px',
     });
   }
 

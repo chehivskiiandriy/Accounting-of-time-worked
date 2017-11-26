@@ -1,25 +1,21 @@
 <div class="container">
-    <div class="button-add">
-        <button mat-raised-button color="primary" (click)="openDialog()">Add subdivision</button>
-    </div>
-
-    <div class="material-datatables table-responsive">
-        <table id="datatables" class="table" >
-            <thead>
-                <tr>
-                    <th *ngFor="let row of displayedColumns">{{ row }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let subdivision of subdivisions | async; let i = index">
-                    <td>{{i+1}}</td>
-                    <td>{{subdivision.name}}</td>
-                    <td>
-                        <button mat-raised-button color="accent" (click)="editSubdivision(subdivision)" class="action edit"><mat-icon>edit</mat-icon></button>
-                        <button mat-raised-button color="warn" (click)="deleteSubdivision(subdivision)" class="action delete"><mat-icon>clear</mat-icon></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()">Add subdivision</button>
+  
+    <table id="datatables" class="table" >
+        <thead>
+            <tr>
+                <th *ngFor="let row of displayedColumns">{{ row }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let subdivision of subdivisions | async; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{subdivision.name}}</td>
+                <td>
+                    <button mat-raised-button color="accent" (click)="editSubdivision(subdivision)" class="action edit"><mat-icon>edit</mat-icon></button>
+                    <button mat-raised-button color="warn" (click)="deleteSubdivision(subdivision)" class="action delete"><mat-icon>clear</mat-icon></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

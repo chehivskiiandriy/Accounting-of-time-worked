@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from '@angular/http';
 import { SharedModule } from './shared/shared.module';
-import { MAT_DATE_LOCALE } from '@angular/material';
+// import { MAT_DATE_LOCALE } from '@angular/material';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { HomeModule } from "./home/home.module";
 import { AdminModule } from "./admin/admin.module";
@@ -46,7 +48,10 @@ import { EditCheckDataService } from './_services/edit-check-data.service';
     WorkingDaysService,
     CheckDataService,
     EditCheckDataService,
-    {provide: MAT_DATE_LOCALE, useValue: 'ua-UA'}    
+    // {provide: LOCALE_ID, useValue: 'ua-UA'},
+    {provide: MAT_DATE_LOCALE, useValue: 'uk-UK'},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},       
   ],
   bootstrap: [AppComponent]
 })

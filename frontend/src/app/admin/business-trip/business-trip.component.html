@@ -1,33 +1,26 @@
-<br>
-<div class="button-row">
-        <button mat-raised-button color="primary" (click)="openDialog()" >Додати відрядження</button>
+<div class="container">
+    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()" >Add business trip</button>
+    
+    <table id="datatables" class="table">
+        <thead>
+            <tr>
+                <th *ngFor="let row of displayedColumns">{{ row }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let businessTrip of businessTrips| async; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{businessTrip.fullName}}</td>
+                <td>{{businessTrip.employeeID}}</td>                        
+                <td>{{businessTrip.subdivision}}</td>
+                <td>{{businessTrip.startBusinessTrip.split('-').reverse().join('.')}}</td>
+                <td>{{businessTrip.finishBusinessTrip.split('-').reverse().join('.')}}</td>
+                <td>
+                    <button mat-raised-button color="accent" (click)="editBusinessTrip(businessTrip)" class="action edit"><mat-icon>edit</mat-icon></button>
+                    <button mat-raised-button color="warn" (click)="deleteBusinessTrip(businessTrip)" class="action delete"><mat-icon>clear</mat-icon></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<br>
-
-<div class="card">
-    <div class="card-content">
-        <div class="material-datatables table-responsive">
-            <table id="datatables" class="table table-hover" cellspacing="0" width="100%" style="width:100%; background-color: #fff; text-align:center">
-                <thead style="background-color: #ccc;">
-                    <tr>
-                        <th *ngFor="let row of displayedColumns">{{ row }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let businessTrip of businessTrips| async; let i = index">
-                        <td>{{i+1}}</td>
-                        <td>{{businessTrip.fullName}}</td>
-                        <td>{{businessTrip.employeeID}}</td>                        
-                        <td>{{businessTrip.subdivision}}</td>
-                        <td>{{businessTrip.startBusinessTrip.split('-').reverse().join('.')}}</td>
-                        <td>{{businessTrip.finishBusinessTrip.split('-').reverse().join('.')}}</td>
-                        <td class="">
-                            <button mat-raised-button color="primary" (click)="editBusinessTrip(businessTrip)">Edit</button>
-                            <button mat-raised-button color="warn" (click)="deleteBusinessTrip(businessTrip)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>  
-</div>
+        

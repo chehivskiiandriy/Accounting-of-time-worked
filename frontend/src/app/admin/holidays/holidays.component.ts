@@ -14,7 +14,7 @@ import { HolidaysEditModalComponent } from './holidays-edit-modal/holidays-edit-
 })
 export class HolidaysComponent implements OnInit {
 
-  displayedColumns = ['№', 'fullname', 'employeeID', 'subdivision', 'startHoliday', 'finishHoliday', 'actions'];
+  displayedColumns = ['#', 'Full name', 'Employee ID', 'Subdivision', 'Start holiday', 'Finish holiday', 'Actions'];
   holidays: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private holidaysService: HolidaysService) {}

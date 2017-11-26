@@ -5,6 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { SubdivisionService } from './../../../_services/subdivision.service';
 import { EmployeesService } from './../../../_services/employees.service';
 
+import * as _moment from 'moment';
+const moment = _moment;
+
 @Component({
   selector: 'app-employees-add-modal',
   templateUrl: './employees-add-modal.component.html',
@@ -15,6 +18,8 @@ export class EmployeesAddModalComponent implements OnInit {
   employee: any = {};
   selectedSubdivision: any = {};
   subdivisions: Observable<any[]>;
+  minDate = moment("1940-01-01");
+  maxDate = moment("2002-01-01");
 
   constructor(
     public dialogRef: MatDialogRef<EmployeesAddModalComponent>,
@@ -42,20 +47,19 @@ export class EmployeesAddModalComponent implements OnInit {
       return number;
     }
 
-    if((this.employee.birthday.getFullYear()+"").length == 4) {
-      
-      console.log(this.employee.birthday);      
-      this.employee.birthday = this.employee.birthday.getFullYear() + "-" + pad(this.employee.birthday.getMonth() + 1) + "-" + pad(this.employee.birthday.getDate());
-      console.log(this.employee.birthday);
+    console.log(this.employee.birthday);      
+    this.employee.birthday = this.employee.birthday._d.getFullYear() + "-" + pad(this.employee.birthday._d.getMonth() + 1) + "-" + pad(this.employee.birthday._d.getDate());
+    console.log(this.employee.birthday);
+    console.log(this.employee);
+    
+    this.employeesService.create(this.employee, this.selectedSubdivision.name);
 
-      this.employeesService.create(this.employee, this.selectedSubdivision.name);
-
-      this.employee.name = "";
-      this.employee.surname = "";
-      this.employee.patronymic = "";
-      this.employee.birthday = "";
-      this.selectedSubdivision = {};
-    }
+    this.employee.name = "";
+    this.employee.surname = "";
+    this.employee.patronymic = "";
+    this.employee.birthday = undefined;
+    this.selectedSubdivision = {};
+  
   }
 
 }

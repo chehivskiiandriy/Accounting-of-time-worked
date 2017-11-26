@@ -1,15 +1,20 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;    
+}
 mat-form-field {
-    padding: 0 34px 0 14px;
-    display: block;
+    width: 100%;
 }
 
 mat-card {
     width: 300px;
-    height: 200px;
-    margin: 10% auto auto auto;
-    background: #E4E4E4;
+    height: 150px;
+    background: #ececec;
 }
 
-.container {
-    position: relative;
+button {
+    display: block;
+    margin: 30px auto 0;
 }

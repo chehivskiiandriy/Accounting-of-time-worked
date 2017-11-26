@@ -24,7 +24,9 @@
                                                             sickLeave.disease.length > 40 || 
                                                             sickLeave.startDisease == undefined || 
                                                             sickLeave.finishDisease == undefined || 
-                                                            sickLeave.startDisease > sickLeave.finishDisease">
+                                                            sickLeave.startDisease > sickLeave.finishDisease ||
+                                                            (sickLeave.startDisease.hasOwnProperty('_pf') && sickLeave.startDisease._pf.unusedInput.length > 0) ||
+                                                            (sickLeave.finishDisease.hasOwnProperty('_pf') && sickLeave.finishDisease._pf.unusedInput.length > 0)">
                                                             Edit</button>    
     <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
   </mat-dialog-actions>

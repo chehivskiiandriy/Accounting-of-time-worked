@@ -66,6 +66,8 @@ export class EmployeesService {
 
     update(employee, subdivisionName) {
         let updateemployee = employee;
+        console.log(employee.birthday);
+        updateemployee.birthday = employee.birthday._d.getFullYear() + "-" + this.pad(employee.birthday._d.getMonth() + 1) + "-" + this.pad(employee.birthday._d.getDate());
         updateemployee.subdivision = subdivisionName;
         console.log(updateemployee);
         this.http.put(this.url + 'edit_employees', JSON.stringify(employee), this.options)
@@ -105,4 +107,11 @@ export class EmployeesService {
         console.error('Error', error);
         return Observable.throw(error.message || error);
     }
+
+    pad(number) {
+        if (number < 10) {
+          return '0' + number;
+        }
+        return number;
+      }
 }   

@@ -28,12 +28,12 @@ export class CheckDataService {
       }
       
     check(employeeID, start, finish) {
-        let startYear = start.getFullYear(),
-            startMonth = start.getMonth() + 1,
-            startDate = start.getDate(),
-            finishYear = finish.getFullYear(),
-            finishMonth = finish.getMonth() + 1,
-            finishDate = finish.getDate();
+        let startYear = start._d.getFullYear(),
+            startMonth = start._d.getMonth() + 1,
+            startDate = start._d.getDate(),
+            finishYear = finish._d.getFullYear(),
+            finishMonth = finish._d.getMonth() + 1,
+            finishDate = finish._d.getDate();
         
         let sumDaysStart = 0,
             sumDaysFinish = 0,

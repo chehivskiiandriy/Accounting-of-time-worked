@@ -28,7 +28,7 @@ export class EmployeesComponent implements OnInit {
   editEmployees(employee) {
     const dialogRefEdit = this.dialog.open(EmployeesEditModalComponent, {
       height: '550px',
-      width: '500px',
+      width: '400px',
       data: {
         employee: employee
       }
@@ -42,7 +42,7 @@ export class EmployeesComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(EmployeesAddModalComponent, {
       height: '550px',
-      width: '500px',
+      width: '400px',
     });
   }
 

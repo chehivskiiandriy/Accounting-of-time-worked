@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
+import swal from 'sweetalert2';
+
 import { SubdivisionService } from './../../../_services/subdivision.service';
 import { EmployeesService } from './../../../_services/employees.service';
 import { SickLeaveService } from './../../../_services/sick-leave.service';
@@ -45,6 +47,7 @@ export class SickLeaveAddModalComponent implements OnInit {
   onSelect(selected) {
     console.log(selected.id);
     this.employees = this.employeesService.getFiltered(selected.id);
+    this.selectedEmployee = {};
   }
 
 
@@ -69,12 +72,29 @@ export class SickLeaveAddModalComponent implements OnInit {
 
       this.sickLeaveService.create(this.sickLeave, this.fullName, this.subdivision);
 
+      swal({
+        title: 'Great!',
+        text: 'Your work has been saved!',
+        type: 'success',
+        width: '300px',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
       this.sickLeave.employeeID = "";
       this.sickLeave.startDisease = "";
       this.sickLeave.finishDisease = "";
       this.sickLeave.disease = "";
       this.selectedSubdivision = {};
       this.selectedEmployee = {};
+    } else {
+      swal({
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        type: 'error',
+        width: '300px',
+        focusConfirm: false
+      })
     }
   }
 

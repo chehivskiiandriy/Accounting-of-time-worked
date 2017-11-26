@@ -5,6 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { SubdivisionService } from './../../../_services/subdivision.service';
 import { EmployeesService } from './../../../_services/employees.service';
 
+import * as _moment from 'moment';
+const moment = _moment;
+
 @Component({
   selector: 'app-employees-edit-modal',
   templateUrl: './employees-edit-modal.component.html',
@@ -16,6 +19,9 @@ export class EmployeesEditModalComponent implements OnInit {
   selectedSubdivision: any;
   subdivisions: Observable<any[]>;
   name: any;
+
+  minDate = moment("1940-01-01");
+  maxDate = moment("2002-01-01");
 
   constructor(
     public dialogRef: MatDialogRef<EmployeesEditModalComponent>,
@@ -30,7 +36,8 @@ export class EmployeesEditModalComponent implements OnInit {
     this.employee.name = this.data.employee.name;
     this.employee.surname = this.data.employee.surname;
     this.employee.patronymic = this.data.employee.patronymic;
-    this.employee.birthday = this.data.employee.birthday;
+    this.employee.birthday = moment(this.data.employee.birthday);
+    console.log(this.employee.birthday);
     this.employee.id = this.data.employee.id;
     this.employee.subdivision = this.data.employee.subdivision;
     this.employee.subdivisionID = this.data.employee.subdivisionID;
@@ -43,29 +50,22 @@ export class EmployeesEditModalComponent implements OnInit {
 
   editEmployee() {
     this.employee.subdivisionID = this.selectedSubdivision;
-    console.log(this.employee);
+    console.log(this.employee.birthday);
     this.name = this.subdivisionService.getSub(this.selectedSubdivision);
 
-    function pad(number) {
-      if (number < 10) {
-        return '0' + number;
-      }
-      return number;
-    }
+    // function pad(number) {
+    //   if (number < 10) {
+    //     return '0' + number;
+    //   }
+    //   return number;
+    // }
 
-    let year= "";
-
-    if(this.employee.birthday.length != 10) {
-      year = this.employee.birthday.getFullYear() + "";
-      console.log(year);
-      if(year.length == 4) this.employee.birthday = year + "-" + pad(this.employee.birthday.getMonth() + 1) + "-" + pad(this.employee.birthday.getDate());
-    }
+    // this.employee.birthday = this.employee.birthday._d.getFullYear() + "-" + pad(this.employee.birthday._d.getMonth() + 1) + "-" + pad(this.employee.birthday._d.getDate());  
     console.log(this.employee.birthday);
-
-    if(year.length == 4 || year.length == 0) {
-      this.employeesService.update(this.employee, this.name);
-      this.dialogRef.close();
-    }
+    console.log(this.employee);
+    this.employeesService.update(this.employee, this.name);
+    console.log(this.employee);
+    this.dialogRef.close();
       
   }
 

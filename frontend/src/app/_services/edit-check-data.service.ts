@@ -28,34 +28,19 @@ export class EditCheckDataService {
       }
       
     check(employeeID, start, finish, id, type) {
-        let startYear, startMonth, startDate, finishYear, finishMonth, finishDate;
-
-        if(start.length != 10) { //"yyyy-mm-dd lenght=10"
-            startYear = start.getFullYear();
-            startMonth = start.getMonth() + 1;
-            startDate = start.getDate();
-            start = startYear + "-" + this.pad(startMonth) + "-" + this.pad(startDate);        
-        } else  {
-            startYear = +start.substr(0,4);
-            startMonth = +start.substr(5,2);
-            startDate = +start.substr(8,2);
-        }
-        
-        if(finish.length != 10) {
-            finishYear = finish.getFullYear();
-            finishMonth = finish.getMonth() + 1;
-            finishDate = finish.getDate();
-            finish = finishYear + "-" + this.pad(finishMonth) + "-" + this.pad(finishDate);
-        } else  {
-            finishYear = +finish.substr(0,4);
-            finishMonth = +finish.substr(5,2);
-            finishDate = +finish.substr(8,2);
-        }
-
+        let startYear = start._d.getFullYear(),
+        startMonth = start._d.getMonth() + 1,
+        startDate = start._d.getDate(),
+        finishYear = finish._d.getFullYear(),
+        finishMonth = finish._d.getMonth() + 1,
+        finishDate = finish._d.getDate();
+    
         let sumDaysStart = 0,
             sumDaysFinish = 0,
             amountDays = this.getAmountDaysInMonth(finishYear, finishMonth);
 
+        start = startYear + "-" + this.pad(startMonth) + "-" + this.pad(startDate);
+        finish = finishYear + "-" + this.pad(finishMonth) + "-" + this.pad(finishDate);
 
         this.startDate = start;
         this.finishDate = finish;

@@ -14,7 +14,7 @@ import { BusinessTripEditModalComponent } from './business-trip-edit-modal/busin
 })
 export class BusinessTripComponent implements OnInit {
 
-  displayedColumns = ['№', 'fullname', 'employeeID', 'subdivision', 'startBusinessTrip', 'finishBusinessTrip', 'actions'];
+  displayedColumns = ['#', 'Full name', 'Employee ID', 'Subdivision', 'Start business trip', 'Finish business trip', 'Actions'];
   businessTrips: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private businessTripService: BusinessTripService) {}

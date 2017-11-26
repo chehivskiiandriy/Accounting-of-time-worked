@@ -1,33 +1,25 @@
-<br>
-<div class="button-row">
-        <button mat-raised-button color="primary" (click)="openDialog()" >Додати відпустку</button>
-</div>
-<br>
+<div class="container">
+    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()">Add holiday</button>
 
-<div class="card">
-    <div class="card-content">
-        <div class="material-datatables table-responsive">
-            <table id="datatables" class="table table-hover" cellspacing="0" width="100%" style="width:100%; background-color: #fff; text-align:center">
-                <thead style="background-color: #ccc;">
-                    <tr>
-                        <th *ngFor="let row of displayedColumns">{{ row }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let holiday of holidays| async; let i = index">
-                        <td>{{i+1}}</td>
-                        <td>{{holiday.fullName}}</td>
-                        <td>{{holiday.employeeID}}</td>                        
-                        <td>{{holiday.subdivision}}</td>
-                        <td>{{holiday.startHoliday.split('-').reverse().join('.')}}</td>
-                        <td>{{holiday.finishHoliday.split('-').reverse().join('.')}}</td>
-                        <td class="">
-                            <button mat-raised-button color="primary" (click)="editHoliday(holiday)">Edit</button>
-                            <button mat-raised-button color="warn" (click)="deleteHoliday(holiday)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>  
+    <table id="datatables" class="table">
+        <thead>
+            <tr>
+                <th *ngFor="let row of displayedColumns">{{ row }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let holiday of holidays| async; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{holiday.fullName}}</td>
+                <td>{{holiday.employeeID}}</td>                        
+                <td>{{holiday.subdivision}}</td>
+                <td>{{holiday.startHoliday.split('-').reverse().join('.')}}</td>
+                <td>{{holiday.finishHoliday.split('-').reverse().join('.')}}</td>
+                <td>
+                    <button mat-raised-button color="accent" (click)="editHoliday(holiday)" class="action edit"><mat-icon>edit</mat-icon></button>
+                    <button mat-raised-button color="warn" (click)="deleteHoliday(holiday)" class="action delete"><mat-icon>clear</mat-icon></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

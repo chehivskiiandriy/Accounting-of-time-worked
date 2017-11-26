@@ -14,7 +14,7 @@ import { HookyEditModalComponent } from './hooky-edit-modal/hooky-edit-modal.com
 })
 export class HookyComponent implements OnInit {
 
-  displayedColumns = ['№', 'fullname', 'employeeID', 'subdivision', 'dayHooky', 'actions'];
+  displayedColumns = ['#', 'Full name', 'Employee ID', 'Subdivision', 'Day hooky', 'Actions'];
   hookies: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private hookyService: HookyService) {}

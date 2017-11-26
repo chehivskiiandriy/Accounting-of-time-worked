@@ -14,7 +14,7 @@ import { WorkingDaysEditModalComponent } from './working-days-edit-modal/working
 })
 export class WorkingDaysComponent implements OnInit {
 
-  displayedColumns = ['№', 'fullname', 'employeeID', 'subdivision', 'amount days', 'year', 'month', 'actions'];
+  displayedColumns = ['#', 'Full name', 'Employee ID', 'Subdivision', 'Amount days', 'Year', 'Month', 'Actions'];
   workingDays: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private workingDaysService: WorkingDaysService) {}

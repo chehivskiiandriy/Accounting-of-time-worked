@@ -44,9 +44,7 @@ export class SubdivisionService {
         console.log(id);
         let name;
         this.dataStore.subdivisions.forEach(t => {
-            console.log(t);
             if (t.id == id) { 
-                console.log(t.name);
                 name = t.name; 
             }
         });

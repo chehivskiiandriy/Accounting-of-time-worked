@@ -1,29 +1,25 @@
 <div class="container">
-    <div class="button-add">
-        <button mat-raised-button color="primary" (click)="openDialog()" >Add employee</button>
-    </div>
+    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()">Add employee</button>
 
-    <div class="material-datatables table-responsive">
-        <table id="datatables" class="table">
-            <thead>
-                <tr>
-                    <th *ngFor="let row of displayedColumns">{{ row }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let employee of employees| async; let i = index">
-                    <td>{{i+1}}</td>
-                    <td>{{employee.surname}}</td>
-                    <td>{{employee.name}}</td>
-                    <td>{{employee.patronymic}}</td>
-                    <td>{{employee.birthday.split('-').reverse().join('.')}}</td>
-                    <td>{{employee.subdivision}}</td>
-                    <td>
-                        <button mat-raised-button color="accent" (click)="editEmployees(employee)" class="action edit"><mat-icon>edit</mat-icon></button>
-                        <button mat-raised-button color="warn" (click)="deleteEmployees(employee)" class="action delete"><mat-icon>clear</mat-icon></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table id="datatables" class="table">
+        <thead>
+            <tr>
+                <th *ngFor="let row of displayedColumns">{{ row }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of employees| async; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{employee.surname}}</td>
+                <td>{{employee.name}}</td>
+                <td>{{employee.patronymic}}</td>
+                <td>{{employee.birthday.split('-').reverse().join('.')}}</td>
+                <td>{{employee.subdivision}}</td>
+                <td>
+                    <button mat-raised-button color="accent" (click)="editEmployees(employee)" class="action edit"><mat-icon>edit</mat-icon></button>
+                    <button mat-raised-button color="warn" (click)="deleteEmployees(employee)" class="action delete"><mat-icon>clear</mat-icon></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

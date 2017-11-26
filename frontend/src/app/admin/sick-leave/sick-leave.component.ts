@@ -14,7 +14,7 @@ import { SickLeaveEditModalComponent } from './sick-leave-edit-modal/sick-leave-
 })
 export class SickLeaveComponent implements OnInit {
 
-  displayedColumns = ['№', 'fullname', 'employeeID', 'subdivision', 'startDisease', 'finishDisease', 'disease', 'actions'];
+  displayedColumns = ['#', 'Full name', 'Employee ID', 'Subdivision', 'Start disease', 'Finish disease', 'Disease', 'Actions'];
   sickLeaves: Observable<any[]>;
 
   constructor( public dialog: MatDialog, private sickLeaveService: SickLeaveService) {}
@@ -34,7 +34,7 @@ export class SickLeaveComponent implements OnInit {
   editSickLeave(sickLeave) {
     const dialogRefEdit = this.dialog.open(SickLeaveEditModalComponent, {
       height: '550px',
-      width: '500px',
+      width: '400px',
       data: {
         sickLeave: sickLeave
       }

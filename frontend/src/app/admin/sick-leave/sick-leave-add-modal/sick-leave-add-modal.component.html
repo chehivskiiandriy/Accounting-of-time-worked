@@ -41,7 +41,9 @@
                                                               selectedEmployee.id == undefined || 
                                                               sickLeave.startDisease == undefined || 
                                                               sickLeave.finishDisease == undefined || 
-                                                              sickLeave.startDisease > sickLeave.finishDisease">
+                                                              sickLeave.startDisease > sickLeave.finishDisease ||
+                                                              sickLeave.startDisease._pf.unusedInput.length > 0 ||
+                                                              sickLeave.finishDisease._pf.unusedInput.length > 0">
                                                               Create</button>    
     <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
   </mat-dialog-actions>
