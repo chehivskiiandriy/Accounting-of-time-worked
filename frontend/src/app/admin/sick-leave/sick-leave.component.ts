@@ -7,6 +7,8 @@ import { SickLeaveService } from './../../_services/sick-leave.service';
 import { SickLeaveAddModalComponent } from './sick-leave-add-modal/sick-leave-add-modal.component';
 import { SickLeaveEditModalComponent } from './sick-leave-edit-modal/sick-leave-edit-modal.component';
 
+import swal from 'sweetalert2';
+
 @Component({
   selector: 'app-sick-leave',
   templateUrl: './sick-leave.component.html',
@@ -21,6 +23,7 @@ export class SickLeaveComponent implements OnInit {
 
   ngOnInit() {
     this.sickLeaves = this.sickLeaveService.sickLeaves;
+    this.sickLeaveService.getAll();
     console.log(this.sickLeaves);
   }
 
@@ -43,5 +46,31 @@ export class SickLeaveComponent implements OnInit {
 
   deleteSickLeave(sickLeave){
     this.sickLeaveService.delete(sickLeave);
+
+    let s = setInterval(() => {
+      if(this.sickLeaveService.success !== undefined){
+        clearInterval(s);
+        if(this.sickLeaveService.success){
+          // swal({
+          //   title: 'Great!',
+          //   text: 'Your work has been saved!',
+          //   type: 'success',
+          //   width: '300px',
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // });
+          } else {
+            swal({
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              type: 'error',
+              width: '300px',
+              focusConfirm: false
+            });
+          }
+      }
+    }, 50);
+
   }
+
 }

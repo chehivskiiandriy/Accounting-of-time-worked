@@ -7,8 +7,10 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 
-import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import  {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { HomeModule } from "./home/home.module";
 import { AdminModule } from "./admin/admin.module";
@@ -31,6 +33,7 @@ import { EditCheckDataService } from './_services/edit-check-data.service';
   ],
   imports: [
     BrowserModule,
+    NgxPaginationModule,
     SharedModule,
     FormsModule,
     HttpModule,

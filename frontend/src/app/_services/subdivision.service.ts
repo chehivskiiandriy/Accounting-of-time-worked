@@ -15,6 +15,8 @@ export class SubdivisionService {
         subdivisions: any[]
     };
     
+    success = undefined;
+
     constructor(private http: Http) {
         this.dataStore = { subdivisions: [] };
         this._subdivisions = <BehaviorSubject<any[]>>new BehaviorSubject([]);
@@ -52,6 +54,7 @@ export class SubdivisionService {
     }
 
     create(subdivision) {
+        this.success = undefined;
         let name = subdivision.name;
         this.http.post(this.url + 'create_subdiv', JSON.stringify(subdivision), this.options)
         .map((response: Response) => response.json())
@@ -59,6 +62,7 @@ export class SubdivisionService {
         .subscribe(data => {
             console.log(data);
             data.success = JSON.parse(data.success);
+            this.success = data.success;
             if(data.success) { 
                 this.dataStore.subdivisions.push({id: data.id, name: name});
                 console.log(this.dataStore.subdivisions);
@@ -68,6 +72,7 @@ export class SubdivisionService {
     }
 
     update(discipline) {
+        this.success = undefined;
         let updatediscipline = discipline;
         console.log(updatediscipline);
         this.http.put(this.url + 'edit_subdiv', JSON.stringify(discipline), this.options)
@@ -76,6 +81,7 @@ export class SubdivisionService {
         .subscribe(data => {
             console.log(data);
             data.success = JSON.parse(data.success);
+            this.success = data.success;
             if(data.success) { 
                 this.dataStore.subdivisions.forEach((t, i) => {
                     if (t.id === updatediscipline.id) { this.dataStore.subdivisions[i] = updatediscipline; }
@@ -86,6 +92,7 @@ export class SubdivisionService {
     }
 
     delete(subdivision) {
+        this.success = undefined;
         this.http.delete(this.url + 'delete_subdiv', new RequestOptions({
             headers: this.headers,
             body: JSON.stringify(subdivision)
@@ -96,6 +103,7 @@ export class SubdivisionService {
             data => {
                 console.log(data);
                 data.success = JSON.parse(data.success);
+                this.success = data.success;
                 if(data.success) { 
                     this.dataStore.subdivisions = this.dataStore.subdivisions.filter(subdivisions => subdivisions !== subdivision);
                     this._subdivisions.next(Object.assign({}, this.dataStore).subdivisions);

@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
+import swal from 'sweetalert2';
+
 import { SubdivisionService } from './../../../_services/subdivision.service';
 
 @Component({
@@ -22,16 +24,39 @@ export class SubdivisionEditModalComponent implements OnInit {
     console.log(this.data);
     this.subdivision.id = this.data.subdivision.id;
     this.subdivision.name = this.data.subdivision.name;
-    console.log(this.subdivision.name);
   }
 
   editSubdivision() {
     console.log(this.subdivision);
-    console.log("asdddddd");
-    if(this.subdivision.name != "") {
-      this.subdivisionService.update(this.subdivision);
-      this.dialogRef.close();
-    }
+    this.subdivisionService.update(this.subdivision);
+    this.alert();
+  }
+
+  alert() {
+    let s = setInterval(() => {
+      if(this.subdivisionService.success !== undefined){
+        clearInterval(s);
+        if(this.subdivisionService.success){
+          swal({
+            title: 'Great!',
+            text: 'Your work has been saved!',
+            type: 'success',
+            width: '300px',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          setTimeout(() => this.dialogRef.close(), 1600);
+          } else {
+            swal({
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              type: 'error',
+              width: '300px',
+              showConfirmButton: false
+            });
+          }
+      }
+    }, 50);
   }
 
 }

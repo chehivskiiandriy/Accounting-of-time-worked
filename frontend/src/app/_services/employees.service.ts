@@ -14,6 +14,8 @@ export class EmployeesService {
     private dataStore: {
         employees: any[]
     };
+    
+    success = undefined;
 
     constructor(private http: Http) {
         this.dataStore = { employees: [] };
@@ -27,7 +29,7 @@ export class EmployeesService {
     url = 'http://localhost:8080/';
     
     getAll() {
-        this.http.get(this.url +'get_employees').map((response: Response) => response.json()).subscribe(data => {
+        return this.http.get(this.url +'get_employees').map((response: Response) => response.json()).subscribe(data => {
             this.dataStore.employees = data;
             this._employees.next(Object.assign({}, this.dataStore).employees);
           }, error => console.log('Could not load disciplines.'));
@@ -38,24 +40,26 @@ export class EmployeesService {
     }
     
     getFiltered(id) {
-        let filter = [];
-        filter = this.dataStore.employees.filter((t) => t.subdivisionID === id); 
-        return filter;
+        return this.employees.map(e => e.filter((t) => t.subdivisionID === id));
     }
     
     create(employee, subdivisionName) {
+        this.success = undefined;
+
         let surname = employee.surname;
         let name = employee.name;
         let patronymic = employee.patronymic;
-        let birthday = employee.birthday;
+        let birthday = employee.birthday._d.getFullYear() + "-" + this.pad(employee.birthday._d.getMonth() + 1) + "-" + this.pad(employee.birthday._d.getDate());
         let subdivisionID = employee.subdivisionID;
-        
+        employee.birthday = birthday;
+
         this.http.post(this.url + 'create_employees', JSON.stringify(employee), this.options)
         .map((response: Response) => response.json())
         .catch(this.handleError)
         .subscribe(data => {
             console.log(data);
             data.success = JSON.parse(data.success);
+            this.success = data.success;
             if(data.success) { 
                 this.dataStore.employees.push({id: data.id, surname: surname, name: name, patronymic: patronymic, birthday: birthday, subdivisionID: subdivisionID, subdivision: subdivisionName});
                 console.log(this.dataStore.employees);
@@ -65,17 +69,19 @@ export class EmployeesService {
     }
 
     update(employee, subdivisionName) {
+        this.success = undefined;
+
         let updateemployee = employee;
-        console.log(employee.birthday);
         updateemployee.birthday = employee.birthday._d.getFullYear() + "-" + this.pad(employee.birthday._d.getMonth() + 1) + "-" + this.pad(employee.birthday._d.getDate());
         updateemployee.subdivision = subdivisionName;
-        console.log(updateemployee);
+
         this.http.put(this.url + 'edit_employees', JSON.stringify(employee), this.options)
         .map(response => response.json())
         .catch(this.handleError)
         .subscribe(data => {
             console.log(data);
             data.success = JSON.parse(data.success);
+            this.success = data.success;
             if(data.success) { 
                 this.dataStore.employees.forEach((t, i) => {
                     if (t.id === updateemployee.id) { this.dataStore.employees[i] = updateemployee; }
@@ -86,6 +92,8 @@ export class EmployeesService {
     }
 
     delete(employee) {
+        this.success = undefined;
+
         this.http.delete(this.url + 'delete_employees', new RequestOptions({
             headers: this.headers,
             body: JSON.stringify(employee)
@@ -96,6 +104,7 @@ export class EmployeesService {
             data => {
                 console.log(data);
                 data.success = JSON.parse(data.success);
+                this.success = data.success;
                 if(data.success) { 
                     this.dataStore.employees = this.dataStore.employees.filter(employees => employees !== employee);
                     this._employees.next(Object.assign({}, this.dataStore).employees);

@@ -7,7 +7,9 @@ import swal from 'sweetalert2';
 import { SubdivisionService } from './../../../_services/subdivision.service';
 import { EmployeesService } from './../../../_services/employees.service';
 import { SickLeaveService } from './../../../_services/sick-leave.service';
-import { CheckDataService } from './../../../_services/check-data.service';
+
+import * as _moment from 'moment';
+const moment = _moment;
 
 @Component({
   selector: 'app-sick-leave-add-modal',
@@ -16,8 +18,8 @@ import { CheckDataService } from './../../../_services/check-data.service';
 })
 export class SickLeaveAddModalComponent implements OnInit {
     
-  subdivisions: any;  
-  employees: any;
+  subdivisions: Observable<any[]>;  
+  employees: Observable<any[]>;
   selectedSubdivision: any = {};
   selectedEmployee: any = {};
   sickLeave: any = {};
@@ -30,26 +32,26 @@ export class SickLeaveAddModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private subdivisionService: SubdivisionService,
     private employeesService: EmployeesService,
-    private sickLeaveService: SickLeaveService,
-    private checkDataService: CheckDataService
+    private sickLeaveService: SickLeaveService
   ) { }
 
   ngOnInit() {
     this.sickLeave.disease = '';
     
-    this.subdivisions = this.subdivisionService.getAllWithoutObservable();
+    this.subdivisions = this.subdivisionService.subdivisions;
+    this.subdivisionService.getAll();
     console.log(this.subdivisions);
 
-    this.employees = this.employeesService.getAllWithoutObservable();
+    this.employees = this.employeesService.employees;
+    this.employeesService.getAll();
     console.log(this.employees);
   }
 
   onSelect(selected) {
     console.log(selected.id);
-    this.employees = this.employeesService.getFiltered(selected.id);
+    this.employees = this.employeesService.employees.map(e => e.filter((t) => t.subdivisionID === selected.id));
     this.selectedEmployee = {};
   }
-
 
   createSickLeave() {
     this.sickLeave.employeeID = this.selectedEmployee.id;
@@ -60,42 +62,46 @@ export class SickLeaveAddModalComponent implements OnInit {
     console.log(this.sickLeave);
     console.log(this.selectedEmployee);
 
-    console.log(typeof this.sickLeave.startDisease);
-    
-    let check = false;
-    check = this.checkDataService.check(this.sickLeave.employeeID, this.sickLeave.startDisease, this.sickLeave.finishDisease);
-    console.log(check);
-
-    if(check) {
-      this.sickLeave.startDisease = this.checkDataService.startDate;
-      this.sickLeave.finishDisease = this.checkDataService.finishDate;
-
-      this.sickLeaveService.create(this.sickLeave, this.fullName, this.subdivision);
-
-      swal({
-        title: 'Great!',
-        text: 'Your work has been saved!',
-        type: 'success',
-        width: '300px',
-        showConfirmButton: false,
-        timer: 1500
-      })
-
-      this.sickLeave.employeeID = "";
-      this.sickLeave.startDisease = "";
-      this.sickLeave.finishDisease = "";
-      this.sickLeave.disease = "";
-      this.selectedSubdivision = {};
-      this.selectedEmployee = {};
-    } else {
-      swal({
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        type: 'error',
-        width: '300px',
-        focusConfirm: false
-      })
-    }
+    this.sickLeaveService.create(this.sickLeave, this.fullName, this.subdivision);
+    this.alert();
   }
 
+  alert() {
+    let s = setInterval(() => {
+      if(this.sickLeaveService.success !== undefined){
+        clearInterval(s);
+        if(this.sickLeaveService.success){
+          swal({
+            title: 'Great!',
+            text: 'Your work has been saved!',
+            type: 'success',
+            width: '300px',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.clearModal();
+          } else {
+            swal({
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              type: 'error',
+              width: '300px',
+              showConfirmButton: false
+            });
+            this.sickLeave.startDisease = moment(this.sickLeave.startDisease);
+            this.sickLeave.finishDisease = moment(this.sickLeave.finishDisease);
+          }
+      }
+    }, 50);
+
+  }
+  
+  clearModal() {
+    this.sickLeave.employeeID = "";
+    this.sickLeave.startDisease = "";
+    this.sickLeave.finishDisease = "";
+    this.sickLeave.disease = "";
+    this.selectedSubdivision = {};
+    this.selectedEmployee = {};
+  }
 }

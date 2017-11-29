@@ -20,11 +20,17 @@ export class SubdivisionComponent implements OnInit {
 
   ngOnInit() {
     this.subdivisions = this.subdivisionService.subdivisions;
-    // this.subdivisionService.getAll();
+    this.subdivisionService.getAll();
     console.log(this.subdivisions);
-    console.log("dasfasf");
   }
 
+  createSubdivision(): void {
+    const dialogRef = this.dialog.open(SubdivisionAddModalComponent, {
+      height: '350px',
+      width: '400px',
+    });
+  }
+  
   editSubdivision(subdivision) {
     const dialogRefEdit = this.dialog.open(SubdivisionEditModalComponent, {
       height: '350px',
@@ -37,13 +43,6 @@ export class SubdivisionComponent implements OnInit {
 
   deleteSubdivision(subdivision){
     this.subdivisionService.delete(subdivision);
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(SubdivisionAddModalComponent, {
-      height: '350px',
-      width: '400px',
-    });
   }
 
 }

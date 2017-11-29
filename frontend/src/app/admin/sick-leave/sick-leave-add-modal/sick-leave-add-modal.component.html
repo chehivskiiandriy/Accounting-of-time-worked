@@ -4,7 +4,7 @@
     
     <mat-form-field>
       <mat-select placeholder="Subdivision" [(value)]="selectedSubdivision" (change)="onSelect($event.value)">
-        <mat-option *ngFor="let subdivision of subdivisions" [value]="subdivision">
+        <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
           {{ subdivision.name }}
         </mat-option>
       </mat-select>
@@ -12,8 +12,8 @@
   
     <mat-form-field>
       <mat-select placeholder="Employee" [(value)]="selectedEmployee">
-        <mat-option *ngFor="let employee of employees" [value]="employee">
-          {{ employee.surname }} {{ employee.name }} {{ employee.patronymic }} tn{{ employee.id }}
+        <mat-option *ngFor="let employee of employees | async" [value]="employee">
+          {{ employee.surname }} {{ employee.name }} {{ employee.patronymic }} | tn{{ employee.id }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -21,7 +21,7 @@
     <mat-form-field>
       <input matInput [matDatepicker]="picker1" placeholder="Choose a date" [(ngModel)]="sickLeave.startDisease">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>    
-      <mat-datepicker #picker1 [touchUi]="false" [disabled]="false"></mat-datepicker>
+      <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
     
     <mat-form-field>
@@ -42,8 +42,8 @@
                                                               sickLeave.startDisease == undefined || 
                                                               sickLeave.finishDisease == undefined || 
                                                               sickLeave.startDisease > sickLeave.finishDisease ||
-                                                              sickLeave.startDisease._pf.unusedInput.length > 0 ||
-                                                              sickLeave.finishDisease._pf.unusedInput.length > 0">
+                                                              (sickLeave.startDisease.hasOwnProperty('_pf') && sickLeave.startDisease._pf.unusedInput.length > 0) ||
+                                                              (sickLeave.finishDisease.hasOwnProperty('_pf') && sickLeave.finishDisease._pf.unusedInput.length > 0)">
                                                               Create</button>    
     <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
   </mat-dialog-actions>

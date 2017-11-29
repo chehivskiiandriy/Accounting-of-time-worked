@@ -21,6 +21,7 @@ export class WorkingDaysComponent implements OnInit {
 
   ngOnInit() {
     this.workingDays = this.workingDaysService.workingDays;
+    this.workingDaysService.getAll();
     console.log(this.workingDays);
   }
 

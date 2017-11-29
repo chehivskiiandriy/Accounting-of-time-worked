@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { SickLeaveService } from './../../../_services/sick-leave.service';
-import { EditCheckDataService } from './../../../_services/edit-check-data.service';
+
+import swal from 'sweetalert2';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -20,8 +21,7 @@ export class SickLeaveEditModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<SickLeaveEditModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private sickLeaveService: SickLeaveService,
-    private editCheckDataService: EditCheckDataService
+    private sickLeaveService: SickLeaveService
   ) { }
   
   ngOnInit() {
@@ -34,24 +34,41 @@ export class SickLeaveEditModalComponent implements OnInit {
     this.sickLeave.id = this.data.sickLeave.id;
     this.sickLeave.finishDisease = moment(this.data.sickLeave.finishDisease);
     this.sickLeave.disease = this.data.sickLeave.disease; 
-    
   }
 
   editSickLeave() {
-    
-    let check = false;
-    check = this.editCheckDataService.check(this.sickLeave.employeeID, this.sickLeave.startDisease, this.sickLeave.finishDisease, this.sickLeave.id, "sickLeave");
-    console.log(check);
+    this.sickLeaveService.update(this.sickLeave);
+    this.alert();
+  }  
 
-    if(check) {
-      this.sickLeave.startDisease = this.editCheckDataService.startDate;
-      this.sickLeave.finishDisease = this.editCheckDataService.finishDate;
-      console.log(this.sickLeave.startDisease);
-      console.log(this.sickLeave.finishDisease);
+  alert() {
+    let s = setInterval(() => {
+      if(this.sickLeaveService.success !== undefined){
+        clearInterval(s);
+        if(this.sickLeaveService.success){
+          swal({
+            title: 'Great!',
+            text: 'Your work has been saved!',
+            type: 'success',
+            width: '300px',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          setTimeout(() => this.dialogRef.close(), 1600);
+          } else {
+            swal({
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              type: 'error',
+              width: '300px',
+              showConfirmButton: false,
+            });
+            this.sickLeave.startDisease = moment(this.sickLeave.startDisease);
+            this.sickLeave.finishDisease = moment(this.sickLeave.finishDisease);
+          }
+      }
+    }, 50);
 
-      this.sickLeaveService.update(this.sickLeave);
-      this.dialogRef.close();
-    }
   }
 
 }

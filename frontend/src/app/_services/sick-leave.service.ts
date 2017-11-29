@@ -15,6 +15,8 @@ export class SickLeaveService {
         sickLeaves: any[]
     };
 
+    success = undefined;
+
     constructor(private http: Http) {
         this.dataStore = { sickLeaves: [] };
         this._sickLeaves = <BehaviorSubject<any[]>>new BehaviorSubject([]);
@@ -40,17 +42,22 @@ export class SickLeaveService {
     }
 
     create(sickLeave, fullName, subdivision) {
+        this.success = undefined;
+        sickLeave.startDisease = sickLeave.startDisease._d.getFullYear() + "-" + this.pad(sickLeave.startDisease._d.getMonth() + 1) + "-" + this.pad(sickLeave.startDisease._d.getDate());
+        sickLeave.finishDisease  = sickLeave.finishDisease._d.getFullYear() + "-" + this.pad(sickLeave.finishDisease._d.getMonth() + 1) + "-" + this.pad(sickLeave.finishDisease._d.getDate());
+        
         let employeeID = sickLeave.employeeID;
         let startDisease = sickLeave.startDisease;
         let finishDisease = sickLeave.finishDisease;
         let disease = sickLeave.disease;
-
+        
         this.http.post(this.url + 'create_sickLeaves', JSON.stringify(sickLeave), this.options)
         .map((response: Response) => response.json())
         .catch(this.handleError)
         .subscribe(data => {
             console.log(data);
             data.success = JSON.parse(data.success);
+            this.success = data.success;
             if(data.success) { 
                 this.dataStore.sickLeaves.unshift({id: data.id, employeeID: employeeID, startDisease: startDisease, finishDisease: finishDisease, disease: disease, fullName: fullName, subdivision: subdivision});
                 console.log(this.dataStore.sickLeaves);
@@ -60,14 +67,20 @@ export class SickLeaveService {
     }
 
     update(sickLeave) {
+        this.success = undefined;
+        sickLeave.startDisease = sickLeave.startDisease._d.getFullYear() + "-" + this.pad(sickLeave.startDisease._d.getMonth() + 1) + "-" + this.pad(sickLeave.startDisease._d.getDate());
+        sickLeave.finishDisease  = sickLeave.finishDisease._d.getFullYear() + "-" + this.pad(sickLeave.finishDisease._d.getMonth() + 1) + "-" + this.pad(sickLeave.finishDisease._d.getDate());
+        
         let updateSickLeave = sickLeave;
         console.log(updateSickLeave);
+        
         this.http.put(this.url + 'edit_sickLeave', JSON.stringify(sickLeave), this.options)
         .map(response => response.json())
         .catch(this.handleError)
         .subscribe(data => {
             console.log(data);
             data.success = JSON.parse(data.success);
+            this.success = data.success;
             if(data.success) { 
                 this.dataStore.sickLeaves.forEach((t, i) => {
                     if (t.id === updateSickLeave.id) { this.dataStore.sickLeaves[i] = updateSickLeave; }
@@ -78,6 +91,8 @@ export class SickLeaveService {
     }
 
     delete(sickLeave) {
+        this.success = undefined;
+
         this.http.delete(this.url + 'delete_sickLeaves', new RequestOptions({
             headers: this.headers,
             body: JSON.stringify(sickLeave)
@@ -88,6 +103,7 @@ export class SickLeaveService {
             data => {
                 console.log(data);
                 data.success = JSON.parse(data.success);
+                this.success = data.success;
                 if(data.success) { 
                     this.dataStore.sickLeaves = this.dataStore.sickLeaves.filter(sickLeaves => sickLeaves !== sickLeave);
                     this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
@@ -99,4 +115,11 @@ export class SickLeaveService {
         console.error('Error', error);
         return Observable.throw(error.message || error);
     }
+
+    pad(number) {
+        if (number < 10) {
+          return '0' + number;
+        }
+        return number;
+      }
 }   

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { SubdivisionService } from './../../../_services/subdivision.service';
 import { EmployeesService } from './../../../_services/employees.service';
 
+import swal from 'sweetalert2';
+
 import * as _moment from 'moment';
 const moment = _moment;
 
@@ -20,8 +22,8 @@ export class EmployeesEditModalComponent implements OnInit {
   subdivisions: Observable<any[]>;
   name: any;
 
-  minDate = moment("1940-01-01");
-  maxDate = moment("2002-01-01");
+  minDate;
+  maxDate;
 
   constructor(
     public dialogRef: MatDialogRef<EmployeesEditModalComponent>,
@@ -33,40 +35,67 @@ export class EmployeesEditModalComponent implements OnInit {
   ngOnInit() {
     console.log(this.data);
     
+    this.getEmployeeData();
+
+    this.setMinAndMaxDate();  
+
+    this.subdivisions = this.subdivisionService.subdivisions;
+    this.subdivisionService.getAll();
+  }
+
+  getEmployeeData() {
     this.employee.name = this.data.employee.name;
     this.employee.surname = this.data.employee.surname;
     this.employee.patronymic = this.data.employee.patronymic;
     this.employee.birthday = moment(this.data.employee.birthday);
-    console.log(this.employee.birthday);
     this.employee.id = this.data.employee.id;
     this.employee.subdivision = this.data.employee.subdivision;
-    this.employee.subdivisionID = this.data.employee.subdivisionID;
 
     this.selectedSubdivision = this.data.employee.subdivisionID;
-    console.log(this.selectedSubdivision);
+  }
 
-    this.subdivisions = this.subdivisionService.subdivisions;
+  setMinAndMaxDate() {
+    let today = new Date();
+    today.setFullYear(today.getFullYear() - 16);
+    this.maxDate = moment(today);
+    today.setFullYear(today.getFullYear() - 50);
+    this.minDate = moment(today);
   }
 
   editEmployee() {
     this.employee.subdivisionID = this.selectedSubdivision;
-    console.log(this.employee.birthday);
     this.name = this.subdivisionService.getSub(this.selectedSubdivision);
-
-    // function pad(number) {
-    //   if (number < 10) {
-    //     return '0' + number;
-    //   }
-    //   return number;
-    // }
-
-    // this.employee.birthday = this.employee.birthday._d.getFullYear() + "-" + pad(this.employee.birthday._d.getMonth() + 1) + "-" + pad(this.employee.birthday._d.getDate());  
-    console.log(this.employee.birthday);
-    console.log(this.employee);
     this.employeesService.update(this.employee, this.name);
-    console.log(this.employee);
-    this.dialogRef.close();
-      
+    this.alert();
   }
 
+  alert() {
+    let s = setInterval(() => {
+      if(this.employeesService.success !== undefined){
+        clearInterval(s);
+        if(this.employeesService.success){
+          swal({
+            title: 'Great!',
+            text: 'Your work has been saved!',
+            type: 'success',
+            width: '300px',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          setTimeout(() => this.dialogRef.close(), 1600);
+          } else {
+            swal({
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              type: 'error',
+              width: '300px',
+              showConfirmButton: false,
+            });
+            this.employee.birthday = moment(this.employee.birthday);
+          }
+      }
+    }, 50);
+
+  }
+  
 }

@@ -1,18 +1,14 @@
 <div class="container">
-  <form [formGroup]="userForm" (ngSubmit)="createSubdivision()">
-    <h2 mat-dialog-title>Add subdivision</h2>
-    <mat-dialog-content>
-      <mat-form-field class="modal-form" hintLabel="Enter from 4 to 30 characters">
-          <input class="modal-input" #input matInput class="form-control"
-          formControlName="name" required placeholder="Subdivision name" [(ngModel)]="subdivision.name" >
-          <!-- <mat-hint align="end">{{input.value?.length || 0}}/30</mat-hint> -->
-          <mat-error *ngIf="formErrors.name">{{ formErrors.name }}</mat-error>
-        </mat-form-field>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <!-- <button mat-button (click)="createSubdivision()" [disabled]="subdivision.name.length < 4 ">Create</button>    -->
-      <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">Create</button>   
-      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
-    </mat-dialog-actions>
-  </form>
+  <h2 mat-dialog-title>Add subdivision</h2>
+  <mat-dialog-content>
+    <mat-form-field class="modal-form">
+        <input class="modal-input" #input matInput placeholder="Subdivision name" [(ngModel)]="subdivision.name" minlength="4" maxlength="30">
+        <mat-hint align="end">{{input.value?.length || 0}}/30</mat-hint>
+        <mat-error *ngIf="subdivision.name.length < 4">Enter from 4 to 30 characters</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="createSubdivision()" [disabled]="subdivision.name.length < 4">Create</button>   
+    <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+  </mat-dialog-actions>
 </div>

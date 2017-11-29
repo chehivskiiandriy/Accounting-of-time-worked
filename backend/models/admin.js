@@ -82,6 +82,10 @@ module.exports.getSickLeaves = () => {
     });
 }
 
+module.exports.findBySickLeave = function(employeeID, callback) {
+    connection.query(`SELECT * FROM SickLeave WHERE employeeID = '${employeeID}'`, callback);
+}
+
 module.exports.addSickLeave = function(data, callback) {
     connection.query("INSERT INTO SickLeave SET ?", data, callback);
 }
@@ -110,6 +114,10 @@ module.exports.getHolidays = () => {
     });
 }
 
+module.exports.findByHoliday = function(employeeID, callback) {
+    connection.query(`SELECT * FROM Holiday WHERE employeeID = '${employeeID}'`, callback);
+}
+
 module.exports.getBusinessTrips = () => {
     let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, BusinessTrip.*
                     from ((Employee 
@@ -124,6 +132,10 @@ module.exports.getBusinessTrips = () => {
             resolve(rows);
         });
     });
+}
+
+module.exports.findByBusinessTrip = function(employeeID, callback) {
+    connection.query(`SELECT * FROM BusinessTrip WHERE employeeID = '${employeeID}'`, callback);
 }
 
 module.exports.getHooky = () => {
@@ -142,6 +154,10 @@ module.exports.getHooky = () => {
     });
 }
 
+module.exports.findByHooky = function(employeeID, callback) {
+    connection.query(`SELECT * FROM Hooky WHERE employeeID = '${employeeID}'`, callback);
+}
+
 module.exports.getWorkingDays = () => {
     let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, WorkDays.*
                     from ((Employee 
@@ -157,6 +173,11 @@ module.exports.getWorkingDays = () => {
         });
     });
 }
+
+module.exports.findByWorkDays = function(employeeID, callback) {
+    connection.query(`SELECT * FROM WorkDays WHERE employeeID = '${employeeID}'`, callback);
+}
+
 module.exports.sendResponse = function(success, res) {
     if (success) {
         res.send({ 'success': 'true' });

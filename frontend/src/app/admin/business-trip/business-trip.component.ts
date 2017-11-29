@@ -21,6 +21,7 @@ export class BusinessTripComponent implements OnInit {
 
   ngOnInit() {
     this.businessTrips = this.businessTripService.businessTrips;
+    this.businessTripService.getAll();
     console.log(this.businessTrips);
   }
 

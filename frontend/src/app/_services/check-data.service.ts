@@ -37,7 +37,8 @@ export class CheckDataService {
         
         let sumDaysStart = 0,
             sumDaysFinish = 0,
-            amountDays = this.getAmountDaysInMonth(finishYear, finishMonth);
+            amountDaysStart = this.getAmountDaysInMonth(startYear, startMonth),
+            amountDaysFinish = this.getAmountDaysInMonth(finishYear, finishMonth);
 
         start = startYear + "-" + this.pad(startMonth) + "-" + this.pad(startDate);
         finish = finishYear + "-" + this.pad(finishMonth) + "-" + this.pad(finishDate);
@@ -85,7 +86,7 @@ export class CheckDataService {
                 if(fMonth == finishMonth) {
                     sumDaysFinish+= fDate - sDate + 1;
                 } else if(sMonth == finishMonth){
-                    sumDaysFinish+= amountDays - sDate + 1;
+                    sumDaysFinish+= amountDaysFinish - sDate + 1;
                 }
             } 
         }
@@ -115,7 +116,7 @@ export class CheckDataService {
                 if(fMonth == finishMonth) {
                     sumDaysFinish+= fDate - sDate + 1;
                 } else if(sMonth == finishMonth){
-                    sumDaysFinish+= amountDays - sDate + 1;
+                    sumDaysFinish+= amountDaysFinish - sDate + 1;
                 }
             } 
         }
@@ -145,7 +146,7 @@ export class CheckDataService {
                 if(fMonth == finishMonth) {
                     sumDaysFinish+= fDate - sDate + 1;
                 } else if(sMonth == finishMonth){
-                    sumDaysFinish+= amountDays - sDate + 1;
+                    sumDaysFinish+= amountDaysFinish - sDate + 1;
                 }
             } 
         }
@@ -182,12 +183,12 @@ export class CheckDataService {
             if (workTest.length != 0 && startYear == workTest[0].year && startMonth == workTest[0].month) {
                 
                 let amountWork = workTest[0].actualAmountWorkDay;
-                if ( (amountWork + sumDaysStart + sumDaysFinish + (finishDate - startDate + 1) ) > amountDays ) {
+                if ( (amountWork + sumDaysStart + sumDaysFinish + (finishDate - startDate + 1) ) > amountDaysFinish ) {
                     return false;
                 }
 
             } else {
-                if ( (sumDaysStart + sumDaysFinish + (finishDate - startDate + 1) ) > amountDays ) {
+                if ( (sumDaysStart + sumDaysFinish + (finishDate - startDate + 1) ) > amountDaysFinish ) {
                     return false;
                 }
             }
@@ -201,7 +202,7 @@ export class CheckDataService {
                 if (startYear == workTest[i].year && startMonth == workTest[i].month) {
                     
                     let amountStartWork = workTest[i].actualAmountWorkDay;
-                    if ( (amountStartWork + sumDaysStart + (amountDays - startDate + 1) ) > amountDays ) {
+                    if ( (amountStartWork + sumDaysStart + (amountDaysStart - startDate + 1) ) > amountDaysStart ) {
                         return false;
                     }
                     k++;
@@ -209,7 +210,7 @@ export class CheckDataService {
                 } else if (finishYear == workTest[i].year && finishMonth == workTest[i].month) {
                     
                     let amountFinishWork = workTest[i].actualAmountWorkDay;
-                    if ( (amountFinishWork + sumDaysFinish + finishDate ) > amountDays ) {
+                    if ( (amountFinishWork + sumDaysFinish + finishDate ) > amountDaysFinish ) {
                         return false;
                     }
                     k+=2;
@@ -222,15 +223,15 @@ export class CheckDataService {
             }
 
             if (k == 1) {
-                if ( (sumDaysFinish + finishDate ) > amountDays ) {
+                if ( (sumDaysFinish + finishDate ) > amountDaysFinish ) {
                     return false;
                 }
             } else if (k == 2) {
-                if ( (sumDaysStart + (amountDays - startDate + 1) ) > amountDays ) {
+                if ( (sumDaysStart + (amountDaysStart - startDate + 1) ) > amountDaysStart ) {
                     return false;
                 }
             } else if (k == 0) {
-                if ( ((sumDaysStart + (amountDays - startDate + 1) ) > amountDays) || ((sumDaysFinish + finishDate ) > amountDays) ) {
+                if ( ((sumDaysStart + (amountDaysStart - startDate + 1) ) > amountDaysStart) || ((sumDaysFinish + finishDate ) > amountDaysFinish) ) {
                     return false;
                 }
             }

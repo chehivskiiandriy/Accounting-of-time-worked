@@ -21,6 +21,7 @@ export class HookyComponent implements OnInit {
 
   ngOnInit() {
     this.hookies = this.hookyService.hookies;
+    this.hookyService.getAll();
     console.log(this.hookies);
   }
 

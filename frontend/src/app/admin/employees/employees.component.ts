@@ -15,17 +15,26 @@ import { EmployeesEditModalComponent } from './employees-edit-modal/employees-ed
 export class EmployeesComponent implements OnInit {
 
   displayedColumns = ['#', 'Surname', 'Name', 'Patronymic', 'Birthday', 'Subdivision', 'Actions'];
-  employees: Observable<any[]>;
+  // employees: Observable<any[]>;
+  employees;
+  p: number = 1;
 
   constructor( public dialog: MatDialog, private employeesService: EmployeesService) {}
 
   ngOnInit() {
     this.employees = this.employeesService.employees;
-    // this.employeesService.getAll();
+    this.employeesService.getAll();
     console.log(this.employees);
   }
 
-  editEmployees(employee) {
+  createEmployee(): void {
+    const dialogRef = this.dialog.open(EmployeesAddModalComponent, {
+      height: '550px',
+      width: '400px',
+    });
+  }
+
+  editEmployee(employee) {
     const dialogRefEdit = this.dialog.open(EmployeesEditModalComponent, {
       height: '550px',
       width: '400px',
@@ -35,15 +44,8 @@ export class EmployeesComponent implements OnInit {
     })
   }
 
-  deleteEmployees(employees){
+  deleteEmployee(employees){
     this.employeesService.delete(employees);
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(EmployeesAddModalComponent, {
-      height: '550px',
-      width: '400px',
-    });
   }
 
 }

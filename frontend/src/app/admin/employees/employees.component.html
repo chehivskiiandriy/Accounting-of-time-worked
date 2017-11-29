@@ -1,5 +1,5 @@
 <div class="container">
-    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()">Add employee</button>
+    <button mat-raised-button color="primary" class="button-add" (click)="createEmployee()">Add employee</button>
 
     <table id="datatables" class="table">
         <thead>
@@ -8,18 +8,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let employee of employees| async; let i = index">
-                <td>{{i+1}}</td>
+            <tr *ngFor="let employee of employees | async  | paginate: { itemsPerPage: 15, currentPage: p }; let i = index">
+                <td>{{i+1+p*15-15}}</td>
                 <td>{{employee.surname}}</td>
                 <td>{{employee.name}}</td>
                 <td>{{employee.patronymic}}</td>
                 <td>{{employee.birthday.split('-').reverse().join('.')}}</td>
                 <td>{{employee.subdivision}}</td>
                 <td>
-                    <button mat-raised-button color="accent" (click)="editEmployees(employee)" class="action edit"><mat-icon>edit</mat-icon></button>
-                    <button mat-raised-button color="warn" (click)="deleteEmployees(employee)" class="action delete"><mat-icon>clear</mat-icon></button>
+                    <button mat-raised-button color="accent" (click)="editEmployee(employee)" class="action edit"><mat-icon>edit</mat-icon></button>
+                    <button mat-raised-button color="warn" (click)="deleteEmployee(employee)" class="action delete"><mat-icon>clear</mat-icon></button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    
+    
 </div>

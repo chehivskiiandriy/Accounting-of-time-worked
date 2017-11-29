@@ -21,6 +21,7 @@ export class HolidaysComponent implements OnInit {
 
   ngOnInit() {
     this.holidays = this.holidaysService.holidays;
+    this.holidaysService.getAll();
     console.log(this.holidays);
   }
 
