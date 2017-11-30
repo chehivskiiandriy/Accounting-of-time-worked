@@ -1,15 +1,29 @@
 <div class="container">
-    <button mat-raised-button color="primary" class="button-add" (click)="createEmployee()">Add employee</button>
 
-    <table id="datatables" class="table">
+    <div class="top">
+        <button mat-raised-button color="primary" class="button-add" (click)="createEmployee()">Add employee</button>
+        
+        <mat-form-field class="search">
+            <input matInput placeholder="Search" [(ngModel)]="searchString">
+        </mat-form-field>
+    </div>
+    
+    <table id="datatables" class="table" matSort (matSortChange)="sortData($event)">
         <thead>
             <tr>
-                <th *ngFor="let row of displayedColumns">{{ row }}</th>
+                <!-- <th *ngFor="let row of displayedColumns">{{ row }}</th> -->
+                <th>#</th>
+                <th mat-sort-header="surname">Surname</th>
+                <th mat-sort-header="name">Name</th>
+                <th mat-sort-header="patronymic">Patronymic</th>
+                <th mat-sort-header="birthday">Birthday</th>
+                <th mat-sort-header="subdivision">Subdivision</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let employee of employees | async  | paginate: { itemsPerPage: 15, currentPage: p }; let i = index">
-                <td>{{i+1+p*15-15}}</td>
+            <tr *ngFor="let employee of employees | async | filter : searchString  | paginate: { itemsPerPage: countItems, currentPage: p }; let i = index">
+                <td>{{i+1+p*countItems-countItems}}</td>
                 <td>{{employee.surname}}</td>
                 <td>{{employee.name}}</td>
                 <td>{{employee.patronymic}}</td>
@@ -22,7 +36,7 @@
             </tr>
         </tbody>
     </table>
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <pagination-controls class="my-pagination" (pageChange)="p = $event"></pagination-controls>
     
     
 </div>

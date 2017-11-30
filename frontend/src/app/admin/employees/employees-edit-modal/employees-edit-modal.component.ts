@@ -7,6 +7,8 @@ import { EmployeesService } from './../../../_services/employees.service';
 
 import swal from 'sweetalert2';
 
+// import { success, error } from './../../../shared/alert';
+
 import * as _moment from 'moment';
 const moment = _moment;
 
@@ -81,7 +83,7 @@ export class EmployeesEditModalComponent implements OnInit {
             width: '300px',
             showConfirmButton: false,
             timer: 1500
-          });
+        });
           setTimeout(() => this.dialogRef.close(), 1600);
           } else {
             swal({
@@ -90,7 +92,7 @@ export class EmployeesEditModalComponent implements OnInit {
               type: 'error',
               width: '300px',
               showConfirmButton: false,
-            });
+          });
             this.employee.birthday = moment(this.employee.birthday);
           }
       }

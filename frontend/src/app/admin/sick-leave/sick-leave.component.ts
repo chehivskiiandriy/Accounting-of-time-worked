@@ -29,14 +29,14 @@ export class SickLeaveComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(SickLeaveAddModalComponent, {
-      height: '550px',
+      height: '500px',
       width: '400px',
     });
   }
 
   editSickLeave(sickLeave) {
     const dialogRefEdit = this.dialog.open(SickLeaveEditModalComponent, {
-      height: '550px',
+      height: '350px',
       width: '400px',
       data: {
         sickLeave: sickLeave

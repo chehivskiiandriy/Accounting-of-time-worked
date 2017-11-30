@@ -69,4 +69,14 @@ a {
             height: auto;
         }
     } 
+    .my-pagination /deep/ .ngx-pagination {
+        padding: 0;
+        
+        .current {
+            background: teal;
+        }
+    } 
 }
+
+
+  

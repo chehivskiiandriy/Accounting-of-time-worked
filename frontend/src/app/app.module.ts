@@ -23,13 +23,14 @@ import { HolidaysService } from './_services/holidays.service';
 import { BusinessTripService } from './_services/business-trip.service';
 import { HookyService } from './_services/hooky.service';
 import { WorkingDaysService } from './_services/working-days.service';
-import { CheckDataService } from './_services/check-data.service';
-import { EditCheckDataService } from './_services/edit-check-data.service';
+
+// import { FilterPipe } from './_pipes/filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    // FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -49,8 +50,6 @@ import { EditCheckDataService } from './_services/edit-check-data.service';
     BusinessTripService,
     HookyService,
     WorkingDaysService,
-    CheckDataService,
-    EditCheckDataService,
     // {provide: LOCALE_ID, useValue: 'ua-UA'},
     {provide: MAT_DATE_LOCALE, useValue: 'uk-UK'},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
