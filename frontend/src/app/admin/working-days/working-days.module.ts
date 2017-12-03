@@ -7,6 +7,7 @@ import { SharedModule } from './../../shared/shared.module';
 import { WorkingDaysComponent } from './working-days.component';
 import { WorkingDaysAddModalComponent } from './working-days-add-modal/working-days-add-modal.component';
 import { WorkingDaysEditModalComponent } from './working-days-edit-modal/working-days-edit-modal.component';
+import { WorkingDaysDeleteModalComponent } from './working-days-delete-modal/working-days-delete-modal.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { WorkingDaysEditModalComponent } from './working-days-edit-modal/working
     declarations: [
         WorkingDaysComponent,
         WorkingDaysAddModalComponent,
-        WorkingDaysEditModalComponent
+        WorkingDaysEditModalComponent,
+        WorkingDaysDeleteModalComponent
     ],
     entryComponents: [
         WorkingDaysAddModalComponent,

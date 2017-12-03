@@ -7,6 +7,7 @@ import { SharedModule } from './../../shared/shared.module';
 import { HookyComponent } from './hooky.component';
 import { HookyAddModalComponent } from './hooky-add-modal/hooky-add-modal.component';
 import { HookyEditModalComponent } from './hooky-edit-modal/hooky-edit-modal.component';
+import { HookyDeleteModalComponent } from './hooky-delete-modal/hooky-delete-modal.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { HookyEditModalComponent } from './hooky-edit-modal/hooky-edit-modal.com
     declarations: [
         HookyComponent,
         HookyAddModalComponent,
-        HookyEditModalComponent
+        HookyEditModalComponent,
+        HookyDeleteModalComponent
     ],
     entryComponents: [
         HookyAddModalComponent,

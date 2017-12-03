@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { SubdivisionService } from './../../../_services/subdivision.service';
 import { EmployeesService } from './../../../_services/employees.service';
 
-import swal from 'sweetalert2';
+// import swal from 'sweetalert2';
 
-// import { success, error } from './../../../shared/alert';
+import { Alert } from './../../../shared/alert';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -23,7 +23,7 @@ export class EmployeesEditModalComponent implements OnInit {
   selectedSubdivision: any;
   subdivisions: Observable<any[]>;
   name: any;
-
+  alertModal: Alert  = new Alert();
   minDate;
   maxDate;
 
@@ -31,7 +31,7 @@ export class EmployeesEditModalComponent implements OnInit {
     public dialogRef: MatDialogRef<EmployeesEditModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private subdivisionService: SubdivisionService,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
   ) { }
   
   ngOnInit() {
@@ -76,23 +76,10 @@ export class EmployeesEditModalComponent implements OnInit {
       if(this.employeesService.success !== undefined){
         clearInterval(s);
         if(this.employeesService.success){
-          swal({
-            title: 'Great!',
-            text: 'Your work has been saved!',
-            type: 'success',
-            width: '300px',
-            showConfirmButton: false,
-            timer: 1500
-        });
+          this.alertModal.success();
           setTimeout(() => this.dialogRef.close(), 1600);
           } else {
-            swal({
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              type: 'error',
-              width: '300px',
-              showConfirmButton: false,
-          });
+            this.alertModal.error();
             this.employee.birthday = moment(this.employee.birthday);
           }
       }

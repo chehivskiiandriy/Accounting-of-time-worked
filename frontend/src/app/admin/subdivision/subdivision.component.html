@@ -1,15 +1,24 @@
 <div class="container">
-    <button mat-raised-button color="primary" class="button-add" (click)="createSubdivision()">Add subdivision</button>
-  
-    <table id="datatables" class="table" >
+   
+    <div class="top">
+        <button mat-raised-button color="primary" class="button-add" (click)="createSubdivision()">Add subdivision</button>
+        
+        <mat-form-field class="search">
+            <input matInput placeholder="Search" [(ngModel)]="searchString">
+        </mat-form-field>
+    </div>
+
+    <table id="datatables" class="table" matSort (matSortChange)="sortData($event)">
         <thead>
             <tr>
-                <th *ngFor="let row of displayedColumns">{{ row }}</th>
+                <th>#</th>
+                <th mat-sort-header="name">Name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let subdivision of subdivisions | async; let i = index">
-                <td>{{i+1}}</td>
+            <tr *ngFor="let subdivision of subdivisions | async | filter : searchString  | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+                <td>{{i+1+page*countItems-countItems}}</td>
                 <td>{{subdivision.name}}</td>
                 <td>
                     <button mat-raised-button color="accent" (click)="editSubdivision(subdivision)" class="action edit"><mat-icon>edit</mat-icon></button>
@@ -18,4 +27,5 @@
             </tr>
         </tbody>
     </table>
+    <pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
 </div>

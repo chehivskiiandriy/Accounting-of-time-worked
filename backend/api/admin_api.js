@@ -123,17 +123,6 @@ app.get('/get_sickLeaves', async(req, res) => {
     res.json(sickLeaves);
 });
 
-// app.post('/create_sickLeaves', (req, res) => {
-//     var data = req.body;
-//     console.log(data);
-
-//     admin.addSickLeave(data, function(err, info) {
-//         if (err) throw err;
-//         console.log(info);
-//         res.json({id: info.insertId, 'success': 'true' });
-//      });
-// });
-
 app.post('/create_sickLeaves', (req, res) => {
     let data = req.body;
     console.log(data);
@@ -308,17 +297,6 @@ app.put('/edit_sickLeave', (req, res) => {
         
     });
 });
-
-
-// app.put('/edit_sickLeave', (req, res) => {
-//     var data = req.body;
-//     console.log(data);
-//     admin.editSickLeave(data, function(err, info) {
-//         if (err) throw err;
-//         console.log(info);
-//         admin.sendResponse(true, res);
-//     });
-// });
 
 /* 
     

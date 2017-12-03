@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { SharedModule } from './../../shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -9,21 +9,21 @@ import { EmployeesAddModalComponent } from './employees-add-modal/employees-add-
 import { EmployeesEditModalComponent } from './employees-edit-modal/employees-edit-modal.component';
 import { EmployeesDeleteModalComponent } from './employees-delete-modal/employees-delete-modal.component';
 
-import { FilterPipe } from './../../_pipes/filter.pipe';
+// import { FilterPipe } from './../../_pipes/filter.pipe';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
         FormsModule,
+        ReactiveFormsModule,
         NgxPaginationModule
     ],
     declarations: [
         EmployeesComponent,
         EmployeesAddModalComponent,
         EmployeesEditModalComponent,
-        EmployeesDeleteModalComponent,
-        FilterPipe        
+        EmployeesDeleteModalComponent
     ],
     entryComponents: [
         EmployeesAddModalComponent,

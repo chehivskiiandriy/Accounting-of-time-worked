@@ -7,6 +7,7 @@ import { SharedModule } from './../../shared/shared.module';
 import { BusinessTripComponent } from './business-trip.component';
 import { BusinessTripAddModalComponent } from './business-trip-add-modal/business-trip-add-modal.component';
 import { BusinessTripEditModalComponent } from './business-trip-edit-modal/business-trip-edit-modal.component';
+import { BusinessTripDeleteModalComponent } from './business-trip-delete-modal/business-trip-delete-modal.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { BusinessTripEditModalComponent } from './business-trip-edit-modal/busin
     declarations: [
         BusinessTripComponent,
         BusinessTripAddModalComponent,
-        BusinessTripEditModalComponent
+        BusinessTripEditModalComponent,
+        BusinessTripDeleteModalComponent
     ],
     entryComponents: [
         BusinessTripAddModalComponent,

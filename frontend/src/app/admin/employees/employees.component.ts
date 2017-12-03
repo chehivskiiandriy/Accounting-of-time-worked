@@ -17,9 +17,9 @@ export class EmployeesComponent implements OnInit {
 
   displayedColumns = ['#', 'Surname', 'Name', 'Patronymic', 'Birthday', 'Subdivision', 'Actions'];
   employees: Observable<any[]>;
-  p: number = 1;
+  page: number = 1;
   countItems: number = 20;
-  public searchString: string;
+  searchString: string;
 
   constructor( public dialog: MatDialog, private employeesService: EmployeesService) {}
 

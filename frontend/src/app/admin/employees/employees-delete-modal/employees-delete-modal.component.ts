@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { EmployeesService } from './../../../_services/employees.service';
 
-import swal from 'sweetalert2';
+import { Alert } from './../../../shared/alert';
 
 @Component({
   selector: 'app-employees-delete-modal',
@@ -13,7 +13,8 @@ import swal from 'sweetalert2';
 export class EmployeesDeleteModalComponent implements OnInit {
 
   employee: any = {};
-  
+  alertModal: Alert = new Alert();
+
   constructor(public dialogRef: MatDialogRef<EmployeesDeleteModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private employeesService: EmployeesService) { }
@@ -32,23 +33,10 @@ export class EmployeesDeleteModalComponent implements OnInit {
       if(this.employeesService.success !== undefined){
         clearInterval(s);
         if(this.employeesService.success){
-          swal({
-            title: 'Great!',
-            text: 'Your work has been saved!',
-            type: 'success',
-            width: '300px',
-            showConfirmButton: false,
-            timer: 1500
-          });
+          this.alertModal.success();
           setTimeout(() => this.dialogRef.close(), 1600);
           } else {
-            swal({
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              type: 'error',
-              width: '300px',
-              showConfirmButton: false,
-            });
+            this.alertModal.error();
           }
       }
     }, 50);

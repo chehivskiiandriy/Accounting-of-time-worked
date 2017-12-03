@@ -1,53 +1,51 @@
 <div class="container">
-  <h2 mat-dialog-title title="Fill all the fields">Add employee</h2>
-  <mat-dialog-content>
+  
+  <form [formGroup]="addEmployeeForm" (ngSubmit)="createEmployee()">
+    
+      <h2 mat-dialog-title>Add employee</h2>
+      <mat-dialog-content>
+    
+        <mat-form-field>
+          <mat-select placeholder="Subdivision" formControlName="selectedSubdivision">
+            <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
+              {{ subdivision.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formErrors.selectedSubdivision">{{ formErrors.selectedSubdivision }}</mat-error>
+        </mat-form-field>
+    
+        <mat-form-field class="modal-form">
+          <input class="modal-input" #input1 matInput placeholder="Surname" formControlName="surname">
+          <mat-hint align="end">{{input1.value?.length || 0}}/20</mat-hint>
+          <mat-error *ngIf="formErrors.surname">{{ formErrors.surname }}</mat-error>
+        </mat-form-field>
+    
+        <mat-form-field class="modal-form">
+          <input class="modal-input" #input2 matInput placeholder="Name" formControlName="name">
+          <mat-hint align="end">{{input2.value?.length || 0}}/20</mat-hint>
+          <mat-error *ngIf="formErrors.name">{{ formErrors.name }}</mat-error>
+        </mat-form-field>
+    
+        <mat-form-field class="modal-form">
+          <input class="modal-input" #input3 matInput placeholder="Patronymic" formControlName="patronymic">
+          <mat-hint align="end">{{input3.value?.length || 0}}/20</mat-hint>
+          <mat-error *ngIf="formErrors.patronymic">{{ formErrors.patronymic }}</mat-error>
+        </mat-form-field>
+    
+        <mat-form-field hintLabel="Enter date in format dd.mm.yyyy">
+          <input matInput [matDatepicker]="picker" placeholder="Choose a birthday" formControlName="birthday" [min]="minDate" [max]="maxDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year"></mat-datepicker>
+          <mat-error *ngIf="formErrors.birthday">{{ formErrors.birthday }}</mat-error>
+        </mat-form-field>
+    
+      </mat-dialog-content>
+    
+      <mat-dialog-actions>
+        <button mat-raised-button type="submit" color="primary" [disabled]="!addEmployeeForm.valid">Add</button>    
+        <button mat-raised-button [mat-dialog-close]="true" color="warn">Close</button>
+      </mat-dialog-actions>
 
-    <mat-form-field>
-      <mat-select placeholder="Subdivision" [(value)]="selectedSubdivision">
-        <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
-          {{ subdivision.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="modal-form">
-      <input class="modal-input" #input1 matInput placeholder="Surname" [(ngModel)]="employee.surname" minlength="3" maxlength="20">
-      <mat-hint align="end">{{input1.value?.length || 0}}/20</mat-hint>
-      <mat-error *ngIf="employee.surname.length < 3">Enter from 3 to 20 characters</mat-error>
-    </mat-form-field>
-
-    <mat-form-field class="modal-form">
-      <input class="modal-input" #input2 matInput placeholder="Name" [(ngModel)]="employee.name" minlength="3" maxlength="20">
-      <mat-hint align="end">{{input2.value?.length || 0}}/20</mat-hint>
-      <mat-error *ngIf="employee.name.length < 3">Enter from 3 to 20 characters</mat-error>
-    </mat-form-field>
-
-    <mat-form-field class="modal-form">
-      <input class="modal-input" #input3 matInput placeholder="Patronymic" [(ngModel)]="employee.patronymic" minlength="3" maxlength="20">
-      <mat-hint align="end">{{input3.value?.length || 0}}/20</mat-hint>
-      <mat-error *ngIf="employee.patronymic.length < 3">Enter from 3 to 20 characters</mat-error>
-    </mat-form-field>
-
-    <mat-form-field hintLabel="Enter date in format dd.mm.yyyy">
-      <input matInput [matDatepicker]="picker" placeholder="Choose a birthday" [(ngModel)]="employee.birthday" [min]="minDate" [max]="maxDate" maxlength="10">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="employee.birthday < minDate">Enter date more than {{ minDate._d.getDate() }}.{{ minDate._d.getMonth() + 1 }}.{{ minDate._d.getFullYear() }}</mat-error>
-      <mat-error *ngIf="employee.birthday > maxDate">Enter date less than {{ maxDate._d.getDate() }}.{{ maxDate._d.getMonth() + 1 }}.{{ maxDate._d.getFullYear() }}</mat-error>
-    </mat-form-field>
-
-  </mat-dialog-content>
-
-  <mat-dialog-actions>
-    <button mat-raised-button (click)="createEmployee()" color="primary" [disabled]="selectedSubdivision.id == undefined ||
-                                                                              employee.surname.length < 3 ||
-                                                                              employee.name.length < 3 ||
-                                                                              employee.patronymic.length < 3 ||
-                                                                              employee.birthday == undefined ||
-                                                                              employee.birthday < minDate ||
-                                                                              employee.birthday > maxDate ||
-                                                                              employee.birthday._pf?.unusedInput.length > 0">
-                                                                              Add</button>    
-    <button mat-raised-button [mat-dialog-close]="true" color="warn">Close</button>
-  </mat-dialog-actions>
+  </form>
+  
 </div>

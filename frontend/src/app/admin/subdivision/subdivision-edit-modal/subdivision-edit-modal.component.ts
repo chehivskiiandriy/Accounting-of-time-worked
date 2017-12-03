@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
-import swal from 'sweetalert2';
+import { CheckErrorValidators } from './../../../shared/check-error-validators';
+import { Alert } from './../../../shared/alert';
 
 import { SubdivisionService } from './../../../_services/subdivision.service';
 
@@ -13,21 +15,47 @@ import { SubdivisionService } from './../../../_services/subdivision.service';
 export class SubdivisionEditModalComponent implements OnInit {
 
   subdivision: any = {};
-  
+  editSubdivisionForm: FormGroup;
+  alertModal: Alert = new Alert();
+  checkErrors: CheckErrorValidators = new CheckErrorValidators();
+
+  formErrors = {
+    "name": "",
+  };
+
   constructor(
     public dialogRef: MatDialogRef<SubdivisionEditModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private subdivisionService: SubdivisionService
+    private subdivisionService: SubdivisionService,
+    private fb: FormBuilder
   ) { }
   
   ngOnInit() {
     console.log(this.data);
     this.subdivision.id = this.data.subdivision.id;
     this.subdivision.name = this.data.subdivision.name;
+    this.buildForm();    
+  }
+
+  buildForm() {
+    this.editSubdivisionForm = this.fb.group({
+      "name": [this.subdivision.name, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20),
+        Validators.pattern("[A-ZЄ-ЯҐ]{1}[A-Za-zЄ-ЯҐа-їґ\s]+$")
+      ]]
+    });
+
+    this.editSubdivisionForm.valueChanges
+      .subscribe(data => this.checkErrors.onValueChange(this.editSubdivisionForm, this.formErrors, data));
+
+    this.checkErrors.onValueChange(this.editSubdivisionForm, this.formErrors);
   }
 
   editSubdivision() {
     console.log(this.subdivision);
+    this.subdivision.name = this.editSubdivisionForm.get('name').value;
     this.subdivisionService.update(this.subdivision);
     this.alert();
   }
@@ -37,23 +65,10 @@ export class SubdivisionEditModalComponent implements OnInit {
       if(this.subdivisionService.success !== undefined){
         clearInterval(s);
         if(this.subdivisionService.success){
-          swal({
-            title: 'Great!',
-            text: 'Your work has been saved!',
-            type: 'success',
-            width: '300px',
-            showConfirmButton: false,
-            timer: 1500
-          });
+          this.alertModal.success();
           setTimeout(() => this.dialogRef.close(), 1600);
           } else {
-            swal({
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              type: 'error',
-              width: '300px',
-              showConfirmButton: false
-            });
+            this.alertModal.error();
           }
       }
     }, 50);

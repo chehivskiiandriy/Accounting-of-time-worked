@@ -7,6 +7,7 @@ import { SharedModule } from './../../shared/shared.module';
 import { HolidaysComponent } from './holidays.component';
 import { HolidaysAddModalComponent } from './holidays-add-modal/holidays-add-modal.component';
 import { HolidaysEditModalComponent } from './holidays-edit-modal/holidays-edit-modal.component';
+import { HolidaysDeleteModalComponent } from './holidays-delete-modal/holidays-delete-modal.component';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { HolidaysEditModalComponent } from './holidays-edit-modal/holidays-edit-
     declarations: [
         HolidaysComponent,
         HolidaysAddModalComponent,
-        HolidaysEditModalComponent
+        HolidaysEditModalComponent,
+        HolidaysDeleteModalComponent
     ],
     entryComponents: [
         HolidaysAddModalComponent,

@@ -31,7 +31,7 @@ import { AuthGuard } from "../shared/auth-guard.service";
                             { path: "business-trip", component: BusinessTripComponent },
                             { path: "hooky", component: HookyComponent },
                             { path: "working-days", component: WorkingDaysComponent },
-                            { path: "", redirectTo: "employees", pathMatch: "full" }
+                            { path: "", redirectTo: "subdivision", pathMatch: "full" }
                         ]
                     }
                 ]

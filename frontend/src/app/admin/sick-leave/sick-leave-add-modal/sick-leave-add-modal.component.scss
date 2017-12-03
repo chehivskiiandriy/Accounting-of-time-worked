@@ -2,6 +2,26 @@
     mat-form-field {
         width: 100%;
     }
+
+    /deep/ .mat-form-field-invalid.ng-untouched {
+        /deep/ .mat-form-field-underline .mat-input-ripple.mat-form-field-ripple {
+            background-color: #949494;
+        }
+
+        /deep/ .mat-form-field-placeholder {
+            color: #949494;
+        }
+    }
+
+    /deep/ .mat-form-field-invalid.mat-focused.ng-untouched {
+        /deep/ .mat-form-field-underline .mat-input-ripple.mat-form-field-ripple  {
+            background-color: teal;
+        }
+
+        /deep/ .mat-form-field-placeholder {
+            color: teal;
+        }
+    }
 }
 
 button:disabled {

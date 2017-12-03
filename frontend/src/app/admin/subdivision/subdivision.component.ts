@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { MatDialog } from '@angular/material';
+import { MatDialog, Sort } from '@angular/material';
 
 import { SubdivisionAddModalComponent } from './subdivision-add-modal/subdivision-add-modal.component';
 import { SubdivisionEditModalComponent } from './subdivision-edit-modal/subdivision-edit-modal.component';
+import { SubdivisionDeleteModalComponent } from './subdivision-delete-modal/subdivision-delete-modal.component';
+
 import { SubdivisionService } from './../../_services/subdivision.service';
 
 @Component({
@@ -13,8 +15,10 @@ import { SubdivisionService } from './../../_services/subdivision.service';
 })
 export class SubdivisionComponent implements OnInit {
 
-  displayedColumns = ['#', 'Name', 'Actions'];
   subdivisions: Observable<any[]>;
+  page: number = 1;
+  countItems: number = 20;
+  searchString: string;
 
   constructor( public dialog: MatDialog, private subdivisionService: SubdivisionService) {}
 
@@ -42,7 +46,35 @@ export class SubdivisionComponent implements OnInit {
   }
 
   deleteSubdivision(subdivision){
-    this.subdivisionService.delete(subdivision);
+    const dialogRefDelete = this.dialog.open(SubdivisionDeleteModalComponent, {
+      height: '200px',
+      width: '400px',
+      data: {
+        subdivision: subdivision
+      }
+    });
   }
 
+  sortData(sort: Sort) {
+    const data = this.subdivisionService.subdivisions;
+    if (!sort.active || sort.direction == '') {
+      this.subdivisions = data;
+      return;
+    }
+   
+    this.subdivisions = data.do(e => {
+      e.sort((a, b) => {
+        let isAsc = sort.direction == 'asc';
+        switch (sort.active) {
+          case 'name': return compare(a.name, b.name, isAsc);
+          default: return 0;
+        }
+      });
+    }) 
+  }
+
+}
+
+function compare(a, b, isAsc) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

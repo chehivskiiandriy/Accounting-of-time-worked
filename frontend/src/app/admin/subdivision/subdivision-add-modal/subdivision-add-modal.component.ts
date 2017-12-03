@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
-import swal from 'sweetalert2';
+import { CheckErrorValidators } from './../../../shared/check-error-validators';
+import { Alert } from './../../../shared/alert';
 
 import { SubdivisionService } from './../../../_services/subdivision.service';
 
@@ -11,47 +13,58 @@ import { SubdivisionService } from './../../../_services/subdivision.service';
   styleUrls: ['./subdivision-add-modal.component.scss']
 })
 export class SubdivisionAddModalComponent implements OnInit {
-  
-  subdivision: any = {};
+
+  addSubdivisionForm: FormGroup;
+  alertModal: Alert = new Alert();
+  checkErrors: CheckErrorValidators = new CheckErrorValidators();
+
+  formErrors = {
+    "name": "",
+  };
 
   constructor(
     public dialogRef: MatDialogRef<SubdivisionAddModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private subdivisionService: SubdivisionService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.subdivision.name = "";
+    this.buildForm();
+  }
+
+  buildForm() {
+    this.addSubdivisionForm = this.fb.group({
+      "name": ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20),
+        Validators.pattern("[A-ZЄ-ЯҐ]{1}[A-Za-zЄ-ЯҐа-їґ\s]+$")
+      ]]
+    });
+
+    this.addSubdivisionForm.valueChanges
+      .subscribe(data => this.checkErrors.onValueChange(this.addSubdivisionForm, this.formErrors, data));
+
+    this.checkErrors.onValueChange(this.addSubdivisionForm, this.formErrors);
   }
 
   createSubdivision() {
-    this.subdivisionService.create(this.subdivision);
+    this.subdivisionService.create(this.addSubdivisionForm.value);
     this.alert();
   }
 
   alert() {
     let s = setInterval(() => {
-      if(this.subdivisionService.success !== undefined){
+      if (this.subdivisionService.success !== undefined) {
         clearInterval(s);
-        if(this.subdivisionService.success){
-          swal({
-            title: 'Great!',
-            text: 'Your work has been saved!',
-            type: 'success',
-            width: '300px',
-            showConfirmButton: false,
-            timer: 1500
-          });
-          this.subdivision.name = "";
-          } else {
-            swal({
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              type: 'error',
-              width: '300px',
-              showConfirmButton: false
-            });
-          }
+        if (this.subdivisionService.success) {
+          this.alertModal.success();
+          this.addSubdivisionForm.reset();
+          this.checkErrors.onValueChange(this.addSubdivisionForm, this.formErrors);
+        } else {
+          this.alertModal.error();
+        }
       }
     }, 50);
   }

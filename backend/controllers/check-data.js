@@ -254,9 +254,9 @@ function getAmountDaysInMonth(finishYear, finishMonth) {
 }
 
 module.exports = {
-    checkSickLeave: checkSickLeave,
-    checkBusinessTrip: checkBusinessTrip,
-    checkHoliday: checkHoliday,
-    checkHooky: checkHooky,
-    check: check
+    checkSickLeave,
+    checkBusinessTrip,
+    checkHoliday,
+    checkHooky,
+    check
 };

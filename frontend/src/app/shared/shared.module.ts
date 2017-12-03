@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FilterPipe } from './../_pipes/filter.pipe';
 
 import { MatAutocompleteModule,
   MatButtonModule,
@@ -70,7 +71,9 @@ import { MatAutocompleteModule,
     MatStepperModule,
     BrowserAnimationsModule
   ],
-  declarations: [],
+  declarations: [
+    FilterPipe
+  ],
   exports: [
     MatAutocompleteModule,
     MatButtonModule,
@@ -103,7 +106,8 @@ import { MatAutocompleteModule,
     MatToolbarModule,
     MatTooltipModule,
     MatStepperModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FilterPipe
   ]
 })
 export class SharedModule { }

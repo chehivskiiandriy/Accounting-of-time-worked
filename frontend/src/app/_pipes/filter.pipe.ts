@@ -13,7 +13,6 @@ export class FilterPipe implements PipeTransform {
     }
     value = value.toLowerCase();
 
-
     return items.filter(e => {
         for (let key in e) {
             if ((e[key]+"").toLowerCase().includes(value)) {

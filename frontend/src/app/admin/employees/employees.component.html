@@ -22,8 +22,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let employee of employees | async | filter : searchString  | paginate: { itemsPerPage: countItems, currentPage: p }; let i = index">
-                <td>{{i+1+p*countItems-countItems}}</td>
+            <tr *ngFor="let employee of employees | async | filter : searchString  | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+                <td>{{i+1+page*countItems-countItems}}</td>
                 <td>{{employee.surname}}</td>
                 <td>{{employee.name}}</td>
                 <td>{{employee.patronymic}}</td>
@@ -36,7 +36,7 @@
             </tr>
         </tbody>
     </table>
-    <pagination-controls class="my-pagination" (pageChange)="p = $event"></pagination-controls>
+    <pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
     
     
 </div>

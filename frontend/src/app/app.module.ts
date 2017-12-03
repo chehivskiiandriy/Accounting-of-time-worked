@@ -51,7 +51,7 @@ import { WorkingDaysService } from './_services/working-days.service';
     HookyService,
     WorkingDaysService,
     // {provide: LOCALE_ID, useValue: 'ua-UA'},
-    {provide: MAT_DATE_LOCALE, useValue: 'uk-UK'},
+    {provide: MAT_DATE_LOCALE, useValue: 'uk-UA'},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},       
   ],
