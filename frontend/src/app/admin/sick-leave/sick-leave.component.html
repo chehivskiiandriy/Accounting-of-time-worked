@@ -1,27 +1,38 @@
 <div class="container">
-    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()">Add sick leave</button>
+    <div class="top">
+        <button mat-raised-button color="primary" class="button-add" (click)="createSickLeave()">Add sick leave</button>
 
-    <table id="datatables" class="table" >
+        <mat-form-field class="search">
+            <input matInput placeholder="Search" [(ngModel)]="searchString">
+        </mat-form-field>
+    </div>
+
+    <table id="datatables" class="table">
         <thead>
             <tr>
                 <th *ngFor="let row of displayedColumns">{{ row }}</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let sickLeave of sickLeaves| async; let i = index">
-                <td>{{i+1}}</td>
+            <tr *ngFor="let sickLeave of sickLeaves | async | filter : searchString  | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+                <td>{{i+1+page*countItems-countItems}}</td>
                 <td>{{sickLeave.fullName}}</td>
-                <td>{{sickLeave.employeeID}}</td>                        
+                <td>{{sickLeave.employeeID}}</td>
                 <td>{{sickLeave.subdivision}}</td>
                 <td>{{sickLeave.startDisease.split('-').reverse().join('.')}}</td>
                 <td>{{sickLeave.finishDisease.split('-').reverse().join('.')}}</td>
-                <td>{{sickLeave.disease}}</td>                        
+                <td>{{sickLeave.disease}}</td>
                 <td>
-                    <button mat-raised-button color="accent" (click)="editSickLeave(sickLeave)" class="action edit"><mat-icon>edit</mat-icon></button>
-                    <button mat-raised-button color="warn" (click)="deleteSickLeave(sickLeave)" class="action delete"><mat-icon>clear</mat-icon></button>
+                    <button mat-raised-button color="accent" (click)="editSickLeave(sickLeave)" class="action edit">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-raised-button color="warn" (click)="deleteSickLeave(sickLeave)" class="action delete">
+                        <mat-icon>clear</mat-icon>
+                    </button>
                 </td>
             </tr>
         </tbody>
     </table>
-</div>
+    <pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
 
+</div>

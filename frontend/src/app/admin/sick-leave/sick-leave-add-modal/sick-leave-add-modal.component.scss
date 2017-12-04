@@ -11,6 +11,10 @@
         /deep/ .mat-form-field-placeholder {
             color: #949494;
         }
+
+        /deep/ .mat-select.mat-select-invalid .mat-select-arrow {
+            color: #949494;
+        }
     }
 
     /deep/ .mat-form-field-invalid.mat-focused.ng-untouched {
@@ -19,6 +23,10 @@
         }
 
         /deep/ .mat-form-field-placeholder {
+            color: teal;
+        }
+
+        /deep/ .mat-select.mat-select-invalid .mat-select-arrow {
             color: teal;
         }
     }

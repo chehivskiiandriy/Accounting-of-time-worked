@@ -6,8 +6,7 @@ import { SickLeaveService } from './../../_services/sick-leave.service';
 
 import { SickLeaveAddModalComponent } from './sick-leave-add-modal/sick-leave-add-modal.component';
 import { SickLeaveEditModalComponent } from './sick-leave-edit-modal/sick-leave-edit-modal.component';
-
-import swal from 'sweetalert2';
+import { SickLeaveDeleteModalComponent } from './sick-leave-delete-modal/sick-leave-delete-modal.component';
 
 @Component({
   selector: 'app-sick-leave',
@@ -18,6 +17,9 @@ export class SickLeaveComponent implements OnInit {
 
   displayedColumns = ['#', 'Full name', 'Employee ID', 'Subdivision', 'Start disease', 'Finish disease', 'Disease', 'Actions'];
   sickLeaves: Observable<any[]>;
+  page: number = 1;
+  countItems: number = 20;
+  searchString: string;
 
   constructor( public dialog: MatDialog, private sickLeaveService: SickLeaveService) {}
 
@@ -27,7 +29,7 @@ export class SickLeaveComponent implements OnInit {
     console.log(this.sickLeaves);
   }
 
-  openDialog(): void {
+  createSickLeave(): void {
     const dialogRef = this.dialog.open(SickLeaveAddModalComponent, {
       height: '500px',
       width: '400px',
@@ -45,32 +47,13 @@ export class SickLeaveComponent implements OnInit {
   }
 
   deleteSickLeave(sickLeave){
-    this.sickLeaveService.delete(sickLeave);
-
-    let s = setInterval(() => {
-      if(this.sickLeaveService.success !== undefined){
-        clearInterval(s);
-        if(this.sickLeaveService.success){
-          // swal({
-          //   title: 'Great!',
-          //   text: 'Your work has been saved!',
-          //   type: 'success',
-          //   width: '300px',
-          //   showConfirmButton: false,
-          //   timer: 1500
-          // });
-          } else {
-            swal({
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              type: 'error',
-              width: '300px',
-              focusConfirm: false
-            });
-          }
+    const dialogRefDelete = this.dialog.open(SickLeaveDeleteModalComponent, {
+      height: '200px',
+      width: '400px',
+      data: {
+        sickLeave: sickLeave
       }
-    }, 50);
-
+    });
   }
 
 }

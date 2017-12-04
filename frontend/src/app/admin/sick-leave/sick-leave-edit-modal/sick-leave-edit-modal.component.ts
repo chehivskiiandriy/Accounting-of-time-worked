@@ -1,10 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Observable } from 'rxjs/Observable';
 
-import { SickLeaveService } from './../../../_services/sick-leave.service';
+import { CheckErrorValidators } from './../../../shared/check-error-validators';
+import { datePatternValidator } from './../../../shared/custom-validators';
+import { success, error } from './../../../shared/alert';
 
-import swal from 'sweetalert2';
+import { SickLeaveService } from './../../../_services/sick-leave.service';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -17,15 +20,28 @@ const moment = _moment;
 export class SickLeaveEditModalComponent implements OnInit {
 
   sickLeave: any = {};
+  minDate;
+  maxDate;
+
+  editSickLeaveForm: FormGroup;
+  checkErrors: CheckErrorValidators = new CheckErrorValidators();
+
+  formErrors = {
+    "startDisease": "",
+    "finishDisease": "",
+    "disease": ""
+  };
 
   constructor(
     public dialogRef: MatDialogRef<SickLeaveEditModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private sickLeaveService: SickLeaveService
+    private sickLeaveService: SickLeaveService,
+    private fb: FormBuilder
   ) { }
   
   ngOnInit() {
     console.log(this.data);
+    this.setMinAndMaxDate();  
     
     this.sickLeave.fullName = this.data.sickLeave.fullName;
     this.sickLeave.employeeID = this.data.sickLeave.employeeID;
@@ -34,9 +50,50 @@ export class SickLeaveEditModalComponent implements OnInit {
     this.sickLeave.id = this.data.sickLeave.id;
     this.sickLeave.finishDisease = moment(this.data.sickLeave.finishDisease);
     this.sickLeave.disease = this.data.sickLeave.disease; 
+
+    this.buildForm();
+  }
+
+  buildForm() {
+    this.editSickLeaveForm = this.fb.group({
+      "startDisease": [this.sickLeave.startDisease, [
+        Validators.required,
+        Validators.min(this.minDate),
+        Validators.max(this.maxDate),
+        datePatternValidator
+      ]],
+      "finishDisease": [this.sickLeave.finishDisease, [
+        Validators.required,
+        Validators.min(this.minDate),
+        Validators.max(this.maxDate),
+        datePatternValidator
+      ]],
+      "disease": [this.sickLeave.disease, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(40),
+        Validators.pattern("[A-ZЄ-ЯҐ]{1}[A-Za-zЄ-ЯҐа-їґ]+$")
+      ]]
+    });
+
+    this.editSickLeaveForm.valueChanges
+      .subscribe(data => this.checkErrors.onValueChange(this.editSickLeaveForm, this.formErrors, data));
+
+    this.checkErrors.onValueChange(this.editSickLeaveForm, this.formErrors);
+  }
+
+  setMinAndMaxDate() {
+    let today = new Date();
+    this.maxDate = moment(today);
+    today.setFullYear(today.getFullYear() - 1);
+    this.minDate = moment(today);
   }
 
   editSickLeave() {
+    this.sickLeave.startDisease = this.editSickLeaveForm.get("startDisease").value;
+    this.sickLeave.finishDisease = this.editSickLeaveForm.get("finishDisease").value;
+    this.sickLeave.disease = this.editSickLeaveForm.get("disease").value;
+
     this.sickLeaveService.update(this.sickLeave);
     this.alert();
   }  
@@ -46,25 +103,10 @@ export class SickLeaveEditModalComponent implements OnInit {
       if(this.sickLeaveService.success !== undefined){
         clearInterval(s);
         if(this.sickLeaveService.success){
-          swal({
-            title: 'Great!',
-            text: 'Your work has been saved!',
-            type: 'success',
-            width: '300px',
-            showConfirmButton: false,
-            timer: 1500
-          });
+          success();
           setTimeout(() => this.dialogRef.close(), 1600);
           } else {
-            swal({
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              type: 'error',
-              width: '300px',
-              showConfirmButton: false,
-            });
-            this.sickLeave.startDisease = moment(this.sickLeave.startDisease);
-            this.sickLeave.finishDisease = moment(this.sickLeave.finishDisease);
+            error();
           }
       }
     }, 50);

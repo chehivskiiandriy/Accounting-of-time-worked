@@ -1,3 +1,46 @@
-<p>
-  holidays-add-modal works!
-</p>
+<div class="container">
+  <form [formGroup]="addHolidayForm" (ngSubmit)="createHoliday()">
+
+    <h2 mat-dialog-title>Add holiday</h2>
+    <mat-dialog-content>
+
+      <mat-form-field>
+        <mat-select placeholder="Subdivision" formControlName="selectedSubdivision" (change)="onSelect($event.value)">
+          <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
+            {{ subdivision.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formErrors.selectedSubdivision">{{ formErrors.selectedSubdivision }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Employee" formControlName="selectedEmployee">
+          <mat-option *ngFor="let employee of employees | async" [value]="employee">
+            {{ employee.surname }} {{ employee.name }} {{ employee.patronymic }} | #{{ employee.id }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formErrors.selectedEmployee">{{ formErrors.selectedEmployee }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Choose a start" formControlName="startHoliday" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 startView="year"></mat-datepicker>
+        <mat-error *ngIf="formErrors.startHoliday">{{ formErrors.startHoliday }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker2" placeholder="Choose a finish" formControlName="finishHoliday" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 startView="year"></mat-datepicker>
+        <mat-error *ngIf="formErrors.finishHoliday">{{ formErrors.finishHoliday }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addHolidayForm.valid || addHolidayForm.value.startHoliday > addHolidayForm.value.finishHoliday">
+        Create</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
+  </form>
+</div>

@@ -8,6 +8,7 @@ export class CheckErrorValidators {
     maxDate = this.pad(this.day) + "." + this.pad(this.month) + "." + (this.year - 16);
     minDate = this.pad(this.day) + "." + this.pad(this.month) + "." + (this.year - 66);
     currentDay = this.pad(this.day) + "." + this.pad(this.month) + "." + (this.year);
+    yearAgo = this.pad(this.day) + "." + this.pad(this.month) + "." + (this.year - 1);
 
     pad(number) {
         if (number < 10) {
@@ -44,6 +45,43 @@ export class CheckErrorValidators {
         },
         "selectedSubdivision": {
             "required": "Required field."
+        },
+        "selectedEmployee": {
+            "required": "Required field."
+        },
+        "startDisease": {
+            "required": "Required field.",
+            "matDatepickerMin": `The value must be at least ${this.yearAgo} .`,
+            "matDatepickerMax": `The value must not be more than ${this.currentDay} .`,
+            "matDatepickerParse": "The value must be in format dd.mm.yyyy .",
+            "datePatternValidator": "The value must be in format dd.mm.yyyy ."
+        },
+        "finishDisease": {
+            "required": "Required field.",
+            "matDatepickerMin": `The value must be at least ${this.yearAgo} .`,
+            "matDatepickerMax": `The value must not be more than ${this.currentDay} .`,
+            "matDatepickerParse": "The value must be in format dd.mm.yyyy .",
+            "datePatternValidator": "The value must be in format dd.mm.yyyy ."
+        },
+        "disease": {
+            "required": "Required field.",
+            "minlength": "The value must be at least 3 characters.",
+            "maxlength": "The value must not be more than 40 characters.",
+            "pattern": "The value must be only letters and the first letter is large."
+        },
+        "startHoliday": {
+            "required": "Required field.",
+            "matDatepickerMin": `The value must be at least ${this.yearAgo} .`,
+            "matDatepickerMax": `The value must not be more than ${this.currentDay} .`,
+            "matDatepickerParse": "The value must be in format dd.mm.yyyy .",
+            "datePatternValidator": "The value must be in format dd.mm.yyyy ."
+        },
+        "finishHoliday": {
+            "required": "Required field.",
+            "matDatepickerMin": `The value must be at least ${this.yearAgo} .`,
+            "matDatepickerMax": `The value must not be more than ${this.currentDay} .`,
+            "matDatepickerParse": "The value must be in format dd.mm.yyyy .",
+            "datePatternValidator": "The value must be in format dd.mm.yyyy ."
         }
     };
 

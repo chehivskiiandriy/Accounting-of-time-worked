@@ -1,5 +1,11 @@
 <div class="container">
-    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()">Add holiday</button>
+    <div class="top">
+        <button mat-raised-button color="primary" class="button-add" (click)="createHoliday()">Add holiday</button>
+
+        <mat-form-field class="search">
+            <input matInput placeholder="Search" [(ngModel)]="searchString">
+        </mat-form-field>
+    </div>
 
     <table id="datatables" class="table">
         <thead>
@@ -8,18 +14,23 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let holiday of holidays| async; let i = index">
-                <td>{{i+1}}</td>
+            <tr *ngFor="let holiday of holidays | async | filter : searchString  | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+                <td>{{i+1+page*countItems-countItems}}</td>
                 <td>{{holiday.fullName}}</td>
-                <td>{{holiday.employeeID}}</td>                        
+                <td>{{holiday.employeeID}}</td>
                 <td>{{holiday.subdivision}}</td>
                 <td>{{holiday.startHoliday.split('-').reverse().join('.')}}</td>
                 <td>{{holiday.finishHoliday.split('-').reverse().join('.')}}</td>
                 <td>
-                    <button mat-raised-button color="accent" (click)="editHoliday(holiday)" class="action edit"><mat-icon>edit</mat-icon></button>
-                    <button mat-raised-button color="warn" (click)="deleteHoliday(holiday)" class="action delete"><mat-icon>clear</mat-icon></button>
+                    <button mat-raised-button color="accent" (click)="editHoliday(holiday)" class="action edit">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-raised-button color="warn" (click)="deleteHoliday(holiday)" class="action delete">
+                        <mat-icon>clear</mat-icon>
+                    </button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <pagination-controls class="my-pagination" (pageChange)="page = $event"></pagination-controls>
 </div>

@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import { CheckErrorValidators } from './../../../shared/check-error-validators';
-import { Alert } from './../../../shared/alert';
+import { success, error } from './../../../shared/alert';
 
 import { SubdivisionService } from './../../../_services/subdivision.service';
 
@@ -16,7 +16,6 @@ export class SubdivisionEditModalComponent implements OnInit {
 
   subdivision: any = {};
   editSubdivisionForm: FormGroup;
-  alertModal: Alert = new Alert();
   checkErrors: CheckErrorValidators = new CheckErrorValidators();
 
   formErrors = {
@@ -65,10 +64,10 @@ export class SubdivisionEditModalComponent implements OnInit {
       if(this.subdivisionService.success !== undefined){
         clearInterval(s);
         if(this.subdivisionService.success){
-          this.alertModal.success();
+          success();
           setTimeout(() => this.dialogRef.close(), 1600);
           } else {
-            this.alertModal.error();
+            error();
           }
       }
     }, 50);

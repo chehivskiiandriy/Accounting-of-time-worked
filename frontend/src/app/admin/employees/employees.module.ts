@@ -9,8 +9,6 @@ import { EmployeesAddModalComponent } from './employees-add-modal/employees-add-
 import { EmployeesEditModalComponent } from './employees-edit-modal/employees-edit-modal.component';
 import { EmployeesDeleteModalComponent } from './employees-delete-modal/employees-delete-modal.component';
 
-// import { FilterPipe } from './../../_pipes/filter.pipe';
-
 @NgModule({
     imports: [
         CommonModule,

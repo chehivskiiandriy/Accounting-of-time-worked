@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { EmployeesService } from './../../../_services/employees.service';
 
-import { Alert } from './../../../shared/alert';
+import { error } from './../../../shared/alert';
 
 @Component({
   selector: 'app-employees-delete-modal',
@@ -13,7 +13,6 @@ import { Alert } from './../../../shared/alert';
 export class EmployeesDeleteModalComponent implements OnInit {
 
   employee: any = {};
-  alertModal: Alert = new Alert();
 
   constructor(public dialogRef: MatDialogRef<EmployeesDeleteModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,10 +32,9 @@ export class EmployeesDeleteModalComponent implements OnInit {
       if(this.employeesService.success !== undefined){
         clearInterval(s);
         if(this.employeesService.success){
-          this.alertModal.success();
-          setTimeout(() => this.dialogRef.close(), 1600);
+          this.dialogRef.close();
           } else {
-            this.alertModal.error();
+            error();
           }
       }
     }, 50);

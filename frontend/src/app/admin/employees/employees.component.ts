@@ -48,7 +48,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteEmployee(employee){
-    const dialogRefEdit = this.dialog.open(EmployeesDeleteModalComponent, {
+    const dialogRefDelete = this.dialog.open(EmployeesDeleteModalComponent, {
       height: '200px',
       width: '400px',
       data: {

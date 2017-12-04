@@ -118,6 +118,18 @@ module.exports.findByHoliday = function(employeeID, callback) {
     connection.query(`SELECT * FROM Holiday WHERE employeeID = '${employeeID}'`, callback);
 }
 
+module.exports.addHoliday = function(data, callback) {
+    connection.query("INSERT INTO Holiday SET ?", data, callback);
+}
+
+module.exports.deleteHoliday = function(idHoliday, callback) {
+    connection.query(`DELETE FROM Holiday WHERE id = ${idHoliday}`, callback);
+}
+
+module.exports.editHoliday = function(data, callback) {
+    connection.query(`UPDATE Holiday SET startHoliday = '${data.startHoliday}', finishHoliday = '${data.finishHoliday}' WHERE id = ${data.id}`, callback);
+}
+
 module.exports.getBusinessTrips = () => {
     let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, BusinessTrip.*
                     from ((Employee 

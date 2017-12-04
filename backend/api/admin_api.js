@@ -315,6 +315,183 @@ app.get('/get_holidays', async(req, res) => {
     res.json(holidays);
 });
 
+app.post('/create_holiday', (req, res) => {
+    let data = req.body;
+    console.log(data);
+    let start = data.startHoliday,
+        finish = data.finishHoliday,
+        sickLeave, business, holidays, hooky;
+
+    admin.findBySickLeave(data.employeeID, function(err, rows, fields) {
+        if(err) {
+            throw err;
+        } else {
+            sickLeave = rows.map(e => {
+                e.startDisease = e.startDisease.getFullYear() + "-" + pad(e.startDisease.getMonth() + 1) + "-" + pad(e.startDisease.getDate());
+                e.finishDisease = e.finishDisease.getFullYear() + "-" + pad(e.finishDisease.getMonth() + 1) + "-" + pad(e.finishDisease.getDate());
+                return e;
+            });
+            if (checkAddData.checkSickLeave(sickLeave, start, finish) == false) {
+                admin.sendResponse(false, res);
+            } else {
+                admin.findByBusinessTrip(data.employeeID, function(err, rows, fields) {
+                    if(err) {
+                        throw err;
+                    } else {
+                        business = rows.map(e => {
+                            e.startBusinessTrip = e.startBusinessTrip.getFullYear() + "-" + pad(e.startBusinessTrip.getMonth() + 1) + "-" + pad(e.startBusinessTrip.getDate());
+                            e.finishBusinessTrip = e.finishBusinessTrip.getFullYear() + "-" + pad(e.finishBusinessTrip.getMonth() + 1) + "-" + pad(e.finishBusinessTrip.getDate());
+                            return e;
+                        });
+                        if (checkAddData.checkBusinessTrip(business, start, finish) == false) {
+                            admin.sendResponse(false, res);
+                        } else {
+                            admin.findByHoliday(data.employeeID, function(err, rows, fields) {
+                                if(err) {
+                                    throw err;
+                                } else {
+                                    holidays = rows.map(e => {
+                                        e.startHoliday = e.startHoliday.getFullYear() + "-" + pad(e.startHoliday.getMonth() + 1) + "-" + pad(e.startHoliday.getDate());
+                                        e.finishHoliday = e.finishHoliday.getFullYear() + "-" + pad(e.finishHoliday.getMonth() + 1) + "-" + pad(e.finishHoliday.getDate());
+                                        return e;
+                                    });
+                                    if (checkAddData.checkHoliday(holidays, start, finish) == false) {
+                                        admin.sendResponse(false, res);
+                                    } else {
+                                        admin.findByHooky(data.employeeID, function(err, rows, fields) {
+                                            if(err) {
+                                                throw err;
+                                            } else {
+                                                hooky = rows.map(e => {
+                                                    e.dayHooky = e.dayHooky.getFullYear() + "-" + pad(e.dayHooky.getMonth() + 1) + "-" + pad(e.dayHooky.getDate());
+                                                    return e;
+                                                });
+                                                if (checkAddData.checkHooky(hooky, start, finish) == false) {
+                                                    admin.sendResponse(false, res);
+                                                } else {
+                                                    admin.findByWorkDays(data.employeeID, function(err, rows, fields) {
+                                                        if (checkAddData.check(start, finish, sickLeave, business, holidays, hooky, rows) == false) {
+                                                            admin.sendResponse(false, res);
+                                                        } else {
+                                                            admin.addHoliday(data, function(err, info) {
+                                                                if (err) throw err;
+                                                                console.log(info);
+                                                                res.json({id: info.insertId, 'success': 'true' });
+                                                             });
+                                                        };
+                                                    });
+                                                };
+                                            }
+                                        });
+                                    };
+                                }
+                            });
+                        };
+                    }
+                });
+            };
+        }
+        
+    });
+});
+
+
+app.delete('/delete_holiday', (req, res, next) => {
+    var data = req.body;
+    console.log(data);
+    admin.deleteHoliday(data.id, function(err, info) {
+        if (err) {
+            console.log(err);
+            next(err);
+            return res.send({ 'success': 'false' });
+        }
+        console.log(info);
+        admin.sendResponse(true, res);
+    });
+});
+
+app.put('/edit_holiday', (req, res) => {
+    let data = req.body;
+    console.log(data);
+    let start = data.startHoliday,
+        finish = data.finishHoliday,
+        sickLeave, business, holidays, hooky;
+
+    admin.findBySickLeave(data.employeeID, function(err, rows, fields) {
+        if(err) {
+            throw err;
+        } else {
+            sickLeave = rows.map(e => {
+                e.startDisease = e.startDisease.getFullYear() + "-" + pad(e.startDisease.getMonth() + 1) + "-" + pad(e.startDisease.getDate());
+                e.finishDisease = e.finishDisease.getFullYear() + "-" + pad(e.finishDisease.getMonth() + 1) + "-" + pad(e.finishDisease.getDate());
+                return e;
+            });
+            if (checkAddData.checkSickLeave(sickLeave, start, finish) == false) {
+                admin.sendResponse(false, res);
+            } else {
+                admin.findByBusinessTrip(data.employeeID, function(err, rows, fields) {
+                    if(err) {
+                        throw err;
+                    } else {
+                        business = rows.map(e => {
+                            e.startBusinessTrip = e.startBusinessTrip.getFullYear() + "-" + pad(e.startBusinessTrip.getMonth() + 1) + "-" + pad(e.startBusinessTrip.getDate());
+                            e.finishBusinessTrip = e.finishBusinessTrip.getFullYear() + "-" + pad(e.finishBusinessTrip.getMonth() + 1) + "-" + pad(e.finishBusinessTrip.getDate());
+                            return e;
+                        });
+                        if (checkAddData.checkBusinessTrip(business, start, finish) == false) {
+                            admin.sendResponse(false, res);
+                        } else {
+                            admin.findByHoliday(data.employeeID, function(err, rows, fields) {
+                                if(err) {
+                                    throw err;
+                                } else {
+                                    holidays = rows.map(e => {
+                                        e.startHoliday = e.startHoliday.getFullYear() + "-" + pad(e.startHoliday.getMonth() + 1) + "-" + pad(e.startHoliday.getDate());
+                                        e.finishHoliday = e.finishHoliday.getFullYear() + "-" + pad(e.finishHoliday.getMonth() + 1) + "-" + pad(e.finishHoliday.getDate());
+                                        return e;
+                                    }).filter((i) => i.id !== data.id);
+                                    if (checkAddData.checkHoliday(holidays, start, finish) == false) {
+                                        admin.sendResponse(false, res);
+                                    } else {
+                                        admin.findByHooky(data.employeeID, function(err, rows, fields) {
+                                            if(err) {
+                                                throw err;
+                                            } else {
+                                                hooky = rows.map(e => {
+                                                    e.dayHooky = e.dayHooky.getFullYear() + "-" + pad(e.dayHooky.getMonth() + 1) + "-" + pad(e.dayHooky.getDate());
+                                                    return e;
+                                                });
+                                                if (checkAddData.checkHooky(hooky, start, finish) == false) {
+                                                    admin.sendResponse(false, res);
+                                                } else {
+                                                    admin.findByWorkDays(data.employeeID, function(err, rows, fields) {
+                                                        if (checkAddData.check(start, finish, sickLeave, business, holidays, hooky, rows) == false) {
+                                                            admin.sendResponse(false, res);
+                                                        } else {
+                                                            admin.editHoliday(data, function(err, info) {
+                                                                if (err) throw err;
+                                                                console.log(info);
+                                                                admin.sendResponse(true, res);
+                                                            });
+                                                        };
+                                                    });
+                                                };
+                                            }
+                                        });
+                                    };
+                                }
+                            });
+                        };
+                    }
+                });
+            };
+        }
+        
+    });
+});
+
+
+
 app.get('/get_businessTrips', async(req, res) => {
     let businessTrips = await admin.getBusinessTrips();
     businessTrips = businessTrips.map(e => {

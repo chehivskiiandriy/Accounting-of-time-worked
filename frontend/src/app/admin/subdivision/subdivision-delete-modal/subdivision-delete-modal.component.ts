@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { SubdivisionService } from './../../../_services/subdivision.service';
-import { Alert } from './../../../shared/alert';
+import { error } from './../../../shared/alert';
 
 @Component({
   selector: 'app-subdivision-delete-modal',
@@ -12,7 +12,6 @@ import { Alert } from './../../../shared/alert';
 export class SubdivisionDeleteModalComponent implements OnInit {
 
   subdivision: any = {};
-  alertModal: Alert = new Alert();
 
   constructor(public dialogRef: MatDialogRef<SubdivisionDeleteModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -32,10 +31,9 @@ export class SubdivisionDeleteModalComponent implements OnInit {
       if(this.subdivisionService.success !== undefined){
         clearInterval(s);
         if(this.subdivisionService.success){
-          this.alertModal.success();
-          setTimeout(() => this.dialogRef.close(), 1600);
+          this.dialogRef.close();
           } else {
-            this.alertModal.error();
+            error();
           }
       }
     }, 50);

@@ -43,7 +43,7 @@ function filteredWorkingDays(workTest, startYear, startMonth, finishYear, finish
     filter = workTest.filter((e) => {
         return  (e.year == startYear && e.year == finishYear && e.month >= startMonth && e.month <= finishMonth) ||
                 (startYear != finishYear && ((e.year == startYear && e.month >= startMonth) || (e.year == finishYear && e.month <= finishMonth) )) || 
-                (e.year > startYear && e.year < finishYear)
+                (e.year > startYear && e.year < finishYear);
     }); 
     console.log(filter);
     return filter;

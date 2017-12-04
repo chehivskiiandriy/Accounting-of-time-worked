@@ -1,3 +1,29 @@
-<p>
-  holidays-edit-modal works!
-</p>
+<div class="container">
+  <form [formGroup]="editHolidayForm" (ngSubmit)="editHoliday()">
+
+    <h2 mat-dialog-title>Edit holiday</h2>
+    <mat-dialog-content>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Choose a start" formControlName="startHoliday" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error *ngIf="formErrors.startHoliday">{{ formErrors.startHoliday }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker2" placeholder="Choose a finish" formControlName="finishHoliday" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="formErrors.finishHoliday">{{ formErrors.finishHoliday }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!editHolidayForm.valid || editHolidayForm.value.startHoliday > editHolidayForm.value.finishHoliday">
+        Edit
+      </button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
+  </form>
+</div>

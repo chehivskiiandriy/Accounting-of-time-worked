@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { SharedModule } from './../../shared/shared.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { SickLeaveComponent } from './sick-leave.component';
 import { SickLeaveAddModalComponent } from './sick-leave-add-modal/sick-leave-add-modal.component';
@@ -13,7 +14,9 @@ import { SickLeaveDeleteModalComponent } from './sick-leave-delete-modal/sick-le
     imports: [
         CommonModule,
         SharedModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule,
+        NgxPaginationModule
     ],
     declarations: [
         SickLeaveComponent,
@@ -23,7 +26,8 @@ import { SickLeaveDeleteModalComponent } from './sick-leave-delete-modal/sick-le
     ],
     entryComponents: [
         SickLeaveAddModalComponent,
-        SickLeaveEditModalComponent
+        SickLeaveEditModalComponent,
+        SickLeaveDeleteModalComponent
       ],
     providers: [
     ]

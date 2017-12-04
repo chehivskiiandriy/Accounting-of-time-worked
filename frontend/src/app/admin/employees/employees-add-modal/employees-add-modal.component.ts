@@ -8,7 +8,7 @@ import { EmployeesService } from './../../../_services/employees.service';
 
 import { CheckErrorValidators } from './../../../shared/check-error-validators';
 import { datePatternValidator } from './../../../shared/custom-validators';
-import { Alert } from './../../../shared/alert';
+import { success, error } from './../../../shared/alert';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -27,7 +27,6 @@ export class EmployeesAddModalComponent implements OnInit {
   maxDate;
 
   addEmployeeForm: FormGroup;
-  alertModal: Alert = new Alert();
   checkErrors: CheckErrorValidators = new CheckErrorValidators();
 
   formErrors = {
@@ -117,12 +116,11 @@ export class EmployeesAddModalComponent implements OnInit {
       if(this.employeesService.success !== undefined){
         clearInterval(s);
         if(this.employeesService.success){
-          this.alertModal.success();
+          success();
           this.addEmployeeForm.reset();
           this.checkErrors.onValueChange(this.addEmployeeForm, this.formErrors);
           } else {
-            this.alertModal.error();
-            // this.employee.birthday = moment(this.employee.birthday);
+            error();
           }
       }
     }, 50);

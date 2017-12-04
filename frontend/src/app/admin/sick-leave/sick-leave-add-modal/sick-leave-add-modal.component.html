@@ -1,50 +1,51 @@
 <div class="container">
-  <h2 mat-dialog-title>Add sick-leave</h2>
-  <mat-dialog-content>
-    
-    <mat-form-field>
-      <mat-select placeholder="Subdivision" [(value)]="selectedSubdivision" (change)="onSelect($event.value)">
-        <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
-          {{ subdivision.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  
-    <mat-form-field>
-      <mat-select placeholder="Employee" [(value)]="selectedEmployee">
-        <mat-option *ngFor="let employee of employees | async" [value]="employee">
-          {{ employee.surname }} {{ employee.name }} {{ employee.patronymic }} | tn{{ employee.id }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker1" placeholder="Choose a date" [(ngModel)]="sickLeave.startDisease">
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>    
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
-    
-    <mat-form-field>
-      <input matInput [matDatepicker]="picker2" placeholder="Choose a date" [(ngModel)]="sickLeave.finishDisease">
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
-  
-    <mat-form-field class="modal-form">
-      <input class="modal-input" matInput type="text" placeholder="Disease" minlength="3" [(ngModel)]="sickLeave.disease">
-    </mat-form-field>
-  
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="createSickLeave()" [disabled]="sickLeave.disease.length < 3 || 
-                                                              sickLeave.disease.length > 40 || 
-                                                              selectedEmployee.id == undefined || 
-                                                              sickLeave.startDisease == undefined || 
-                                                              sickLeave.finishDisease == undefined || 
-                                                              sickLeave.startDisease > sickLeave.finishDisease ||
-                                                              (sickLeave.startDisease.hasOwnProperty('_pf') && sickLeave.startDisease._pf.unusedInput.length > 0) ||
-                                                              (sickLeave.finishDisease.hasOwnProperty('_pf') && sickLeave.finishDisease._pf.unusedInput.length > 0)">
-                                                              Create</button>    
-    <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
-  </mat-dialog-actions>
+  <form [formGroup]="addSickLeaveForm" (ngSubmit)="createSickLeave()">
+
+    <h2 mat-dialog-title>Add sick-leave</h2>
+    <mat-dialog-content>
+
+      <mat-form-field>
+        <mat-select placeholder="Subdivision" formControlName="selectedSubdivision" (change)="onSelect($event.value)">
+          <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
+            {{ subdivision.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formErrors.selectedSubdivision">{{ formErrors.selectedSubdivision }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Employee" formControlName="selectedEmployee">
+          <mat-option *ngFor="let employee of employees | async" [value]="employee">
+            {{ employee.surname }} {{ employee.name }} {{ employee.patronymic }} | #{{ employee.id }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formErrors.selectedEmployee">{{ formErrors.selectedEmployee }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Choose a start" formControlName="startDisease" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 startView="year"></mat-datepicker>
+        <mat-error *ngIf="formErrors.startDisease">{{ formErrors.startDisease }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker2" placeholder="Choose a finish" formControlName="finishDisease" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 startView="year"></mat-datepicker>
+        <mat-error *ngIf="formErrors.finishDisease">{{ formErrors.finishDisease }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="modal-form">
+        <input class="modal-input" matInput type="text" placeholder="Disease" formControlName="disease">
+        <mat-error *ngIf="formErrors.disease">{{ formErrors.disease }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addSickLeaveForm.valid || addSickLeaveForm.value.startDisease > addSickLeaveForm.value.finishDisease">
+        Create</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
+  </form>
 </div>
