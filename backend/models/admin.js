@@ -4,7 +4,6 @@ var connection = mysql.createConnection({
     user: 'root',
     password: '12345',
     database: 'AccountingOfTimeWorked'
-    // timezone: 'utc'
 });
 
 connection.connect(function() {
@@ -54,6 +53,20 @@ module.exports.getEmployees = () => {
     });
 }
 
+module.exports.getEmployeesInSubdivision = function(id) {
+    let query = `select Employee.*, Subdivision.name as 'subdivision'
+                    from subdivision 
+                    inner join Employee where Subdivision.id = Employee.subdivisionID and Subdivision.id = '${id}'
+                    ORDER BY Employee.id ASC;`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
 module.exports.addEmployee = function(data, callback) {
     connection.query("INSERT INTO Employee SET ?", data, callback);
 }
@@ -84,6 +97,18 @@ module.exports.getSickLeaves = () => {
 
 module.exports.findBySickLeave = function(employeeID, callback) {
     connection.query(`SELECT * FROM SickLeave WHERE employeeID = '${employeeID}'`, callback);
+}
+
+module.exports.findBySickLeaveWithPromise = function(employeeID) {
+    let query = `SELECT * FROM SickLeave WHERE employeeID = '${employeeID}'`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
 }
 
 module.exports.addSickLeave = function(data, callback) {
@@ -118,6 +143,18 @@ module.exports.findByHoliday = function(employeeID, callback) {
     connection.query(`SELECT * FROM Holiday WHERE employeeID = '${employeeID}'`, callback);
 }
 
+module.exports.findByHolidayWithPromise = function(employeeID) {
+    let query = `SELECT * FROM Holiday WHERE employeeID = '${employeeID}'`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
 module.exports.addHoliday = function(data, callback) {
     connection.query("INSERT INTO Holiday SET ?", data, callback);
 }
@@ -150,6 +187,30 @@ module.exports.findByBusinessTrip = function(employeeID, callback) {
     connection.query(`SELECT * FROM BusinessTrip WHERE employeeID = '${employeeID}'`, callback);
 }
 
+module.exports.findByBusinessTripWithPromise = function(employeeID) {
+    let query = `SELECT * FROM BusinessTrip WHERE employeeID = '${employeeID}'`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+module.exports.addBusinessTrip = function(data, callback) {
+    connection.query("INSERT INTO BusinessTrip  SET ?", data, callback);
+}
+
+module.exports.deleteBusinessTrip = function(idBusinessTrip , callback) {
+    connection.query(`DELETE FROM BusinessTrip  WHERE id = ${idBusinessTrip }`, callback);
+}
+
+module.exports.editBusinessTrip = function(data, callback) {
+    connection.query(`UPDATE BusinessTrip  SET startBusinessTrip = '${data.startBusinessTrip}', finishBusinessTrip = '${data.finishBusinessTrip}' WHERE id = ${data.id}`, callback);
+}
+
 module.exports.getHooky = () => {
     let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, Hooky.*
                     from ((Employee 
@@ -170,12 +231,8 @@ module.exports.findByHooky = function(employeeID, callback) {
     connection.query(`SELECT * FROM Hooky WHERE employeeID = '${employeeID}'`, callback);
 }
 
-module.exports.getWorkingDays = () => {
-    let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, WorkDays.*
-                    from ((Employee 
-                        join WorkDays on WorkDays.employeeID = Employee.id) 
-                        join Subdivision on Subdivision.id = Employee.subdivisionID) 
-                    order by WorkDays.year, WorkDays.month desc;`;
+module.exports.findByHookyWithPromise = function(employeeID) {
+    let query = `SELECT * FROM Hooky WHERE employeeID = '${employeeID}'`;
     return new Promise((resolve, reject) => {
         connection.query(query, (err, rows, fields) => {
             if (err) {
@@ -186,8 +243,76 @@ module.exports.getWorkingDays = () => {
     });
 }
 
-module.exports.findByWorkDays = function(employeeID, callback) {
-    connection.query(`SELECT * FROM WorkDays WHERE employeeID = '${employeeID}'`, callback);
+module.exports.addHooky = function(data, callback) {
+    connection.query("INSERT INTO Hooky  SET ?", data, callback);
+}
+
+module.exports.deleteHooky = function(idHooky , callback) {
+    connection.query(`DELETE FROM Hooky  WHERE id = ${idHooky }`, callback);
+}
+
+module.exports.editHooky = function(data, callback) {
+    connection.query(`UPDATE Hooky  SET dayHooky = '${data.dayHooky}' WHERE id = ${data.id}`, callback);
+}
+
+module.exports.getWorkingDays = () => {
+    let query = `select Subdivision.name as subdivision, CONCAT(Employee.surname, ' ', Employee.name, ' ', Employee.patronymic) as fullName, WorkDays.*
+                    from ((Employee 
+                        join WorkDays on WorkDays.employeeID = Employee.id) 
+                        join Subdivision on Subdivision.id = Employee.subdivisionID) 
+                    order by WorkDays.year desc, WorkDays.month desc;`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+module.exports.findByWorkingDays = function(employeeID, callback) {
+    connection.query(`SELECT * FROM WorkDays WHERE employeeID = ${employeeID}`, callback);
+}
+
+module.exports.findByWorkingDaysWithPromise = function(employeeID) {
+    let query = `SELECT * FROM WorkDays WHERE employeeID = ${employeeID}`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+module.exports.findByWorkingDaysYearMonthId = function(data, callback) {
+    connection.query(`SELECT * FROM WorkDays WHERE year = ${data.year} and month = ${data.month} and employeeID = ${data.employeeID}`, callback);
+}
+
+module.exports.findByWorkingDaysYearMonthIdWithPromise = function(year, month, employeeID) {
+    let query = `SELECT * FROM WorkDays WHERE year = ${year} and month = ${month} and employeeID = ${employeeID}`;
+    return new Promise((resolve, reject) => {
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+module.exports.addWorkingDays = function(data, callback) {
+    connection.query("INSERT INTO WorkDays SET ?", data, callback);
+}
+
+module.exports.deleteWorkingDays = function(data, callback) {
+    connection.query(`DELETE FROM WorkDays WHERE year = ${data.year} and month = ${data.month} and employeeID = ${data.employeeID}`, callback);
+}
+
+module.exports.editWorkingDays = function(data, callback) {
+    connection.query(`UPDATE WorkDays SET actualAmountWorkDay = ${data.actualAmountWorkDay} WHERE year = ${data.year} and month = ${data.month} and employeeID = ${data.employeeID}`, callback);
 }
 
 module.exports.sendResponse = function(success, res) {

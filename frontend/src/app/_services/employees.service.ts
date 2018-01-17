@@ -29,20 +29,15 @@ export class EmployeesService {
     url = 'http://localhost:8080/';
     
     getAll() {
-        return this.http.get(this.url +'get_employees').map((response: Response) => response.json()).subscribe(data => {
-            this.dataStore.employees = data;
-            this._employees.next(Object.assign({}, this.dataStore).employees);
-          }, error => console.log('Could not load disciplines.'));
+        return this.http.get(this.url +'get_employees')
+            .map((response: Response) => response.json())
+            .catch(this.handleError)
+            .subscribe(data => {
+                this.dataStore.employees = data;
+                this._employees.next(Object.assign({}, this.dataStore).employees);
+            });
     }
 
-    getAllWithoutObservable() {
-        return this.dataStore.employees;
-    }
-    
-    getFiltered(id) {
-        return this.employees.map(e => e.filter((t) => t.subdivisionID === id));
-    }
-    
     create(employee, subdivisionName) {
         this.success = undefined;
 

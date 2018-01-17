@@ -1,8 +1,4 @@
 function checkSickLeave(sickLeaveTest, start, finish) {
-    console.log(sickLeaveTest);
-    console.log(start);
-    console.log(finish);
-
     for (let i = 0; i < sickLeaveTest.length; i++) {
         if( !(start > sickLeaveTest[i].finishDisease || finish < sickLeaveTest[i].startDisease) ) {
             return false;
@@ -66,7 +62,7 @@ function check(start, finish, sickLeaveTest, businessTest, holidaysTest, hookyTe
 
     workTest = filteredWorkingDays(workTest, startYear, startMonth, finishYear, finishMonth);
     console.log(workTest);
-
+    
     for (let i = 0; i < sickLeaveTest.length; i++) {
 
         let sickLeaveStart = sickLeaveTest[i].startDisease.split('-'),
@@ -230,8 +226,167 @@ function check(start, finish, sickLeaveTest, businessTest, holidaysTest, hookyTe
     return true;
 }
 
-function getAmountDaysInMonth(finishYear, finishMonth) {
-    switch (finishMonth) {
+function sumSickLeave(rows, year, month, period) {
+    let sum = 0;
+    let sickLeave = rows.map(e => {
+        e.startDisease = e.startDisease.getFullYear() + "-" + pad(e.startDisease.getMonth() + 1) + "-" + pad(e.startDisease.getDate());
+        e.finishDisease = e.finishDisease.getFullYear() + "-" + pad(e.finishDisease.getMonth() + 1) + "-" + pad(e.finishDisease.getDate());
+        return e;
+    });
+    
+    if(period === "month") {
+        let countDayInMonth = getAmountDaysInMonth(year, month);
+
+        if(month < 10) month = '0' + month;
+        
+        let s = `${year}-${month}-01`,
+            f = `${year}-${month}-${countDayInMonth}`;
+        for (let i = 0; i < sickLeave.length; i++) {
+             if(sickLeave[i].startDisease >= s && sickLeave[i].finishDisease <= f) {
+                let days = new Date(sickLeave[i].startDisease);
+                let dayf = new Date(sickLeave[i].finishDisease);
+                sum += dayf.getDate() - days.getDate() + 1;
+                console.log("@3");
+            } else if(sickLeave[i].startDisease <= s && sickLeave[i].finishDisease >= f) {
+                sum += countDayInMonth;
+                console.log("@4");
+            } else if(sickLeave[i].finishDisease >= s && sickLeave[i].finishDisease <= f) {
+                let day = new Date(sickLeave[i].finishDisease);
+                sum += day.getDate();
+                console.log("@1");
+            } else if(sickLeave[i].startDisease >= s && sickLeave[i].startDisease <= f) {
+                let day = new Date(sickLeave[i].startDisease);
+                sum += countDayInMonth - day.getDate() + 1;
+                console.log("@2");
+            }
+        }
+    } else if(period === "allTime") {
+        for (let i = 0; i < sickLeave.length; i++) {
+            let days = new Date(sickLeave[i].startDisease);
+            let dayfb = new Date(sickLeave[i].finishDisease);
+            sum += Math.ceil((dayfb.getTime()-days.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        } 
+    }
+    console.log(sum);
+    
+    return sum;
+}
+
+function sumBusiness(rows, year, month, period) {
+    let sum = 0;
+    let businessTrip = rows.map(e => {
+        e.startBusinessTrip = e.startBusinessTrip.getFullYear() + "-" + pad(e.startBusinessTrip.getMonth() + 1) + "-" + pad(e.startBusinessTrip.getDate());
+        e.finishBusinessTrip = e.finishBusinessTrip.getFullYear() + "-" + pad(e.finishBusinessTrip.getMonth() + 1) + "-" + pad(e.finishBusinessTrip.getDate());
+        return e;
+    });
+
+    if(period === "month") {
+        let countDayInMonth = getAmountDaysInMonth(year, month);
+
+        if(month < 10) month = '0' + month;
+        
+        let s = `${year}-${month}-01`,
+            f = `${year}-${month}-${countDayInMonth}`;
+
+        for (let i = 0; i < businessTrip.length; i++) {
+            if(businessTrip[i].startBusinessTrip >= s && businessTrip[i].finishBusinessTrip <= f) {
+                let days = new Date(businessTrip[i].startBusinessTrip);
+                let dayf = new Date(businessTrip[i].finishBusinessTrip);
+                sum += dayf.getDate() - days.getDate() + 1;
+            } else if(businessTrip[i].startBusinessTrip <= s && businessTrip[i].finishBusinessTrip >= f) {
+                sum += countDayInMonth;
+            } else if(businessTrip[i].finishBusinessTrip >= s && businessTrip[i].finishBusinessTrip <= f) {
+                let day = new Date(businessTrip[i].finishBusinessTrip);
+                sum += day.getDate();
+            } else if(businessTrip[i].startBusinessTrip >= s && businessTrip[i].startBusinessTrip <= f) {
+                let day = new Date(businessTrip[i].startBusinessTrip);
+                sum += countDayInMonth - day.getDate() + 1;
+            }
+        }
+    } else if(period === "allTime") {
+        for (let i = 0; i < businessTrip.length; i++) {
+            let days = new Date(businessTrip[i].startBusinessTrip);
+            let dayfb = new Date(businessTrip[i].finishBusinessTrip);
+            sum += Math.ceil((dayfb.getTime()-days.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        } 
+    }
+    return sum;
+}
+
+function sumHolidays(rows, year, month, period) {
+    let sum = 0;
+    let holiday = rows.map(e => {
+        e.startHoliday = e.startHoliday.getFullYear() + "-" + pad(e.startHoliday.getMonth() + 1) + "-" + pad(e.startHoliday.getDate());
+        e.finishHoliday = e.finishHoliday.getFullYear() + "-" + pad(e.finishHoliday.getMonth() + 1) + "-" + pad(e.finishHoliday.getDate());
+        return e;
+    });
+    if(period === "month") {
+        let countDayInMonth = getAmountDaysInMonth(year, month);
+
+        if(month < 10) month = '0' + month;
+        
+        let s = `${year}-${month}-01`,
+            f = `${year}-${month}-${countDayInMonth}`;
+
+        for (let i = 0; i < holiday.length; i++) {
+            if(holiday[i].startHoliday >= s && holiday[i].finishHoliday <= f) {
+                let days = new Date(holiday[i].startHoliday);
+                let dayf = new Date(holiday[i].finishHoliday);
+                sum += dayf.getDate() - days.getDate() + 1;
+            } else if(holiday[i].startHoliday <= s && holiday[i].finishHoliday >= f) {
+                sum += countDayInMonth;
+            } else if(holiday[i].finishHoliday >= s && holiday[i].finishHoliday <= f) {
+                let day = new Date(holiday[i].finishHoliday);
+                sum += day.getDate();
+            } else if(holiday[i].startHoliday >= s && holiday[i].startHoliday <= f) {
+                let day = new Date(holiday[i].startHoliday);
+                sum += countDayInMonth - day.getDate() + 1;
+            }
+        }
+    } else if(period === "allTime") {
+        for (let i = 0; i < holiday.length; i++) {
+            let days = new Date(holiday[i].startHoliday);
+            let dayfb = new Date(holiday[i].finishHoliday);
+            sum += Math.ceil((dayfb.getTime()-days.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        } 
+    }
+
+    return sum;
+}
+
+function sumHooky(rows, year, month, period) {
+    let sum = 0;
+    let hooky = rows.map(e => {
+        e.dayHooky = e.dayHooky.getFullYear() + "-" + pad(e.dayHooky.getMonth() + 1) + "-" + pad(e.dayHooky.getDate());
+        return e;
+    });
+
+    if(period === "month") {
+        for (let i = 0; i < hooky.length; i++) {
+            day = new Date(hooky[i].dayHooky);
+            if(day.getFullYear() === year && (day.getMonth() +1) === month) 
+                sum++;
+        }
+    } else if(period === "allTime") {
+        sum += hooky.length;
+    }
+
+    return sum;
+}
+
+function sumWorkingDays(rows) {
+    let sum = 0;
+    console.log(rows);
+    for(let i = 0; i < rows.length; i++) {
+        sum += rows[i].actualAmountWorkDay; 
+    } 
+    console.log(sum);
+
+    return sum;
+}
+
+function getAmountDaysInMonth(Year, Month) {
+    switch (Month) {
         case 1:
         case 3:
         case 5:
@@ -246,11 +401,54 @@ function getAmountDaysInMonth(finishYear, finishMonth) {
         case 11:
             return 30;
         case 2:
-            if(finishYear % 4 == 0)
+            if(Year % 4 == 0)
                 return 29; 
             else 
                 return 28;
       }
+}
+
+function pad(number) {
+    if (number < 10) {
+      return '0' + number;
+    }
+    return number;
+}
+
+function testSumSickLeave(sickLeave, year, month, period) {
+    let sum = 0;
+    
+    if(period === "month") {
+        let countDayInMonth = getAmountDaysInMonth(year, month);
+
+        if(month < 10) month = '0' + month;
+        
+        let s = `${year}-${month}-01`,
+            f = `${year}-${month}-${countDayInMonth}`;
+        for (let i = 0; i < sickLeave.length; i++) {
+             if(sickLeave[i].startDisease >= s && sickLeave[i].finishDisease <= f) {
+                let days = new Date(sickLeave[i].startDisease);
+                let dayf = new Date(sickLeave[i].finishDisease);
+                sum += dayf.getDate() - days.getDate() + 1;
+            } else if(sickLeave[i].startDisease <= s && sickLeave[i].finishDisease >= f) {
+                sum += countDayInMonth;
+            } else if(sickLeave[i].finishDisease >= s && sickLeave[i].finishDisease <= f) {
+                let day = new Date(sickLeave[i].finishDisease);
+                sum += day.getDate();
+            } else if(sickLeave[i].startDisease >= s && sickLeave[i].startDisease <= f) {
+                let day = new Date(sickLeave[i].startDisease);
+                sum += countDayInMonth - day.getDate() + 1;
+            }
+        }
+    } else if(period === "allTime") {
+        for (let i = 0; i < sickLeave.length; i++) {
+            let days = new Date(sickLeave[i].startDisease);
+            let dayfb = new Date(sickLeave[i].finishDisease);
+            sum += Math.ceil((dayfb.getTime()-days.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        } 
+    }
+    
+    return sum;
 }
 
 module.exports = {
@@ -258,5 +456,12 @@ module.exports = {
     checkBusinessTrip,
     checkHoliday,
     checkHooky,
-    check
+    check,
+    getAmountDaysInMonth,
+    sumSickLeave,
+    sumBusiness,
+    sumHolidays,
+    sumHooky,
+    sumWorkingDays,
+    testSumSickLeave
 };

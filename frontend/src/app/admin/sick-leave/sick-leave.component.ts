@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked  } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material';
 
@@ -7,6 +7,8 @@ import { SickLeaveService } from './../../_services/sick-leave.service';
 import { SickLeaveAddModalComponent } from './sick-leave-add-modal/sick-leave-add-modal.component';
 import { SickLeaveEditModalComponent } from './sick-leave-edit-modal/sick-leave-edit-modal.component';
 import { SickLeaveDeleteModalComponent } from './sick-leave-delete-modal/sick-leave-delete-modal.component';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-sick-leave',
@@ -29,6 +31,14 @@ export class SickLeaveComponent implements OnInit {
     console.log(this.sickLeaves);
   }
 
+  ngAfterViewChecked() {
+    $(".top").css("width", $(".table").width());
+  }
+  
+  resize(){
+    $(".top").css("width", $(".table").width());
+  }
+
   createSickLeave(): void {
     const dialogRef = this.dialog.open(SickLeaveAddModalComponent, {
       height: '500px',
@@ -48,8 +58,8 @@ export class SickLeaveComponent implements OnInit {
 
   deleteSickLeave(sickLeave){
     const dialogRefDelete = this.dialog.open(SickLeaveDeleteModalComponent, {
-      height: '200px',
-      width: '400px',
+      height: '150px',
+      width: '250px',
       data: {
         sickLeave: sickLeave
       }

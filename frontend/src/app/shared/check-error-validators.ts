@@ -82,6 +82,42 @@ export class CheckErrorValidators {
             "matDatepickerMax": `The value must not be more than ${this.currentDay} .`,
             "matDatepickerParse": "The value must be in format dd.mm.yyyy .",
             "datePatternValidator": "The value must be in format dd.mm.yyyy ."
+        },
+        "startBusinessTrip": {
+            "required": "Required field.",
+            "matDatepickerMin": `The value must be at least ${this.yearAgo} .`,
+            "matDatepickerMax": `The value must not be more than ${this.currentDay} .`,
+            "matDatepickerParse": "The value must be in format dd.mm.yyyy .",
+            "datePatternValidator": "The value must be in format dd.mm.yyyy ."
+        },
+        "finishBusinessTrip": {
+            "required": "Required field.",
+            "matDatepickerMin": `The value must be at least ${this.yearAgo} .`,
+            "matDatepickerMax": `The value must not be more than ${this.currentDay} .`,
+            "matDatepickerParse": "The value must be in format dd.mm.yyyy .",
+            "datePatternValidator": "The value must be in format dd.mm.yyyy ."
+        },
+        "dayHooky": {
+            "required": "Required field.",
+            "matDatepickerMin": `The value must be at least ${this.yearAgo} .`,
+            "matDatepickerMax": `The value must not be more than ${this.currentDay} .`,
+            "matDatepickerParse": "The value must be in format dd.mm.yyyy .",
+            "datePatternValidator": "The value must be in format dd.mm.yyyy ."
+        },
+        "year": {
+            "required": "Required field.",
+            "min": "min",
+            "max": "max"
+        },
+        "month": {
+            "required": "Required field.",
+            "min": "min",
+            "max": "max"
+        },
+        "actualAmountWorkDay": {
+            "required": "Required field.",
+            "min": "min",
+            "max": "max"
         }
     };
 

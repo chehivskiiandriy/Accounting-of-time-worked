@@ -38,12 +38,6 @@ export class HolidaysService {
           });
     }
 
-    getFilteredbyEmployee(id) {
-        let filter = [];
-        filter = this.dataStore.holidays.filter((e) => e.employeeID === id); 
-        return filter;
-    }
-
     create(holiday, fullName, subdivision) {
         this.success = undefined;
         holiday.startHoliday = holiday.startHoliday._d.getFullYear() + "-" + this.pad(holiday.startHoliday._d.getMonth() + 1) + "-" + this.pad(holiday.startHoliday._d.getDate());

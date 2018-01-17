@@ -1,3 +1,28 @@
-<p>
-  business-trip-edit-modal works!
-</p>
+<div class="container">
+  <form [formGroup]="editBusinessTripForm" (ngSubmit)="editBusinessTrip()">
+
+    <h2 mat-dialog-title>Edit business trip</h2>
+    <mat-dialog-content>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Choose a start" formControlName="startBusinessTrip" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error *ngIf="formErrors.startBusinessTrip">{{ formErrors.startBusinessTrip }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker2" placeholder="Choose a finish" formControlName="finishBusinessTrip" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="formErrors.finishBusinessTrip">{{ formErrors.finishBusinessTrip }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!editBusinessTripForm.valid || editBusinessTripForm.value.startBusinessTrip > editBusinessTripForm.value.finishBusinessTrip">
+        Create</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
+  </form>
+</div>

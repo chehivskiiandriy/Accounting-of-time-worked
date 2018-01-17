@@ -1,3 +1,19 @@
-<p>
-  working-days-edit-modal works!
-</p>
+<div class="container">
+  <form [formGroup]="editWorkingDaysForm" (ngSubmit)="editWorkingDays()">
+
+    <h2 mat-dialog-title>Edit working days</h2>
+    <mat-dialog-content>
+
+      <mat-form-field class="modal-form">
+        <input class="modal-input" matInput type="number" placeholder="Amount working days" formControlName="actualAmountWorkDay">
+        <mat-error *ngIf="formErrors.actualAmountWorkDay">{{ formErrors.actualAmountWorkDay }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!editWorkingDaysForm.valid">
+        Edit</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
+  </form>
+</div>

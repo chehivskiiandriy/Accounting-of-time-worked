@@ -1,8 +1,9 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { SharedModule } from './../../shared/shared.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { HookyComponent } from './hooky.component';
 import { HookyAddModalComponent } from './hooky-add-modal/hooky-add-modal.component';
@@ -14,7 +15,9 @@ import { HookyDeleteModalComponent } from './hooky-delete-modal/hooky-delete-mod
     imports: [
         CommonModule,
         SharedModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule,
+        NgxPaginationModule
     ],
     declarations: [
         HookyComponent,
@@ -24,7 +27,8 @@ import { HookyDeleteModalComponent } from './hooky-delete-modal/hooky-delete-mod
     ],
     entryComponents: [
         HookyAddModalComponent,
-        HookyEditModalComponent
+        HookyEditModalComponent,
+        HookyDeleteModalComponent
     ],
     providers: [
     ]

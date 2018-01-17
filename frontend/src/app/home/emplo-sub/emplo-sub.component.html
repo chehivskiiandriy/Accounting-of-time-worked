@@ -1,0 +1,26 @@
+<div class="container">
+    
+        <div class="top">
+            <mat-form-field class="search">
+                <input matInput placeholder="Search" [(ngModel)]="searchString">
+            </mat-form-field>
+        </div>
+        
+        <table id="datatables" class="table">
+            <thead>
+                <tr>
+                    <th *ngFor="let row of displayedColumns">{{ row }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employee of employees | async | filter : searchString  | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+                    <td>{{i+1+page*countItems-countItems}}</td>
+                    <td>{{employee.subdivision}}</td>                    
+                    <td>{{employee.surname}} {{employee.name}} {{employee.patronymic}}</td>
+                    <td>{{employee.birthday.split('-').reverse().join('.')}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls class="my-pagination" (click)="resize()" (pageChange)="page = $event"></pagination-controls>
+    </div>
+    

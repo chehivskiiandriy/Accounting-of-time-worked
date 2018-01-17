@@ -1,3 +1,39 @@
-<p>
-  hooky-add-modal works!
-</p>
+<div class="container">
+  <form [formGroup]="addHookyForm" (ngSubmit)="createHooky()">
+
+    <h2 mat-dialog-title>Add hooky</h2>
+    <mat-dialog-content>
+
+      <mat-form-field>
+        <mat-select placeholder="Subdivision" formControlName="selectedSubdivision" (change)="onSelect($event.value)">
+          <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
+            {{ subdivision.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formErrors.selectedSubdivision">{{ formErrors.selectedSubdivision }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Employee" formControlName="selectedEmployee">
+          <mat-option *ngFor="let employee of employees | async" [value]="employee">
+            {{ employee.surname }} {{ employee.name }} {{ employee.patronymic }} | #{{ employee.id }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formErrors.selectedEmployee">{{ formErrors.selectedEmployee }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Choose a day" formControlName="dayHooky" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 startView="year"></mat-datepicker>
+        <mat-error *ngIf="formErrors.dayHooky">{{ formErrors.dayHooky }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addHookyForm.valid">
+        Create</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
+  </form>
+</div>

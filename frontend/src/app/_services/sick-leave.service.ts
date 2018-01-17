@@ -34,12 +34,6 @@ export class SickLeaveService {
             this._sickLeaves.next(Object.assign({}, this.dataStore).sickLeaves);
           }, error => console.log('Could not load disciplines.'));
     }
-    
-    getFilteredbyEmployee(id) {
-        let filter = [];
-        filter = this.dataStore.sickLeaves.filter((e) => e.employeeID === id); 
-        return filter;
-    }
 
     create(sickLeave, fullName, subdivision) {
         this.success = undefined;

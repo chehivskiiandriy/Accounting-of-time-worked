@@ -37,10 +37,6 @@ export class SubdivisionService {
             this._subdivisions.next(Object.assign({}, this.dataStore).subdivisions);
           });
     }
-
-    getAllWithoutObservable() {
-        return this.dataStore.subdivisions;
-    }
     
     getSub(id) {
         console.log(id);

@@ -1,0 +1,23 @@
+.filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    label {
+        padding-right: 40px;
+    }
+    
+    .labels {
+        display: flex;
+        // justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.parameters {
+    padding: 15px 0 25px 0;
+
+    mat-form-field, mat-radio-group {
+        padding-right: 30px;
+    }
+}

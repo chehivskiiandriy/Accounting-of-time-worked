@@ -1,3 +1,21 @@
-<p>
-  hooky-edit-modal works!
-</p>
+<div class="container">
+  <form [formGroup]="editHookyForm" (ngSubmit)="editHooky()">
+
+    <h2 mat-dialog-title>Edit hooky</h2>
+    <mat-dialog-content>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" placeholder="Choose a day" formControlName="dayHooky" [min]="minDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error *ngIf="formErrors.dayHooky">{{ formErrors.dayHooky }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!editHookyForm.valid">
+        Create</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
+  </form>
+</div>

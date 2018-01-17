@@ -1,3 +1,47 @@
-<p>
-  working-days-add-modal works!
-</p>
+<div class="container">
+  <form [formGroup]="addWorkingDaysForm" (ngSubmit)="createWorkingDays()">
+
+    <h2 mat-dialog-title>Add working days</h2>
+    <mat-dialog-content>
+
+      <mat-form-field>
+        <mat-select placeholder="Subdivision" formControlName="selectedSubdivision" (change)="onSelect($event.value)">
+          <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
+            {{ subdivision.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formErrors.selectedSubdivision">{{ formErrors.selectedSubdivision }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Employee" formControlName="selectedEmployee">
+          <mat-option *ngFor="let employee of employees | async" [value]="employee">
+            {{ employee.surname }} {{ employee.name }} {{ employee.patronymic }} | #{{ employee.id }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formErrors.selectedEmployee">{{ formErrors.selectedEmployee }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="modal-form">
+        <input class="modal-input" matInput type="number" placeholder="Year" formControlName="year">
+        <mat-error *ngIf="formErrors.year">{{ formErrors.year }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="modal-form">
+        <input class="modal-input" matInput type="number" placeholder="Month" formControlName="month">
+        <mat-error *ngIf="formErrors.month">{{ formErrors.month }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="modal-form">
+        <input class="modal-input" matInput type="number" placeholder="Amount working days" formControlName="actualAmountWorkDay">
+        <mat-error *ngIf="formErrors.actualAmountWorkDay">{{ formErrors.actualAmountWorkDay }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addWorkingDaysForm.valid">
+        Create</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">Close</button>
+    </mat-dialog-actions>
+  </form>
+</div>

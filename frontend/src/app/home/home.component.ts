@@ -8,6 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  navLinks = [
+    { path: "report", label: "Табель"},    
+    { path: "employees-subdivisions", label: "Співробітники і підрозділи"}
+  ]
+
   constructor() { }
 
   ngOnInit() {

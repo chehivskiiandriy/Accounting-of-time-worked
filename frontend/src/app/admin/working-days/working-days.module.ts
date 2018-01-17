@@ -1,8 +1,9 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { SharedModule } from './../../shared/shared.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { WorkingDaysComponent } from './working-days.component';
 import { WorkingDaysAddModalComponent } from './working-days-add-modal/working-days-add-modal.component';
@@ -14,7 +15,9 @@ import { WorkingDaysDeleteModalComponent } from './working-days-delete-modal/wor
     imports: [
         CommonModule,
         SharedModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule,
+        NgxPaginationModule
     ],
     declarations: [
         WorkingDaysComponent,
@@ -24,7 +27,8 @@ import { WorkingDaysDeleteModalComponent } from './working-days-delete-modal/wor
     ],
     entryComponents: [
         WorkingDaysAddModalComponent,
-        WorkingDaysEditModalComponent
+        WorkingDaysEditModalComponent,
+        WorkingDaysDeleteModalComponent
     ],
     providers: [
     ]

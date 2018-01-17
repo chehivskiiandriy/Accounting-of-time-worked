@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked  } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material';
 
@@ -7,6 +7,8 @@ import { HolidaysService } from './../../_services/holidays.service';
 import { HolidaysAddModalComponent } from './holidays-add-modal/holidays-add-modal.component';
 import { HolidaysEditModalComponent } from './holidays-edit-modal/holidays-edit-modal.component';
 import { HolidaysDeleteModalComponent } from './holidays-delete-modal/holidays-delete-modal.component';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-holidays',
@@ -29,16 +31,24 @@ export class HolidaysComponent implements OnInit {
     console.log(this.holidays);
   }
 
+  ngAfterViewChecked() {
+    $(".top").css("width", $(".table").width());
+  }
+
+  resize(){
+    $(".top").css("width", $(".table").width());
+  }
+
   createHoliday() {
     const dialogRef = this.dialog.open(HolidaysAddModalComponent, {
-      height: '550px',
+      height: '450px',
       width: '400px',
     });
   }
 
   editHoliday(holiday) {
     const dialogRefEdit = this.dialog.open(HolidaysEditModalComponent, {
-      height: '350px',
+      height: '300px',
       width: '400px',
       data: {
         holiday: holiday
@@ -48,8 +58,8 @@ export class HolidaysComponent implements OnInit {
 
   deleteHoliday(holiday){
     const dialogRefDelete = this.dialog.open(HolidaysDeleteModalComponent, {
-      height: '200px',
-      width: '400px',
+      height: '150px',
+      width: '250px',
       data: {
         holiday: holiday
       }

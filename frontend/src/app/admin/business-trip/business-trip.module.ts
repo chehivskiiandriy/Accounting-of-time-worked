@@ -1,8 +1,9 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { SharedModule } from './../../shared/shared.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { BusinessTripComponent } from './business-trip.component';
 import { BusinessTripAddModalComponent } from './business-trip-add-modal/business-trip-add-modal.component';
@@ -14,7 +15,9 @@ import { BusinessTripDeleteModalComponent } from './business-trip-delete-modal/b
     imports: [
         CommonModule,
         SharedModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule,
+        NgxPaginationModule
     ],
     declarations: [
         BusinessTripComponent,
@@ -24,7 +27,8 @@ import { BusinessTripDeleteModalComponent } from './business-trip-delete-modal/b
     ],
     entryComponents: [
         BusinessTripAddModalComponent,
-        BusinessTripEditModalComponent
+        BusinessTripEditModalComponent,
+        BusinessTripDeleteModalComponent
     ],
     providers: [
     ]

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked  } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog, Sort } from '@angular/material';
 
@@ -7,6 +7,8 @@ import { EmployeesService } from './../../_services/employees.service';
 import { EmployeesAddModalComponent } from './employees-add-modal/employees-add-modal.component';
 import { EmployeesEditModalComponent } from './employees-edit-modal/employees-edit-modal.component';
 import { EmployeesDeleteModalComponent } from './employees-delete-modal/employees-delete-modal.component';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-employees',
@@ -30,6 +32,14 @@ export class EmployeesComponent implements OnInit {
     console.log(this.employees);
   }
 
+  ngAfterViewChecked() {
+    $(".top").css("width", $(".table").width());
+  }
+
+  resize(){
+    $(".top").css("width", $(".table").width());
+  }
+  
   createEmployee(): void {
     const dialogRef = this.dialog.open(EmployeesAddModalComponent, {
       height: '500px',
@@ -49,8 +59,8 @@ export class EmployeesComponent implements OnInit {
 
   deleteEmployee(employee){
     const dialogRefDelete = this.dialog.open(EmployeesDeleteModalComponent, {
-      height: '200px',
-      width: '400px',
+      height: '150px',
+      width: '250px',
       data: {
         employee: employee
       }

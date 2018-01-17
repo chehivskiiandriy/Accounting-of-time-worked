@@ -1,26 +1,38 @@
 <div class="container">
-        <button mat-raised-button color="primary" class="button-add" (click)="openDialog()">Add working days</button>
-        
-        <table id="datatables" class="table" >
-            <thead>
-                <tr>
-                    <th *ngFor="let row of displayedColumns">{{ row }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let workingDay of workingDays| async; let i = index">
-                    <td>{{i+1}}</td>
-                    <td>{{workingDay.fullName}}</td>
-                    <td>{{workingDay.employeeID}}</td>                        
-                    <td>{{workingDay.subdivision}}</td>
-                    <td>{{workingDay.actualAmountWorkDay}}</td>
-                    <td>{{workingDay.year}}</td>                        
-                    <td>{{workingDay.month}}</td>
-                    <td>
-                        <button mat-raised-button color="accent" (click)="editWorkingDay(workingDay)" class="action edit"><mat-icon>edit</mat-icon></button>
-                        <button mat-raised-button color="warn" (click)="deleteWorkingDay(workingDay)" class="action delete"><mat-icon>clear</mat-icon></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+    <div class="top">
+        <button mat-raised-button color="primary" class="button-add" (click)="createWorkingsDays()">Add working days</button>
+
+        <mat-form-field class="search">
+            <input matInput placeholder="Search" [(ngModel)]="searchString">
+        </mat-form-field>
+    </div>
+
+    <table id="datatables" class="table">
+        <thead>
+            <tr>
+                <th *ngFor="let row of displayedColumns">{{ row }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let workingDay of workingDays | async | filter : searchString | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+                <td>{{i+1+page*countItems-countItems}}</td>
+                <td>{{workingDay.fullName}}</td>
+                <td>{{workingDay.employeeID}}</td>
+                <td>{{workingDay.subdivision}}</td>
+                <td>{{workingDay.actualAmountWorkDay}}</td>
+                <td>{{workingDay.year}}</td>
+                <td>{{workingDay.month}}</td>
+                <td>
+                    <button mat-raised-button color="accent" (click)="editWorkingDays(workingDay)" class="action edit">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-raised-button color="warn" (click)="deleteWorkingDays(workingDay)" class="action delete">
+                        <mat-icon>clear</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls class="my-pagination" (click)="resize()" (pageChange)="page = $event"></pagination-controls>
 </div>

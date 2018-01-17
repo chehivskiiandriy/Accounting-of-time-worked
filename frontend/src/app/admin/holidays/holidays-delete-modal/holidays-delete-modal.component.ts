@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import { HolidaysService } from './../../../_services/holidays.service';
+
+import { error } from './../../../shared/alert';
 
 @Component({
   selector: 'app-holidays-delete-modal',
@@ -7,9 +12,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HolidaysDeleteModalComponent implements OnInit {
 
-  constructor() { }
+  holiday: any = {};
+
+  constructor(public dialogRef: MatDialogRef<HolidaysDeleteModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private holidaysService: HolidaysService) { }
 
   ngOnInit() {
+    this.holiday = this.data.holiday;
+  }
+
+  deleteHoliday() {
+    this.holidaysService.delete(this.holiday);
+    this.alert();
+  }
+
+  alert() {
+    let s = setInterval(() => {
+      if (this.holidaysService.success !== undefined) {
+        clearInterval(s);
+        if (this.holidaysService.success) {
+          this.dialogRef.close();
+        } else {
+          error();
+        }
+      }
+    }, 50);
+
   }
 
 }

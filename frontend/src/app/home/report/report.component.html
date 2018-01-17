@@ -1,0 +1,112 @@
+<div class="container">
+  <div class="parameters">
+
+    <mat-form-field>
+      <mat-select placeholder="Subdivision" [(ngModel)]="selectedSubdivision">
+        <mat-option value="showAll">
+          All
+        </mat-option>
+        <mat-option *ngFor="let subdivision of subdivisions | async" [value]="subdivision">
+          {{ subdivision.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group [(ngModel)]="timeReport">
+      <mat-radio-button value="allTime" color="primary">All time</mat-radio-button>
+      <mat-radio-button value="month" color="primary">Month</mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field *ngIf="timeReport == 'month'">
+      <mat-select placeholder="Year" [(ngModel)]="selectedYear">
+        <mat-option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="timeReport == 'month'">
+      <mat-select placeholder="Month" [(ngModel)]="selectedMonth">
+        <mat-option *ngFor="let month of months" [value]="month">
+          {{ month }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <button mat-raised-button (click)="getReport()" color="primary" [disabled]="timeReport == undefined ||
+                      selectedSubdivision == undefined ||
+                      (selectedYear == year && selectedMonth > monthAgo) ||
+                      (timeReport == 'month' && (selectedYear == undefined || selectedMonth == undefined))">
+      Get report
+    </button>
+
+  </div>
+
+  <div class="filter">
+    <div class="labels">
+      <label>Working days:
+        <mat-checkbox color="primary" [(ngModel)]="isShowWorkingDays"></mat-checkbox>
+      </label>
+
+      <label>Business trip:
+        <mat-checkbox color="primary" [(ngModel)]="isShowBusinessTrip"></mat-checkbox>
+      </label>
+
+
+      <label>Holidays:
+        <mat-checkbox color="primary" [(ngModel)]="isShowHolidays"></mat-checkbox>
+      </label>
+
+
+      <label>Hooky:
+        <mat-checkbox color="primary" [(ngModel)]="isShowHooky"></mat-checkbox>
+      </label>
+
+
+      <label>Sick leave:
+        <mat-checkbox color="primary" [(ngModel)]="isShowSickLeave"></mat-checkbox>
+      </label>
+    </div>
+
+    <mat-form-field class="search">
+      <input matInput placeholder="Search" [(ngModel)]="searchString">
+    </mat-form-field>
+  </div>
+
+  <table id="datatables" class="table" matSort (matSortChange)="sortData($event)">
+    <thead>
+      <tr>
+        <!-- <th *ngFor="let row of displayedColumns">{{ row }}</th> -->
+        <th>#</th>
+        <th mat-sort-header="fullname" style="width:300px">Full name</th>
+        <th mat-sort-header="subdivision" style="width:250px">Subdivision</th>
+        <th mat-sort-header="amountWorkingDays">Amount working days</th>
+        <th mat-sort-header="businessTrip">Business trip</th>
+        <th mat-sort-header="holidays">Holidays</th>
+        <th mat-sort-header="hooky">Hooky</th>
+        <th mat-sort-header="sickLeave">Sick leave</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of sortedData | filter : searchString
+                                            | workingDaysFilter : isShowWorkingDays
+                                            | businessTripFilter : isShowBusinessTrip
+                                            | holidaysFilter : isShowHolidays
+                                            | hookyFilter : isShowHooky
+                                            | sickLeaveFilter : isShowSickLeave
+                                            | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+        <td>{{i+1+page*countItems-countItems}}</td>
+        <td>{{employee.fullname}}</td>
+        <td>{{employee.subdivision}}</td>
+        <td>{{employee.amountWorkingDays}}</td>
+        <td>{{employee.businessTrip}}</td>
+        <td>{{employee.holidays}}</td>
+        <td>{{employee.hooky}}</td>
+        <td>{{employee.sickLeave}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls class="my-pagination" (click)="resize()" (pageChange)="page = $event"></pagination-controls>
+</div>

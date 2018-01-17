@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked  } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog, Sort } from '@angular/material';
 
@@ -7,6 +7,8 @@ import { SubdivisionEditModalComponent } from './subdivision-edit-modal/subdivis
 import { SubdivisionDeleteModalComponent } from './subdivision-delete-modal/subdivision-delete-modal.component';
 
 import { SubdivisionService } from './../../_services/subdivision.service';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-subdivision',
@@ -28,6 +30,14 @@ export class SubdivisionComponent implements OnInit {
     console.log(this.subdivisions);
   }
 
+  ngAfterViewChecked() {
+    $(".top").css("width", $(".table").width());
+  }
+  
+  resize(){
+    $(".top").css("width", $(".table").width());
+  }
+
   createSubdivision(): void {
     const dialogRef = this.dialog.open(SubdivisionAddModalComponent, {
       height: '250px',
@@ -47,8 +57,8 @@ export class SubdivisionComponent implements OnInit {
 
   deleteSubdivision(subdivision){
     const dialogRefDelete = this.dialog.open(SubdivisionDeleteModalComponent, {
-      height: '200px',
-      width: '400px',
+      height: '150px',
+      width: '250px',
       data: {
         subdivision: subdivision
       }

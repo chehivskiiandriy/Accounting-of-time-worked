@@ -25,6 +25,15 @@ a {
         margin: 20px 0;
     }
 
+    .top {
+        display: flex;
+        justify-content: space-between;
+
+        .search {
+            padding-top: 10px;
+        }
+    }
+
     .table {
         border: 2px solid teal;
         border-right: 1px solid teal;

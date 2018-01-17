@@ -1,6 +1,12 @@
 <div class="container">
-    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()" >Add business trip</button>
-    
+    <div class="top">
+        <button mat-raised-button color="primary" class="button-add" (click)="createBusinessTrip()">Add business trip</button>
+
+        <mat-form-field class="search">
+            <input matInput placeholder="Search" [(ngModel)]="searchString">
+        </mat-form-field>
+    </div>
+
     <table id="datatables" class="table">
         <thead>
             <tr>
@@ -8,19 +14,23 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let businessTrip of businessTrips| async; let i = index">
-                <td>{{i+1}}</td>
+            <tr *ngFor="let businessTrip of businessTrips | async | filter : searchString  | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+                <td>{{i+1+page*countItems-countItems}}</td>
                 <td>{{businessTrip.fullName}}</td>
-                <td>{{businessTrip.employeeID}}</td>                        
+                <td>{{businessTrip.employeeID}}</td>
                 <td>{{businessTrip.subdivision}}</td>
                 <td>{{businessTrip.startBusinessTrip.split('-').reverse().join('.')}}</td>
                 <td>{{businessTrip.finishBusinessTrip.split('-').reverse().join('.')}}</td>
                 <td>
-                    <button mat-raised-button color="accent" (click)="editBusinessTrip(businessTrip)" class="action edit"><mat-icon>edit</mat-icon></button>
-                    <button mat-raised-button color="warn" (click)="deleteBusinessTrip(businessTrip)" class="action delete"><mat-icon>clear</mat-icon></button>
+                    <button mat-raised-button color="accent" (click)="editBusinessTrip(businessTrip)" class="action edit">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-raised-button color="warn" (click)="deleteBusinessTrip(businessTrip)" class="action delete">
+                        <mat-icon>clear</mat-icon>
+                    </button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <pagination-controls class="my-pagination" (click)="resize()" (pageChange)="page = $event"></pagination-controls>
 </div>
-        

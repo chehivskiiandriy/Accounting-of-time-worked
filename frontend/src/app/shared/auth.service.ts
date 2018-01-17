@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs/Observable";
 
-// подключение необходимых методов для работы с Observable
+
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/delay";
@@ -11,15 +11,14 @@ import "rxjs/add/operator/delay";
 export class AuthService {
     isLoggedIn: boolean = false;
 
-    // URL для перенаправления после авторизации
     redirectUrl: string;
 
     login(password: string): Observable<boolean> {
-        return Observable   // создание Observable объекта
-            .of(true)       // добавление элементов в последовательность
-            .delay(1000)    // задержка на 1 сек.
-            .do(val => {    // выполнение действия для каждого элемента в последовательности
-                if (password == "1")
+        return Observable   
+            .of(true)       
+            .delay(1000)    
+            .do(val => {    
+                if (password == "12345")
                     this.isLoggedIn = true;
                     return this.isLoggedIn;
             });

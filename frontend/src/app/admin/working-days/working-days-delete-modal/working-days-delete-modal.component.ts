@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import { WorkingDaysService } from './../../../_services/working-days.service';
+
+import { error } from './../../../shared/alert';
 
 @Component({
   selector: 'app-working-days-delete-modal',
@@ -7,9 +12,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkingDaysDeleteModalComponent implements OnInit {
 
-  constructor() { }
+  workingDays: any = {};
+
+  constructor(public dialogRef: MatDialogRef<WorkingDaysDeleteModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private workingDaysService: WorkingDaysService) { }
 
   ngOnInit() {
+    this.workingDays = this.data.workingDay;
+  }
+
+  deleteWorkingDays() {
+    this.workingDaysService.delete(this.workingDays);
+    this.alert();
+  }
+
+  alert() {
+    let s = setInterval(() => {
+      if (this.workingDaysService.success !== undefined) {
+        clearInterval(s);
+        if (this.workingDaysService.success) {
+          this.dialogRef.close();
+        } else {
+          error();
+        }
+      }
+    }, 50);
+
   }
 
 }

@@ -19,7 +19,7 @@ import { AuthGuard } from "../shared/auth-guard.service";
             {
                 path: "admin",
                 component: AdminComponent,
-                // canActivate: [AuthGuard],
+                canActivate: [AuthGuard],
                 children: [
                      {
                         path: "",
@@ -31,7 +31,7 @@ import { AuthGuard } from "../shared/auth-guard.service";
                             { path: "business-trip", component: BusinessTripComponent },
                             { path: "hooky", component: HookyComponent },
                             { path: "working-days", component: WorkingDaysComponent },
-                            { path: "", redirectTo: "subdivision", pathMatch: "full" }
+                            { path: "", redirectTo: "employees", pathMatch: "full" }
                         ]
                     }
                 ]

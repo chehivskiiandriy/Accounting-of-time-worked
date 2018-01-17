@@ -45,13 +45,13 @@ export class EmployeesEditModalComponent implements OnInit {
     private employeesService: EmployeesService,
     private fb: FormBuilder
   ) { }
-  
+
   ngOnInit() {
     console.log(this.data);
-    
+
     this.getEmployeeData();
 
-    this.setMinAndMaxDate();  
+    this.setMinAndMaxDate();
 
     this.subdivisions = this.subdivisionService.subdivisions;
     this.subdivisionService.getAll();
@@ -103,7 +103,7 @@ export class EmployeesEditModalComponent implements OnInit {
     this.employee.patronymic = this.data.employee.patronymic;
     this.employee.birthday = moment(this.data.employee.birthday);
     this.employee.id = this.data.employee.id;
-    this.selectedSubdivision = this.data.employee.subdivisionID;  
+    this.selectedSubdivision = this.data.employee.subdivisionID;
   }
 
   setMinAndMaxDate() {
@@ -128,17 +128,17 @@ export class EmployeesEditModalComponent implements OnInit {
 
   alert() {
     let s = setInterval(() => {
-      if(this.employeesService.success !== undefined){
+      if (this.employeesService.success !== undefined) {
         clearInterval(s);
-        if(this.employeesService.success){
+        if (this.employeesService.success) {
           success();
           setTimeout(() => this.dialogRef.close(), 1600);
-          } else {
-            error();
-          }
+        } else {
+          error();
+        }
       }
     }, 50);
 
   }
-  
+
 }

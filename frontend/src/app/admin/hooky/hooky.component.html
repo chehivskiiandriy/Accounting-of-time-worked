@@ -1,6 +1,13 @@
 <div class="container">
-    <button mat-raised-button color="primary" class="button-add" (click)="openDialog()">Add hooky</button>
     
+    <div class="top">
+        <button mat-raised-button color="primary" class="button-add" (click)="createHooky()">Add hooky</button>
+
+        <mat-form-field class="search">
+            <input matInput placeholder="Search" [(ngModel)]="searchString">
+        </mat-form-field>
+    </div>
+
     <table id="datatables" class="table">
         <thead>
             <tr>
@@ -8,8 +15,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let hooky of hookies| async; let i = index">
-                <td>{{i+1}}</td>
+            <tr *ngFor="let hooky of hookies | async | filter : searchString | paginate: { itemsPerPage: countItems, currentPage: page }; let i = index">
+                <td>{{i+1+page*countItems-countItems}}</td>
                 <td>{{hooky.fullName}}</td>
                 <td>{{hooky.employeeID}}</td>                        
                 <td>{{hooky.subdivision}}</td>
@@ -21,5 +28,6 @@
             </tr>
         </tbody>
     </table>
+    <pagination-controls class="my-pagination" (click)="resize()" (pageChange)="page = $event"></pagination-controls>
 </div>
     
